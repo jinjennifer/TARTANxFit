@@ -26,39 +26,40 @@ class Profile(models.Model):
     #username, first_name, last_name, email, password
     #is_staff, is_active, is_superuser, last_login and date_joined
     user = models.OneToOneField(User)
-    andrew_id = models.CharField(max_length=20)
+    andrew_id = models.CharField(max_length=20, primary_key = True)
     role = models.CharField(
         max_length = 15, 
         blank = False, 
         choices = ROLES,
         default = 'student')
-    #do we want to update points/make edit record every time? 
     points = models.IntegerField()
 
-    def numpoints(self):
-    	return 
-
-class GroupX(models.Model):
+class CompetitionGroup(models.Model):
     name = models.CharField(max_length=150)
     description = models.CharField(max_length=1000)
+    reward = models.CharField(max_length=1000, null=True, blank=True)
+    users = models.ManyToManyField(User) 
 
-class GroupXClass(models.Model):
-    group = models.ForeignKey(GroupX)
-    instructor = models.ForeignKey(User)
-    day = models.CharField(max_length = 1, choices = DAYS_OF_WEEK)
+class ClassType(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.CharField(max_length=1000)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+class ClassSchedule(models.Model):
+    day_of_week = models.CharField(max_length = 1, choices = DAYS_OF_WEEK)
+    location = models.CharField(max_length = 20)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    studio = models.CharField(max_length = 20)
-    active = models.BooleanField(default=True)
+    points = models. IntegerField()
+    class_type_id = models.ForeignKey(ClassType)
+    instructor_id = models.ForeignKey(Profile)
+    
+class Class(models.Model):
+    date = models.DateField()
+    cancelled = models.BooleanField(default=False)
+    class_schedule_id = models.ForeignKey(ClassSchedule)
 
-
-    def points(self): #function of length of class
-    	return 
-
-class GroupXAttendance(models.Model):
-	user = models.ForeignKey(User)
-	group = models.ForeignKey(GroupXClass)
-	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
-
-
-
+class ClassAttendance(models.Model):
+    user_id = models.ForeignKey(User)
+    class_id = models.ForeignKey(Class)
