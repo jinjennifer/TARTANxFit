@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 ROLES = (
     ('admin', 'Administrator'), 
     ('student', 'Student'),
-    ('prof', 'Professor'),
     ('instructor', 'Instructor')
     )
 
@@ -32,7 +31,7 @@ class Profile(models.Model):
         blank = False, 
         choices = ROLES,
         default = 'student')
-    points = models.IntegerField()
+    points = models.IntegerField(default=0)
 
 class CompetitionGroup(models.Model):
     name = models.CharField(max_length=150)
@@ -52,14 +51,14 @@ class ClassSchedule(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     points = models. IntegerField()
-    class_type_id = models.ForeignKey(ClassType)
-    instructor_id = models.ForeignKey(Profile)
+    class_type = models.ForeignKey(ClassType)
+    instructor = models.ForeignKey(Profile)
     
 class Class(models.Model):
     date = models.DateField()
     cancelled = models.BooleanField(default=False)
-    class_schedule_id = models.ForeignKey(ClassSchedule)
+    class_schedule = models.ForeignKey(ClassSchedule)
 
 class ClassAttendance(models.Model):
-    user_id = models.ForeignKey(User)
-    class_id = models.ForeignKey(Class)
+    user = models.ForeignKey(User)
+    course = models.ForeignKey(Class)
