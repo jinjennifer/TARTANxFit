@@ -86,3 +86,9 @@ def signup(request):
 			return render(request, 'TxFApp/signup.html', {'form1': SignUpForm()})
 
 	return render(request, 'TxFApp/signup.html', {'form1': reg_form})
+
+def schedule(request):
+	context = {}
+	# getting the logged in user
+	context['classes'] = Class.objects.all()
+	return render(request, 'TxFApp/schedule.html', context)
