@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'TxFApp',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [

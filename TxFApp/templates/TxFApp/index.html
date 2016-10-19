@@ -1,1 +1,26 @@
-<p> Welcome to TARTANxFit! </p>
+{% extends "base.html" %}
+{% block content %}
+
+<h1> Welcome to TARTANxFit! </h1>
+<h3> Schedule for this Week </h3>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+<table width="100%">
+    {% if classes %}
+        <tr>
+            <th style="width:20%">Name</th>
+            <th style="width:30%">Date</th>
+            <th style="width:30%">Time</th>
+            <th style="width:20%"></th>
+        <tr>
+        {% for c in classes %}
+            <td>{{ c.class_schedule.class_type.name }} </a> </td>
+            <td > {{c.date}}</td>
+            <td > {{c.class_schedule.start_time}} - {{c.class_schedule.end_time}} </td>
+            <td> <i class="fa fa-check"></i> </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+{% endblock %}
