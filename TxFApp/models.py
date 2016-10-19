@@ -55,6 +55,10 @@ class ClassSchedule(models.Model):
     instructor = models.ForeignKey(Profile)
     
 class Class(models.Model):
+    class Meta:
+        # Change plural form
+        verbose_name_plural = "Classes"
+
     date = models.DateField()
     cancelled = models.BooleanField(default=False)
     class_schedule = models.ForeignKey(ClassSchedule)

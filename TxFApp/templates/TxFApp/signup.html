@@ -1,0 +1,27 @@
+{% block content %}
+
+<!-- User creating an account for the first time  -->
+<div id="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <!-- Display flash messages if there are any -->
+                {% include 'TxFApp/flash_message.html' %}
+            </div>
+        </div>
+
+        <h3>Signup</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <form action='signup' method='post'>{% csrf_token %}
+                    {{ form1 }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
