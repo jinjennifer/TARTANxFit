@@ -1,3 +1,15 @@
 .navbar-toggle {
   margin-left: 15px;
 }
+
+#small-logo {
+  height: 43px;
+  margin-top: -12px;
+}
+
+/* center the navbar logo */
+.navbar-brand {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
