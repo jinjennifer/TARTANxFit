@@ -1,23 +1,35 @@
 {% extends "TxFApp/base.html" %}
 {% block content %}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        {{ groupx.class_type.name }}
-        <i class="fa fa-plus add-class"></i>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-4">
-                <i class="fa fa-clock-o"></i> {{groupx.start_time}} - {{groupx.end_time}}
-            </div>
-            <div class="col-xs-4">
-                <i class="fa fa-map-marker"></i> {{groupx.location}}
-            </div>
-            <div class="col-xs-4">
-                <i class="fa fa-user"></i> {{groupx.instructor.user.first_name}}
-            </div>
-        </div>
-        <br><p>{{groupx.class_type.description}}</p>
-    </div>
+<div class="row">
+	<div class="col-xs-12">
+	    <h3>
+	        {{ groupx.class_type.name }}
+	        <i class="fa fa-plus add-class"></i>
+	    </h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-8">
+		<i class="fa fa-clock-o"></i> {{groupx.start_time}} - {{groupx.end_time}}<br>
+		<i class="fa fa-map-marker"></i> {{groupx.location}}<br>
+		<i class="fa fa-user"></i> {{groupx.instructor.user.first_name}}<br>
+	</div>
+	<div class="col-xs-4">
+	</div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<h3>Description</h3>
+    <div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<p>{{groupx.class_type.description}}</p>
+    <div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<h3>Attending</h3>
+    <div>
 </div>
 {% endblock %}
