@@ -113,8 +113,11 @@ def account(request):
 	return render(request, 'TxFApp/account.html', context)
 
 def details(request, class_id):
+	context = {}
+	days = dict(DAYS_OF_WEEK)
 	try:
 		groupx = ClassSchedule.objects.get(pk=class_id)
+		context['day'] = days.get(int(groupx.day_of_week))
 	except GroupX.DoesNotExist:
 		raise Http404("GroupX Class Does Not Exist")
-	return render(request, 'TxFApp/details.html', {'groupx':groupx})
+	return render(request, 'TxFApp/details.html', {'groupx':groupx, 'context':context})
