@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^login', views.login, name='login'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^signup', views.signup, name='signup'),
-    url(r'^schedule', views.schedule, name='schedule')
-
+    url(r'^schedule', views.schedule, name='schedule'),
+    url(r'^account', views.account, name='account')
 ]

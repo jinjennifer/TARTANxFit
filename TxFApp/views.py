@@ -100,3 +100,14 @@ def schedule(request):
 		dates.append(d.strftime("%b %d %a"))
 	context['dates'] = dates
 	return render(request, 'TxFApp/schedule.html', context)
+
+def account(request):
+	context = {}
+	context['request_user_id'] = request.user.id
+	userprof = Profile.objects.filter(user=request.user).first()
+	if userprof is not None:
+		context['role'] = userprof.role
+		context['points'] = userprof.points
+	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
+	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
+	return render(request, 'TxFApp/account.html', context)

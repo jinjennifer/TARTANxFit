@@ -1,0 +1,26 @@
+{% extends "TxFApp/base.html" %}
+{% block content %}
+
+<h3> My Account </h3>
+<div class="row">
+	<div class="col-md-12">
+		<h4>History</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+	{{points}} <br>POINTS
+	</div>
+	<div class="col-md-6">
+	{{visits}} VISITS
+	</div>
+</div>
+
+<h4>Rewards</h4>
+<h4>My Competitions</h4>
+	{% for c in competitions %}
+        {{c.name}}<br>
+    {% endfor %}
+    Create New
+{% endblock %}
