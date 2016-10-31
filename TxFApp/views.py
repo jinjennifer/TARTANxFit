@@ -111,3 +111,10 @@ def account(request):
 	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
 	return render(request, 'TxFApp/account.html', context)
+
+def details(request, class_id):
+	try:
+		groupx = ClassSchedule.objects.get(pk=class_id)
+	except GroupX.DoesNotExist:
+		raise Http404("GroupX Class Does Not Exist")
+	return render(request, 'TxFApp/details.html', {'groupx':groupx})

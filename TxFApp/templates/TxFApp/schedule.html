@@ -17,7 +17,7 @@
 {% for c in classes %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            {{ c.class_type.name }}
+            <a href="/classes/{{ c.id }}/">{{ c.class_type.name }}</a>
             <i class="fa fa-plus add-class"></i>
         </div>
         <div class="panel-body">

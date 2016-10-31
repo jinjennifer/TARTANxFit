@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^logout', views.logout, name='logout'),
     url(r'^signup', views.signup, name='signup'),
     url(r'^schedule', views.schedule, name='schedule'),
-    url(r'^account', views.account, name='account')
+    url(r'^account', views.account, name='account'),
+    url(r'^classes/(?P<class_id>[0-9]+)/$', views.details, name='details')
 ]
