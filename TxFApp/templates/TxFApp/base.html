@@ -17,6 +17,8 @@ Released under the MIT license: http://jsbin.mit-license.org
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link href="{% static 'css/customstyles.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/add_class.js' %}"></script>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
@@ -51,13 +53,13 @@ Released under the MIT license: http://jsbin.mit-license.org
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
+<div class="container base">
 {% block bootstrap3_content %}
 
   {% block content %}(no content){% endblock %}
 
 {% endblock %}
-
+<div>
 
 <footer>
 

@@ -4,22 +4,38 @@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 
-<table width="100%">
-    {% if classes %}
-        <tr>
-            <th style="width:20%">Name</th>
-            <th style="width:30%">Date</th>
-            <th style="width:30%">Time</th>
-            <th style="width:20%"></th>
-        <tr>
-        {% for c in classes %}
-            <td>{{ c.class_schedule.class_type.name }} </a> </td>
-            <td > {{c.date}}</td>
-            <td > {{c.class_schedule.start_time}} - {{c.class_schedule.end_time}} </td>
-            <td> <i class="fa fa-plus"></i> </td>
-        </tr>
+<table class="schedule" width="100%">
+    <tr>
+        {% for d in dates %}
+        <th><a href="#">{{d}}</th>
         {% endfor %}
-    {% endif %}
+    </tr>
 </table>
+
+<br>
+
+{% for c in classes %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ c.class_type.name }}
+            <i class="fa fa-plus add-class"></i>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-clock-o"></i> {{c.start_time}} - {{c.end_time}}
+                </div>
+                <div class="col-xs-4">
+                    <i class="fa fa-map-marker"></i> {{c.location}}
+                </div>
+                <div class="col-xs-4">
+                    <i class="fa fa-user"></i> {{c.instructor.user.first_name}}
+                </div>
+            </div>
+            <br><p>{{c.class_type.description}}</p>
+        </div>
+    </div>
+{% endfor %}
+
 {% endblock %}
 

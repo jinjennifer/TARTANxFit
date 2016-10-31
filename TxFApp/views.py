@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
+import datetime
 
 def home(request):
 	context = {}
@@ -89,6 +90,13 @@ def signup(request):
 
 def schedule(request):
 	context = {}
-	# getting the logged in user
-	context['classes'] = Class.objects.all()
+	classTypes = ClassType.objects.filter(start_date__lt=datetime.date.today(),end_date__gt=datetime.date.today())
+	dow = (int(datetime.date.today().strftime("%w")) + 1) % 7
+	classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
+	context['classes'] = classSchedule.order_by('start_time')
+	dates = []
+	for i in range(5):
+		d = datetime.date.today() + datetime.timedelta(days=i)
+		dates.append(d.strftime("%b %d %a"))
+	context['dates'] = dates
 	return render(request, 'TxFApp/schedule.html', context)

@@ -13,3 +13,22 @@
   left: 50%;
   position: absolute;
 }
+
+.base {
+	width: 90%;
+}
+
+.schedule tr, .schedule th{
+	border: 1px solid black;
+}
+
+.schedule th{
+	text-align: center;
+	height: 100px;
+}
+
+.add-class {
+	font-size: 23px;
+	float:right;
+	vertical-align:middle;
+}
