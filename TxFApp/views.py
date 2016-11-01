@@ -32,6 +32,8 @@ def login(request):
 def logout(request):
 	# log the user out of the app locally
 	auth.logout(request)
+	messages.success(request, "You have successfully logged out.")
+	return HttpResponseRedirect('/login')
 
 # validate and create new user
 @csrf_protect
