@@ -28,6 +28,9 @@ def login(request):
 			auth.login(request, user)
 			messages.success(request, "You have successfully logged in.")
 			return HttpResponseRedirect('/schedule')
+		else: 
+			messages.error(request, "You have submitted incorrect credentials. Please try again.")
+			return HttpResponseRedirect('/login')
 		
 def logout(request):
 	# log the user out of the app locally
