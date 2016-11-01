@@ -7,7 +7,7 @@ ROLES = (
     ('admin', 'Administrator'), 
     ('student', 'Student'),
     ('instructor', 'Instructor')
-    )
+)
 
 DAYS_OF_WEEK = (
 	(1, 'Sunday'),
@@ -64,5 +64,6 @@ class Class(models.Model):
     class_schedule = models.ForeignKey(ClassSchedule)
 
 class ClassAttendance(models.Model):
+    attended = models.BooleanField(default=False)
     user = models.ForeignKey(User)
     course = models.ForeignKey(Class)
