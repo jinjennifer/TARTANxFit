@@ -13,20 +13,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 import datetime
 
-def home(request):
-	context = {}
-	# getting the logged in user
-	context['classes'] = Class.objects.all()
-	context['request_user_id'] = request.user.id
-	userprof = Profile.objects.filter(user=request.user).first()
-	if userprof is not None:
-		context['userprof'] = userprof.role
-
-	return render(request, 'TxFApp/index.html', context)
-
 def login(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/home')
+		return HttpResponseRedirect('/schedule')
 	elif request.method == 'GET':
 		return render(request, 'TxFApp/login.html', {'form': AuthenticationForm()})
 	elif request.method == 'POST':
@@ -38,7 +27,7 @@ def login(request):
 		if user is not None:
 			auth.login(request, user)
 			messages.success(request, "You have successfully logged in.")
-			return HttpResponseRedirect('/home')
+			return HttpResponseRedirect('/schedule')
 		
 def logout(request):
 	# log the user out of the app locally
@@ -49,7 +38,7 @@ def logout(request):
 def signup(request):
 	# render sign up form
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/home')
+		return HttpResponseRedirect('/schedule')
 	elif request.method == 'GET':
 		reg_form = SignUpForm()
 		return render(request, 'TxFApp/signup.html', {'form1': reg_form})

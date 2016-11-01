@@ -1,4 +1,5 @@
 {% block content %}
+{% load bootstrap %}
 {% load bootstrap3 %}
 
 <!-- User already has an account and is logging in  -->
@@ -16,7 +17,7 @@
             <div class="row">
 
                 <form action='login' method='post'>{% csrf_token %}
-                    {{ form | bootstrap }}
+                    {{ form | bootstrap_horizontal }}
                      <button type="submit" class="btn btn-default btn-sm">Submit</button>
                 </form>
             <br><br>
