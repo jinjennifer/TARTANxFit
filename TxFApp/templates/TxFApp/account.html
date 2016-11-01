@@ -1,0 +1,38 @@
+{% extends "TxFApp/base.html" %}
+{% block content %}
+
+<h3> My Account </h3>
+<div class="row">
+	<div class="col-xs-12">
+		<h4>History</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-6">
+		<div class="card">
+			<div class="card-content">
+				<h3>{{points}} </h3>
+				<p>POINTS</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="card">
+			<div class="card-content">
+				<h3>{{visits}} </h3>
+				<p>VISITS</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<h4>Rewards</h4>
+<h4>My Competitions</h4>
+<div class="list-group">
+	{% for c in competitions %}
+        <a href="#" class="list-group-item">{{c.name}}</a>
+    {% endfor %}
+    <a href="#" class="list-group-item list-group-item-success">Create New</a>
+</div>
+{% endblock %}

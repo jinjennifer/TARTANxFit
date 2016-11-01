@@ -13,20 +13,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 import datetime
 
-def home(request):
-	context = {}
-	# getting the logged in user
-	context['classes'] = Class.objects.all()
-	context['request_user_id'] = request.user.id
-	userprof = Profile.objects.filter(user=request.user).first()
-	if userprof is not None:
-		context['userprof'] = userprof.role
-
-	return render(request, 'TxFApp/index.html', context)
-
 def login(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/home')
+		return HttpResponseRedirect('/schedule')
 	elif request.method == 'GET':
 		return render(request, 'TxFApp/login.html', {'form': AuthenticationForm()})
 	elif request.method == 'POST':
@@ -38,18 +27,20 @@ def login(request):
 		if user is not None:
 			auth.login(request, user)
 			messages.success(request, "You have successfully logged in.")
-			return HttpResponseRedirect('/home')
+			return HttpResponseRedirect('/schedule')
 		
 def logout(request):
 	# log the user out of the app locally
 	auth.logout(request)
+	messages.success(request, "You have successfully logged out.")
+	return HttpResponseRedirect('/login')
 
 # validate and create new user
 @csrf_protect
 def signup(request):
 	# render sign up form
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/home')
+		return HttpResponseRedirect('/schedule')
 	elif request.method == 'GET':
 		reg_form = SignUpForm()
 		return render(request, 'TxFApp/signup.html', {'form1': reg_form})
@@ -103,3 +94,24 @@ def schedule(request):
 			dates.append(d.strftime("%b %d %a"))
 	context['dates'] = dates
 	return render(request, 'TxFApp/schedule.html', context)
+
+def account(request):
+	context = {}
+	context['request_user_id'] = request.user.id
+	userprof = Profile.objects.filter(user=request.user).first()
+	if userprof is not None:
+		context['role'] = userprof.role
+		context['points'] = userprof.points
+	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
+	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
+	return render(request, 'TxFApp/account.html', context)
+
+def details(request, class_id):
+	context = {}
+	days = dict(DAYS_OF_WEEK)
+	try:
+		groupx = ClassSchedule.objects.get(pk=class_id)
+		context['day'] = days.get(int(groupx.day_of_week))
+	except GroupX.DoesNotExist:
+		raise Http404("GroupX Class Does Not Exist")
+	return render(request, 'TxFApp/details.html', {'groupx':groupx, 'context':context})

@@ -8,10 +8,10 @@ from django.conf.urls.static import static
 app_name = 'TxFApp'
 urlpatterns = [
     url(r'^$', views.login, name='login'),
-    url(r'^home', views.home, name='home'),
     url(r'^login', views.login, name='login'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^signup', views.signup, name='signup'),
-    url(r'^schedule', views.schedule, name='schedule')
-
+    url(r'^schedule', views.schedule, name='schedule'),
+    url(r'^account', views.account, name='account'),
+    url(r'^classes/(?P<class_id>[0-9]+)/$', views.details, name='details')
 ]

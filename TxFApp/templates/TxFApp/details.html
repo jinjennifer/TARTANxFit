@@ -1,0 +1,38 @@
+{% extends "TxFApp/base.html" %}
+{% block content %}
+<div class="row">
+	<div class="col-xs-12">
+	    <h3>
+	        {{ groupx.class_type.name }}
+	    </h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-8 dot-border">
+		<i class="fa fa-clock-o icon"></i> {{groupx.start_time}} - {{groupx.end_time}}<br>
+		<i class="fa fa-calendar icon"></i> {{context.day}} <br>
+		<i class="fa fa-map-marker icon"></i> {{groupx.location}}<br>
+		<i class="fa fa-user icon"></i> {{groupx.instructor.user.first_name}}<br>
+		<i class="fa fa-star icon"></i> {{groupx.points}}<br>
+	</div>
+	<div class="col-xs-4">
+		<div class="btn btn-lg btn-block btn-primary"><i class="fa fa-share icon"></i> SHARE</div>
+		<div class="btn btn-lg btn-block btn-success"><i class="fa fa-plus icon"></i> GOING</div>
+	</div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<h3>Description</h3>
+    <div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<p>{{groupx.class_type.description}}</p>
+    <div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<h3>Attending</h3>
+    <div>
+</div>
+{% endblock %}
