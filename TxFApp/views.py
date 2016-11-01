@@ -82,20 +82,29 @@ def signup(request):
 
 	return render(request, 'TxFApp/signup.html', {'form1': reg_form})
 
-def schedule(request):
+def schedule(request, date=datetime.date.today()):
 	context = {}
-	classTypes = ClassType.objects.filter(start_date__lt=datetime.date.today(),end_date__gt=datetime.date.today())
-	dow = (int(datetime.date.today().strftime("%w")) + 1) % 7
+	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
+	if type(date) == str:
+		selected_date = date
+		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
+	else:
+		selected_date = date.strftime("%Y-%m-%d")
+	dow = int(date.strftime("%w")) + 1 % 7
 	classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
 	context['classes'] = classSchedule.order_by('start_time')
+	
+
+	#for schedule header
 	dates = []
 	for i in range(5):
 		d = datetime.date.today() + datetime.timedelta(days=i)
 		if i == 0:
-			dates.append(d.strftime("%b %d Today"))
+			dates.append((d.strftime("%b %d Today"), d.strftime("%Y-%m-%d")))
 		else:
-			dates.append(d.strftime("%b %d %a"))
+			dates.append((d.strftime("%b %d %a"),d.strftime("%Y-%m-%d")))
 	context['dates'] = dates
+	context['selected_date'] = selected_date
 	return render(request, 'TxFApp/schedule.html', context)
 
 def account(request):

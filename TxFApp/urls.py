@@ -11,7 +11,10 @@ urlpatterns = [
     url(r'^login', views.login, name='login'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^signup', views.signup, name='signup'),
-    url(r'^schedule', views.schedule, name='schedule'),
     url(r'^account', views.account, name='account'),
-    url(r'^classes/(?P<class_id>[0-9]+)/$', views.details, name='details')
+    url(r'^classes/(?P<class_id>[0-9]+)/$', views.details, name='details'),
+    url(r'^schedule/(?P<date>\d{4}-\d{2}-\d{2})/$', views.schedule, name='schedule'),
+    url(r'^schedule', views.schedule, name='schedule'),
+    url(r'^home', views.schedule, name='schedule'),
+
 ]

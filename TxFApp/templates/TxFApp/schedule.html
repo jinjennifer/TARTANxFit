@@ -9,13 +9,12 @@
 <table class="schedule" width="100%">
     <tr>
         {% for d in dates %}
-        <th><a href="#">{{d}}</th>
+        <th {% if selected_date == d.1%} class="active" {% endif %} ><a href="/schedule/{{d.1}}">{{d.0}}</th>
         {% endfor %}
     </tr>
 </table>
 
 <br>
-
 {% for c in classes %}
     <div class="panel panel-default">
         <div class="panel-heading">

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'TxFApp',
     'bootstrap3',
-    "bootstrapform",
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [
