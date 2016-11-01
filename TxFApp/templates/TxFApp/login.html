@@ -1,6 +1,6 @@
+{% extends "TxFApp/base.html" %}
 {% block content %}
 {% load bootstrap %}
-{% load bootstrap3 %}
 
 <!-- User already has an account and is logging in  -->
 <div id="page-content">
@@ -17,7 +17,7 @@
             <div class="row">
 
                 <form action='login' method='post'>{% csrf_token %}
-                    {{ form | bootstrap_horizontal }}
+                    {{ form | bootstrap }}
                      <button type="submit" class="btn btn-default btn-sm">Submit</button>
                 </form>
             <br><br>
