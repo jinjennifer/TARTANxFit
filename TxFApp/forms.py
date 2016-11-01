@@ -15,7 +15,7 @@ class SignUpForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'email', 'username')
 
     def save(self, commit = True):
-        user = super(RegistrationForm, self).save(commit = False)
+        user = super(SignUpForm, self).save(commit = False)
         user.username = self.cleaned_data['username'].lower()
         user.email = self.cleaned_data['email'].lower()
         user.first_name = self.cleaned_data['first_name'].capitalize()
