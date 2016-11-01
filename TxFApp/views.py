@@ -61,18 +61,18 @@ def signup(request):
 			# hash password with django default method
 			user.save()
 
-			# set role to student default in UserProfile subclass
-			userprofile = UserProfile.objects.create(user=user, role='student')
+			# set role to student default in Profile subclass
+			userprofile = Profile.objects.create(user=user, role='student', andrew_id=user.username)
 			userprofile.save()
 
 			# automatically log them in
 			user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
 
 			messages.success(request, "You have successfully created a new account. Please log in below to start using TARTANxFit.")
-
+			
 			if user is not None:
 				auth.login(request, user)
-				return render(request, 'TxFApp/index.html', {'form': AuthenticationForm()})
+				return render(request, 'TxFApp/schedule.html', {'form': AuthenticationForm()})
 			else:
 				HttpResponse('authentication failed')
 				return render(request, 'TxFApp/login.html', {'form': AuthenticationForm()})
