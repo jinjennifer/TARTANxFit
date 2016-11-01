@@ -97,6 +97,9 @@ def schedule(request):
 	dates = []
 	for i in range(5):
 		d = datetime.date.today() + datetime.timedelta(days=i)
-		dates.append(d.strftime("%b %d %a"))
+		if i == 0:
+			dates.append(d.strftime("%b %d Today"))
+		else:
+			dates.append(d.strftime("%b %d %a"))
 	context['dates'] = dates
 	return render(request, 'TxFApp/schedule.html', context)
