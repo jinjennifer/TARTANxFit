@@ -1,12 +1,14 @@
 $(function() {
-    var slideout = new Slideout({
-    'panel': document.getElementById('panel'),
-    'menu': document.getElementById('menu'),
-    'padding': 256,
-    'tolerance': 70
-  });
+	// Navbar toggle button
+	$(".navbar-toggle-button").click("on", function(){
+		slideout.toggle();
+	});
 
-    document.querySelector('.toggle-button').addEventListener('click', function() {
-        slideout.toggle();
-      });
+	// Slideout menu
+	var slideout = new Slideout({
+		'panel': document.getElementById('panel'),
+		'menu': document.getElementById('menu'),
+		'padding': 256,
+		'tolerance': 70
+	});
 });

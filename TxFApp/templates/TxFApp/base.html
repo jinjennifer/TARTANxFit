@@ -38,20 +38,33 @@ Released under the MIT license: http://jsbin.mit-license.org
   </header>
 </nav>
 
-<main id="panel">
-      <header>
-        <button class="toggle-button">☰</button>
-        <h2>Panel</h2>
-      </header>
-    </main>
+<div id="panel">
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed pull-left navbar-toggle-button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/home">
+            <img alt="TARTANxFit" id="small-logo" src="/static/images/small-logo.png">
+          </a>
+        </div>
+  </header>
 
-<div class="container base">
-{% block bootstrap3_content %}
+  <div class="container base">
+  {% block bootstrap3_content %}
 
-  {% block content %}(no content){% endblock %}
+    {% block content %}(no content){% endblock %}
 
-{% endblock %}
-<div>
+  {% endblock %}
+  <div>
+
+</div>
 
 <footer>
 </footer>
