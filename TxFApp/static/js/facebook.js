@@ -101,3 +101,10 @@ function facebookLogout() {
     console.log("Facebook logged out");
   });
 }
+
+function facebookShare() {
+  FB.ui({
+    method: 'share',
+    href: 'https://developers.facebook.com/docs/',
+  }, function(response){});
+}
