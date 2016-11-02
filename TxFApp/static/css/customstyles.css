@@ -37,18 +37,19 @@ table{
 }
 
 .add-class {
-  font-size: 16px;
 	float:right;
-	vertical-align:middle;
 }
 
-.button-add-class {
-  background:none;
-  border:none;
-
+.rsvp {
+  padding: 0px;
+  color: black;
 }
-button:focus {
-  outline: 0;
+.rsvp:hover{
+  color: black;
+}
+
+.rsvp:focus {
+  outline: 0!important;
 }
 
 .large {

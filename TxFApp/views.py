@@ -91,8 +91,10 @@ def schedule(request, date=datetime.date.today()):
 	else:
 		selected_date = date.strftime("%Y-%m-%d")
 	dow = int(date.strftime("%w")) + 1 % 7
-	classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
-	context['classes'] = classSchedule.order_by('start_time')
+	classes = Class.objects.filter(date=date)
+	context['classes'] = classes
+ 	# classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
+	# context['classes'] = classSchedule.order_by('start_time')
 	
 
 	#for schedule header
@@ -105,7 +107,29 @@ def schedule(request, date=datetime.date.today()):
 			dates.append((d.strftime("%b"),d.strftime("%d"),d.strftime("%a"),d.strftime("%Y-%m-%d")))
 	context['dates'] = dates
 	context['selected_date'] = selected_date
+
+
+	if request.method == "POST":
+		user = request.user
+		class_id = request.POST.get('class_id', '')
+		date = request.POST.get('date','')
+		c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
+		c.save()
+		messages.success(request, "You have RSVP'd for the class.")
+		return HttpResponseRedirect('/schedule/%s/' % date)
+
 	return render(request, 'TxFApp/schedule.html', context)
+
+def rsvp(request):
+	context = {}
+	user = request.user
+	if request.method == "POST":
+		class_id = request.POST.get('class_id', '')
+		date = request.Post.get('date','')
+		c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
+		c.save()
+		messages.success(request, "You have RSVP'd for the class.")
+		return HttpResponseRedirect('/schedule/%s/' % date)
 
 def account(request):
 	context = {}

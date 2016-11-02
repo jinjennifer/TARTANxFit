@@ -18,11 +18,19 @@
     </tr>
 </table>
 <br>
-{% for c in classes %}
+{% for cl in classes %}
+    {% with cl.class_schedule as c %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <a href="/classes/{{ c.id }}/">{{ c.class_type.name }}</a>
-            <button class="add-class button-add-class" type="button" name="unrsvp" value="Unrsvp"> <i class="fa fa-plus add-class"></i>
+            {% if user.is_authenticated %}
+            <form class="add-class" action="/schedule/{{selected_date}}/" method="post">
+                <input name="date" type="hidden" value="{{selected_date}}"/>
+                <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                    <button id="rsvpButton" type ="submit" class='btn btn-link rsvp'><i class="fa fa-plus"></i></button>
+                {% csrf_token %}
+            </form>
+            {% endif %}
         </div>
         <div class="panel-body">
             <div class="row">
@@ -39,6 +47,7 @@
             <br><p>{{c.class_type.description}}</p>
         </div>
     </div>
+    {% endwith %}
 {% endfor %}
 
 {% endblock %}
