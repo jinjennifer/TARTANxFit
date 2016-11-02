@@ -108,7 +108,7 @@ def account(request):
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
-	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id)
+	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id).filter(course__date__gte=datetime.date.today())
 	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
 	print(context['rsvps'])

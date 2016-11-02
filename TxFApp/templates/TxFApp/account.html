@@ -31,6 +31,8 @@
 <div class="list-group">
 	{% for rsvp in rsvps %}
         <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">{{rsvp.course.date}} {{rsvp.course.class_schedule.start_time }} - {{rsvp.course.class_schedule.end_time}} {{rsvp.course.class_schedule.class_type.name}}</a>
+    {% empty %}
+    	<p>You have not RSVPed for any classes. Check out the <a href="/schedule">class schedule!</a></p>
     {% endfor %}
 </div>
 
