@@ -32,9 +32,18 @@
 }
 
 .add-class {
-	font-size: 23px;
+  font-size: 16px;
 	float:right;
 	vertical-align:middle;
+}
+
+.button-add-class {
+  background:none;
+  border:none;
+
+}
+button:focus {
+  outline: 0;
 }
 
 .card {
