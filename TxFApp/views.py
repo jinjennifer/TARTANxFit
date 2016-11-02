@@ -93,9 +93,9 @@ def schedule(request, date=datetime.date.today()):
 	dow = int(date.strftime("%w")) + 1 % 7
 	classes = Class.objects.filter(date=date)
 	context['classes'] = classes
+	context['userRSVPs'] = ClassAttendance.objects.filter(user=request.user.id).values_list('course', flat=True)
  	# classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
 	# context['classes'] = classSchedule.order_by('start_time')
-	
 
 	#for schedule header
 	dates = []
@@ -113,10 +113,16 @@ def schedule(request, date=datetime.date.today()):
 		user = request.user
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
-		c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
-		c.save()
-		messages.success(request, "You have RSVP'd for the class.")
-		return HttpResponseRedirect('/schedule/%s/' % date)
+		try: #user has rsvped, unrsvp
+			c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
+			c.delete()
+			messages.success(request, "You have unRSVP'd for the class.")
+			return HttpResponseRedirect('/schedule/%s/' % date)
+		except: #user rvsp
+			c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
+			c.save()
+			messages.success(request, "You have RSVP'd for the class.")
+			return HttpResponseRedirect('/schedule/%s/' % date)
 
 	return render(request, 'TxFApp/schedule.html', context)
 

@@ -64,6 +64,8 @@ class Class(models.Model):
     class_schedule = models.ForeignKey(ClassSchedule)
 
 class ClassAttendance(models.Model):
+    class Meta:
+        unique_together = (('user', 'course'),)
     attended = models.BooleanField(default=False)
     user = models.ForeignKey(User)
     course = models.ForeignKey(Class)
