@@ -24,6 +24,9 @@ Released under the MIT license: http://jsbin.mit-license.org
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.12/slideout.min.js"></script>
     <script src="{% static 'js/application.js' %}"></script>
 
+    <!-- Stop favicon request -->
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     
@@ -41,7 +44,7 @@ Released under the MIT license: http://jsbin.mit-license.org
   <section class="menu-section">
     <div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/schedule">Group X Schedule</a></li>
+        <li><a href="/schedule">Group X Schedule</a></li>
         <li><a href="#">CMU Leaderboard</a></li>
         <li><a href="#">Create Group</a></li>
         <li><a href="/account">My Account</a></li>
@@ -74,14 +77,9 @@ Released under the MIT license: http://jsbin.mit-license.org
     {% block content %}(no content){% endblock %}
 
   {% endblock %}
-  <div>
+  </div>
 
 </div>
 
-<footer>
-</footer>
-
 </body>
 </html>
-
-

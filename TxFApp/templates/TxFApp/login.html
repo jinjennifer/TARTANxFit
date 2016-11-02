@@ -13,7 +13,10 @@
         </div>
 
         <div class="col-sm-4">
-            <h3>Login</h3>
+            <center>
+                <img alt="TARTANxFit" id="big-logo" src="/static/images/round-logo.png">
+            </center>
+
             <div class="row">
 
                 <form action='login' method='post'>{% csrf_token %}
@@ -27,5 +30,9 @@
     </div>
 </div>
 
+<script>
+    // Hide the navbar only on this page
+    $("nav").addClass("hidden");
+</script>
 
 {% endblock %}
