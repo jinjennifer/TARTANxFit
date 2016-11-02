@@ -5,22 +5,29 @@
 <!-- User creating an account for the first time  -->
 <div id="page-content">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <!-- Display flash messages if there are any -->
-                {% include 'TxFApp/flash_message.html' %}
-            </div>
-        </div>
+        <div class="col-sm-12">
+            <center>
+                <img alt="TARTANxFit" id="big-logo" src="/static/images/round-logo.png">
+                <h3>Sign Up</h3>
+            </center>
 
-        <h3>Signup</h3>
-        <div class="row">
-            <div class="col-sm-4">
-                <form action='signup' method='post'>{% csrf_token %}
-                    {{ form1 | bootstrap }}
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <br>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Display flash messages if there are any -->
+                    {% include 'TxFApp/flash_message.html' %}
+                </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <form action='signup' method='post'>{% csrf_token %}
+                        {{ form1 | bootstrap }}
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
     </div>
 </div>
 

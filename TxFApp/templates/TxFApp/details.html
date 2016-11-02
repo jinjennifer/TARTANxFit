@@ -16,7 +16,7 @@
 		<i class="fa fa-star icon"></i> {{groupx.points}}<br>
 	</div>
 	<div class="col-xs-4">
-		<div class="btn btn-lg btn-block btn-primary"><i class="fa fa-share icon"></i> SHARE</div>
+		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
 		<div class="btn btn-lg btn-block btn-success"><i class="fa fa-plus icon"></i> GOING</div>
 	</div>
 </div>
@@ -33,6 +33,25 @@
 <div class="row">
     <div class="col-xs-12">
     	<h3>Attending</h3>
-    <div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-xs-3">
+    	<img alt="user" id="small-logo" src="/static/images/user.png">
+    	<p>User A.</p>
+    </div>
+    <div class="col-xs-3">
+    	<img alt="user" id="small-logo" src="/static/images/user.png">
+    	<p>User B.</p>
+    </div>
+    <div class="col-xs-3">
+    	<img alt="user" id="small-logo" src="/static/images/user.png">
+    	<p>User C.</p>
+    </div>
+    <div class="col-xs-3">
+    	<img alt="user" id="small-logo" src="/static/images/user.png">
+    	<p>User D.</p>
+    </div>
 </div>
 {% endblock %}
