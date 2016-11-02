@@ -1,3 +1,7 @@
+var friends;
+var id;
+var name;
+
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
   console.log(response);
@@ -82,6 +86,12 @@ function testAPI() {
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me', function(response) {
     console.log('Successful login for: ' + response.name);
+    id = response.id;
+    name = response.name;
+  });
+
+  FB.api('/me/friends', function(response) {
+    console.log(response);
   });
 }
 
