@@ -12,8 +12,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 import datetime
+from push_notifications.models import APNSDevice, GCMDevice
 
 def login(request):
+	device = GCMDevice.objects.get(registration_id="561566690454")
+	# The first argument will be sent as "message" to the intent extras Bundle
+	# Retrieve it with intent.getExtras().getString("message")
+	device.send_message("You've got mail")
+
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/schedule')
 	elif request.method == 'GET':
