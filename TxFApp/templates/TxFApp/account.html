@@ -27,7 +27,13 @@
 	</div>
 </div>
 
-<h4>Rewards</h4>
+<h4>Upcoming Classes</h4>
+<div class="list-group">
+	{% for rsvp in rsvps %}
+        <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">{{rsvp.course.date}} {{rsvp.course.class_schedule.start_time }} - {{rsvp.course.class_schedule.end_time}} {{rsvp.course.class_schedule.class_type.name}}</a>
+    {% endfor %}
+</div>
+
 <h4>My Competitions</h4>
 <div class="list-group">
 	{% for c in competitions %}
