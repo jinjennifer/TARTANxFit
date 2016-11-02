@@ -137,3 +137,19 @@ body {
   display: block;
 }
 /* end Slideout.js styles */
+
+#menu {
+  text-align: center;
+  background-color: #e7e7e7;
+}
+
+#menu header {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 11px;
+}
+
+#menu a {
+  text-decoration: none;
+  color: black;
+}
