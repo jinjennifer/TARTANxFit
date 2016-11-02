@@ -8,7 +8,8 @@ function statusChangeCallback(response) {
   if (response.status === 'connected') {
     // Logged into your app and Facebook.
     testAPI();
-    // Redirect only if you are on the login page and just logged in
+
+    // Redirect only if you are on the login page but are already logged in
     if (window.location == "http://localhost:8000/login") {
       location.assign("/schedule"); 
     }
