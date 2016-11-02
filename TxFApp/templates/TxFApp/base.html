@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.12/slideout.min.js"></script>
     <script src="{% static 'js/add_class.js' %}"></script>
     <script src="{% static 'js/application.js' %}"></script>
+    <script src="{% static 'js/facebook.js' %}"></script>
 
     <!-- Stop favicon request -->
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
@@ -41,7 +42,7 @@
         <li><a href="#">CMU Leaderboard</a></li>
         <li><a href="#">Create Group</a></li>
         <li><a href="/account">My Account</a></li>
-        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/logout" onclick="facebookLogout();">Log Out</a></li>
       </ul>
     </div>
   </section>
