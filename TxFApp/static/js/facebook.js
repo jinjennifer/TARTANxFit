@@ -11,7 +11,7 @@ function statusChangeCallback(response) {
 
     // Redirect only if you are on the login page but are already logged in
     if (window.location == "http://localhost:8000/login") {
-      location.assign("/schedule"); 
+      window.location = "/schedule"; 
     }
   } else if (response.status === 'not_authorized') {
     // The person is logged into Facebook, but not your app.
@@ -55,6 +55,14 @@ window.fbAsyncInit = function() {
 
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
+  });
+
+  // Redirect after login
+  FB.Event.subscribe('auth.login', function(){
+    // Redirect only if you are on the login page and just logged in
+    if (window.location == "http://localhost:8000/login") {
+      window.location = "/schedule"; 
+    }
   });
 
 };
