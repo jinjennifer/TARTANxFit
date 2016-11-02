@@ -4,6 +4,11 @@
 <!-- Display flash messages if there are any -->
 {% include 'TxFApp/flash_message.html' %}
 
+<div style="display:none" id="fakealert" class="alert alert-success">
+  You have RSVP'd to Indoor Cycling on Nov 2 from 11:30 a.m. - 12:15 p.m.!
+</div>
+
+
 <h3> Group X Schedule for This Week </h3>
 
 <table class="schedule" width="100%">
@@ -13,13 +18,12 @@
         {% endfor %}
     </tr>
 </table>
-
 <br>
 {% for c in classes %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <a href="/classes/{{ c.id }}/">{{ c.class_type.name }}</a>
-            <i class="fa fa-plus add-class"></i>
+            <button class="add-class button-add-class" type="button" name="unrsvp" value="Unrsvp"> <i class="fa fa-plus add-class"></i>
         </div>
         <div class="panel-body">
             <div class="row">
