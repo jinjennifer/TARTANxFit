@@ -111,9 +111,6 @@ def account(request):
 	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id).filter(course__date__gte=datetime.date.today())
 	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
-	print(context['rsvps'])
-	for rsvp in context['rsvps']:
-		print(rsvp.course.class_schedule.class_type.name)
 	return render(request, 'TxFApp/account.html', context)
 
 def details(request, class_id):

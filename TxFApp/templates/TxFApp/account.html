@@ -30,7 +30,11 @@
 <h4>Upcoming Classes</h4>
 <div class="list-group">
 	{% for rsvp in rsvps %}
-        <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">{{rsvp.course.date}} {{rsvp.course.class_schedule.start_time }} - {{rsvp.course.class_schedule.end_time}} {{rsvp.course.class_schedule.class_type.name}}</a>
+        <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">
+			<h4 class="list-group-item-heading"> {{rsvp.course.class_schedule.class_type.name}} </h4>
+			<p class="list-group-item-text"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
+			<i class="fa fa-clock-o icon"></i> {{rsvp.course.class_schedule.start_time }} - {{rsvp.course.class_schedule.end_time}} </p>
+        </a>
     {% empty %}
     	<p>You have not RSVPed for any classes. Check out the <a href="/schedule">class schedule!</a></p>
     {% endfor %}
