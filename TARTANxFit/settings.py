@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'TxFApp',
     'bootstrap3',
     'bootstrapform',
-    "push_notifications",
 ]
 
 MIDDLEWARE = [
@@ -89,10 +88,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-PUSH_NOTIFICATIONS_SETTINGS = {
-    "GCM_API_KEY": "AIzaSyCtHI_tfEzHy8Vu4EscvItbrKqKEs6Lmuo",
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
