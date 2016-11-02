@@ -10,11 +10,10 @@
 
 
 <h3> Group X Schedule for This Week </h3>
-
 <table class="schedule" width="100%">
     <tr>
         {% for d in dates %}
-        <th {% if selected_date == d.1%} class="active" {% endif %} ><a href="/schedule/{{d.1}}">{{d.0}}</th>
+        <th {% if selected_date == d.3%} class="active" {% endif %} ><a href="/schedule/{{d.3}}/">{{d.0}}<p class="large">{{d.1}}</p>{{d.2}}</th>
         {% endfor %}
     </tr>
 </table>

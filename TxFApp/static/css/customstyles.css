@@ -18,8 +18,13 @@
 	width: 90%;
 }
 
+/*schedule css----------------------------------------- */
 .schedule tr, .schedule th{
 	border: 1px solid black;
+}
+
+table{
+  table-layout: fixed;
 }
 
 .schedule th{
@@ -28,7 +33,7 @@
 }
 
 .active{
-  background-color:#C4C4C4;
+  background-color:#f5f5f5;
 }
 
 .add-class {
@@ -45,6 +50,13 @@
 button:focus {
   outline: 0;
 }
+
+.large {
+  font-size: 25px;
+  margin-bottom: 0px;
+}
+/*-------------------------------------------------- */
+
 
 .card {
   margin-top: 10px;
