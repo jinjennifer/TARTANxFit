@@ -158,10 +158,23 @@ body {
 #menu header {
   font-size: 25px;
   font-weight: bold;
-  margin-top: 11px;
+  margin-top: 7.5px;
 }
 
 #menu a {
   text-decoration: none;
   color: black;
+}
+
+#menu li:first-child { 
+  border-top: 2px solid black;
+}
+
+#menu li { 
+  border-bottom: 1.5px solid black;
+}
+
+.navbar-nav > li > a {
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
