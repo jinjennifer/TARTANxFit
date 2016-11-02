@@ -113,3 +113,55 @@ button:focus {
 .navbar-collapse.collapse.in {
   display: block !important;
 }
+
+/* Slideout.js styles */
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.slideout-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: 256px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+
+.slideout-panel {
+  position:relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}
+/* end Slideout.js styles */
+
+#menu {
+  text-align: center;
+  background-color: #e7e7e7;
+}
+
+#menu header {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 11px;
+}
+
+#menu a {
+  text-decoration: none;
+  color: black;
+}
