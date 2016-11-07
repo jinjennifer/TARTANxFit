@@ -14,7 +14,12 @@ function statusChangeCallback(response) {
     testAPI();
 
     // Redirect only if you are on the login page but are already logged in
-    if (window.location == "http://localhost:8000/login") {
+    if (window.location == "http://localhost:8000/login" || 
+      window.location == "http://localhost:8000/" ||
+      window.location == "http://tartanxfit.herokuapp.com/login" || 
+      window.location == "http://tartanxfit.herokuapp.com/" ||
+      window.location == "https://tartanxfit.herokuapp.com/login" ||
+      window.location == "https://tartanxfit.herokuapp.com") {
       window.location = "/schedule"; 
     }
   } else if (response.status === 'not_authorized') {
@@ -64,7 +69,12 @@ window.fbAsyncInit = function() {
   // Redirect after login
   FB.Event.subscribe('auth.login', function(){
     // Redirect only if you are on the login page and just logged in
-    if (window.location == "http://localhost:8000/login") {
+    if (window.location == "http://localhost:8000/login" || 
+      window.location == "http://localhost:8000/" ||
+      window.location == "http://tartanxfit.herokuapp.com/login" || 
+      window.location == "http://tartanxfit.herokuapp.com/" ||
+      window.location == "https://tartanxfit.herokuapp.com/login" ||
+      window.location == "https://tartanxfit.herokuapp.com") {
       window.location = "/schedule"; 
     }
   });
