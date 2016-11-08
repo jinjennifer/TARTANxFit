@@ -126,17 +126,6 @@ def schedule(request, date=datetime.date.today()):
 
 	return render(request, 'TxFApp/schedule.html', context)
 
-def rsvp(request):
-	context = {}
-	user = request.user
-	if request.method == "POST":
-		class_id = request.POST.get('class_id', '')
-		date = request.Post.get('date','')
-		c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
-		c.save()
-		messages.success(request, "You have RSVP'd for the class.")
-		return HttpResponseRedirect('/schedule/%s/' % date)
-
 def account(request):
 	context = {}
 	context['request_user_id'] = request.user.id
@@ -144,10 +133,25 @@ def account(request):
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
-	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id).filter(course__date__gte=datetime.date.today())
+	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__gte=datetime.date.today(), attended='False').order_by("course__date", "course__class_schedule__start_time")
 	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
-	context['attended'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__lt=datetime.date.today(), attended='True').order_by("-course__date")[:5]
+	context['attended'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__lte=datetime.date.today(), attended='True').order_by("-course__date", "course__class_schedule__start_time")[:5]
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
+
+	if request.method == "POST":
+		user = request.user
+		class_id = request.POST.get('class_id', '')
+		form_type = request.POST.get('type', '')
+		c = ClassAttendance.objects.filter(user=user, course=class_id)[0]
+		if form_type == "cancel":
+			class_name = c.course.class_schedule.class_type.name
+			c.delete()
+			messages.success(request, "You have cancelled your RSVP for %s."% class_name)
+		elif form_type == "attended":
+			c.attended = True
+			c.save()
+			messages.success(request, "You attended!")
+		return HttpResponseRedirect('/account')
 	return render(request, 'TxFApp/account.html', context)
 
 def details(request, class_id):

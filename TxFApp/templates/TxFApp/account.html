@@ -1,6 +1,9 @@
 {% extends "TxFApp/base.html" %}
 {% block content %}
 
+<!-- Display flash messages if there are any -->
+{% include 'TxFApp/flash_message.html' %}
+
 <h3> My Account </h3>
 <div class="row">
 	<div class="col-xs-12">
@@ -27,14 +30,33 @@
 	</div>
 </div>
 
-<h4>Upcoming Classes</h4>
+<h4>Upcoming and Today's Classes</h4>
 <div class="list-group">
 	{% for rsvp in rsvps %}
-        <a href="/classes/{{ rsvp.course.class_schedule.id }}/" class="list-group-item">
-			<h4 class="list-group-item-heading"> {{rsvp.course.class_schedule.class_type.name}} </h4>
-			<p class="list-group-item-text"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
-			<i class="fa fa-clock-o icon"></i> {{rsvp.course.class_schedule.start_time }} - {{rsvp.course.class_schedule.end_time}} </p>
+    {% with rsvp.course.class_schedule as c %}
+        <a href="/classes/{{ c.id }}/" class="list-group-item">
+			<h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
+			<div class="row">
+			<p class="list-group-item-text col-xs-8"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
+			<i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}} </p>
+	    {% if rsvp.course.has_occurred %}
+	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
+	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
+			<input name="type" type="hidden" value="attended"/>
+	            <button id="rsvpButton" type ="submit" class='btn btn-secondary'><i class="fa fa-check fa-lg"></i> I attended!</button>
+	        {% csrf_token %}
+	    </form>
+	    {% else %}
+	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
+	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
+	        <input name="type" type="hidden" value="cancel"/>
+	            <button id="rsvpButton" type ="submit" class='btn btn-secondary'><i class="fa fa-times fa-lg"></i> Cancel RSVP</button>
+	        {% csrf_token %}
+	    </form>
+	    {% endif %}
+	</div>
         </a>
+    {% endwith %}
     {% empty %}
     	<p>You have not RSVPed for any classes. Check out the <a href="/schedule">class schedule!</a></p>
     {% endfor %}
@@ -43,11 +65,13 @@
 <h4>Recently Attended Classes</h4>
 <div class="list-group">
 	{% for class in attended %}
+	{% with class.course.class_schedule as c %}
         <a href="/classes/{{ class.course.class_schedule.id }}/" class="list-group-item">
-			<h4 class="list-group-item-heading"> {{class.course.class_schedule.class_type.name}} </h4>
+			<h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
 			<p class="list-group-item-text"><i class="fa fa-calendar icon"></i> {{class.course.date}} <br>
-			<i class="fa fa-clock-o icon"></i> {{class.course.class_schedule.start_time }} - {{class.course.class_schedule.end_time}} </p>
+			<i class="fa fa-clock-o icon"></i> {{c.start_time }} - {{c.end_time}} </p>
         </a>
+    {% endwith %}
     {% empty %}
 		<p>You have not attended any classes. Check out the <a href="/schedule">class schedule!</a></p>
     {% endfor %}

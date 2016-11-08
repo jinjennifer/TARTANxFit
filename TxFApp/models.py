@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import datetime
 # Create your models here.
 
 ROLES = (
@@ -62,6 +62,9 @@ class Class(models.Model):
     date = models.DateField()
     cancelled = models.BooleanField(default=False)
     class_schedule = models.ForeignKey(ClassSchedule)
+
+    def has_occurred(self):
+        return (self.class_schedule.start_time <= datetime.datetime.now().time()) and (self.date <= datetime.date.today())
 
 class ClassAttendance(models.Model):
     class Meta:
