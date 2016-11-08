@@ -146,6 +146,7 @@ def account(request):
 		context['points'] = userprof.points
 	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id).filter(course__date__gte=datetime.date.today())
 	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
+	context['attended'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__lt=datetime.date.today(), attended='True').order_by("-course__date")[:5]
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
 	return render(request, 'TxFApp/account.html', context)
 
