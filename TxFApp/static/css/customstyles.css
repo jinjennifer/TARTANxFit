@@ -42,13 +42,19 @@ table{
 }
 
 .add-class {
-	float:right;
+  text-align: center;
+  float: none;
+}
+
+.center {
+  text-align: center
 }
 
 .rsvp {
   padding: 0px;
   color: black;
 }
+
 .rsvp:hover{
   color: black;
 }
@@ -61,6 +67,7 @@ table{
   font-size: 25px;
   margin-bottom: 0px;
 }
+
 /*-------------------------------------------------- */
 
 

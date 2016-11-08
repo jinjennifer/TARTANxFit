@@ -22,44 +22,51 @@
 
 {% for cl in classes %}
     {% with cl.class_schedule as c %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <a href="/classes/{{ c.id }}/">{{ c.class_type.name }}</a>
-            {% if user.is_authenticated %}
-                {% if cl.id in userRSVPs %}
-                <form class="add-class" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="unrsvpButton" type ="submit" class='btn btn-link rsvp'><i class="fa fa-check"></i></button>
-                    {% csrf_token %}
-                </form>
-                {% else %}
-                <form class="add-class" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="rsvpButton" type ="submit" class='btn btn-link rsvp'><i class="fa fa-plus"></i></button>
-                    {% csrf_token %}
-                </form>
-                {% endif %}
-            {% endif %}
+        <div class="panel panel-default">
+             <div class="panel-body">
+                <div class="row">
+                    <a href="/classes/{{ c.id }}/">
+                    <div class="col-xs-6 col-s-7">
+                        <a href="/classes/{{ c.id }}/">{{ c.class_type.name }}</a>
+                    </div>
+                    </a>
+                    <div class="col-xs-4 col-s-3">
+                        <i class="fa fa-user"></i> {{c.instructor.user.first_name}}
+                    </div>
+                    <div class="col-xs-2" style="border-left: 1px solid">
+                        {% if user.is_authenticated %}
+                            {% if cl.id in userRSVPs %}
+                            <form class="add-class" action="/schedule/{{selected_date}}/" method="post">
+                                <input name="date" type="hidden" value="{{selected_date}}"/>
+                                <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                                    <button id="unrsvpButton" type ="submit" class='btn btn-link rsvp'><i class="fa fa-check fa-lg"></i></button>
+                                {% csrf_token %}
+                            </form>
+                            {% else %}
+                            <form class="add-class" action="/schedule/{{selected_date}}/" method="post">
+                                <input name="date" type="hidden" value="{{selected_date}}"/>
+                                <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                                    <button id="rsvpButton" type ="submit" class='btn btn-link rsvp'><i class="fa fa-plus fa-lg"></i></button>
+                                {% csrf_token %}
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-s-7">
+                        <i class="fa fa-clock-o"></i> {{c.start_time}} - {{c.end_time}}
+                    </div>
+                    <div class="col-xs-4 col-s-3">
+                        <i class="fa fa-map-marker"></i> {{c.location}}
+                    </div>
+                    <div class="col-xs-2 center" style="border-left: 1px solid">
+                        <i class="fa fa-star icon" ></i> {{c.points}}
+                    </div>
+                </div>
+             </div>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-4">
-                    <i class="fa fa-clock-o"></i> {{c.start_time}} - {{c.end_time}}
-                </div>
-                <div class="col-xs-4">
-                    <i class="fa fa-map-marker"></i> {{c.location}}
-                </div>
-                <div class="col-xs-4">
-                    <i class="fa fa-user"></i> {{c.instructor.user.first_name}}
-                </div>
-            </div>
-            <br><p>{{c.class_type.description}}</p>
-        </div>
-    </div>
     {% endwith %}
 {% endfor %}
-
 {% endblock %}
 
