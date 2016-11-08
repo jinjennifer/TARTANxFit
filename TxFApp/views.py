@@ -88,10 +88,10 @@ def schedule(request, date=datetime.date.today()):
 	if type(date) == str:
 		selected_date = date
 		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	else:
+	else: #default date of today
 		selected_date = date.strftime("%Y-%m-%d")
 	dow = int(date.strftime("%w")) + 1 % 7
-	classes = Class.objects.filter(date=date)
+	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=request.user.id).values_list('course', flat=True)
  	# classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
