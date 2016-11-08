@@ -191,3 +191,7 @@ body {
   padding-top: 16px;
   padding-bottom: 16px;
 }
+
+.btn-lg {
+  margin-top: 5px;
+}
