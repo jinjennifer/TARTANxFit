@@ -85,11 +85,11 @@ def signup(request):
 def schedule(request, date=datetime.date.today()):
 	context = {}
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
-	if type(date) == str:
+	if isinstance(date, datetime.date): #default date of today
+		selected_date = date.strftime("%Y-%m-%d")
+	else:
 		selected_date = date
 		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	else: #default date of today
-		selected_date = date.strftime("%Y-%m-%d")
 	dow = int(date.strftime("%w")) + 1 % 7
 	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
