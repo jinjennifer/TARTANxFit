@@ -55,7 +55,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-s-7">
-                        <i class="fa fa-clock-o"></i> {{c.start_time}} - {{c.end_time}}
+                        <i class="fa fa-clock-o"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}
                     </div>
                     <div class="col-xs-4 col-s-3">
                         <i class="fa fa-map-marker"></i> {{c.location}}

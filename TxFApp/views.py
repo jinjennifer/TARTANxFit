@@ -94,34 +94,34 @@ def schedule(request, date=datetime.date.today()):
 	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=request.user.id).values_list('course', flat=True)
- 	# classSchedule = ClassSchedule.objects.filter(day_of_week=dow)
-	# context['classes'] = classSchedule.order_by('start_time')
 
 	#for schedule header
 	dates = []
 	for i in range(5):
 		d = datetime.date.today() + datetime.timedelta(days=i)
 		if i == 0:
-			dates.append((d.strftime("%b"),d.strftime("%d"),d.strftime("Today"), d.strftime("%Y-%m-%d")))
+			dates.append((d.strftime("%b"),d.day,d.strftime("Today"), d.strftime("%Y-%m-%d")))
 		else:
-			dates.append((d.strftime("%b"),d.strftime("%d"),d.strftime("%a"),d.strftime("%Y-%m-%d")))
+			dates.append((d.strftime("%b"),d.day,d.strftime("%a"),d.strftime("%Y-%m-%d")))
 	context['dates'] = dates
 	context['selected_date'] = selected_date
 
-
+	#rsvping for classes
 	if request.method == "POST":
 		user = request.user
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
 		try: #user has rsvped, unrsvp
 			c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
+			class_name = c.course.class_schedule.class_type.name
 			c.delete()
-			messages.success(request, "You have unRSVP'd for the class.")
+			messages.success(request, "You have cancelled your RSVP for %s."% class_name)
 			return HttpResponseRedirect('/schedule/%s/' % date)
 		except: #user rvsp
 			c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
 			c.save()
-			messages.success(request, "You have RSVP'd for the class.")
+			class_name = c.course.class_schedule.class_type.name
+			messages.success(request, "You have RSVP'd for %s." % class_name )
 			return HttpResponseRedirect('/schedule/%s/' % date)
 
 	return render(request, 'TxFApp/schedule.html', context)
