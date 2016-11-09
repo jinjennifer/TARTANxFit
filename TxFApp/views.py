@@ -138,17 +138,13 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	print(request.session.get('user_id'))
 
 	if not 'user_id' in request.session:
-		print("not in")
 		# Find the user in the database from Facebook login
 		facebook_user = User.objects.filter(email=facebook_email).first()
 		request.session['user_id'] = facebook_user.id
+		context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
 	else:
 		facebook_user = User.objects.filter(id=request.session.get('user_id')).first()
-
-	context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
-
-	print(facebook_user.id)
-	print(facebook_email)
+		context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
 
 	# create a new user if one does not already exist
 	if not User.objects.filter(email=facebook_email).exists():
