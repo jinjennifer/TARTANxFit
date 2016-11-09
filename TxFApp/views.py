@@ -110,6 +110,7 @@ def schedule(request, date=datetime.date.today()):
 	#rsvping for classes
 	if request.method == "POST":
 		user = request.user
+		print(user.id)
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
 		try: #user has rsvped, unrsvp
@@ -128,12 +129,13 @@ def schedule(request, date=datetime.date.today()):
 	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
 
-def account(request, facebook_email):
+def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 	context['request_user_id'] = request.user.id
 
 	# Find the user in the database from Facebook login
 	facebook_user = User.objects.filter(email=facebook_email).first()
+	print(facebook_user.id)
 
 	# create a new user if one does not already exist
 	if not User.objects.filter(email=facebook_email).exists():
