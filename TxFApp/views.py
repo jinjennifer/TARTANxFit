@@ -124,6 +124,7 @@ def schedule(request, date=datetime.date.today()):
 			messages.success(request, "You have RSVP'd for %s." % class_name )
 			return HttpResponseRedirect('/schedule/%s/' % date)
 
+	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
 
 def account(request):
@@ -154,6 +155,8 @@ def account(request):
 			user.profile.save()
 			messages.success(request, "You attended!")
 		return HttpResponseRedirect('/account')
+
+	context['active_menu_link'] = "account"
 	return render(request, 'TxFApp/account.html', context)
 
 def details(request, class_id):

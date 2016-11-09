@@ -38,11 +38,11 @@
   <section class="menu-section">
     <div>
       <ul class="nav navbar-nav">
-        <li id="schedule-link"><a href="/schedule">Group X Schedule</a></li>
-        <li id="leaderboard-link"><a href="#">CMU Leaderboard</a></li>
-        <li id="group-link"><a href="#">Create Group</a></li>
-        <li id="account-link"><a href="/account">My Account</a></li>
-        <li id="logout-link"><a href="/logout" onclick="facebookLogout();">Log Out</a></li>
+        <li class="{% if active_menu_link == 'schedule' %} active {% endif %}" id="schedule-link"><a href="/schedule">Group X Schedule</a></li>
+        <li class="{% if active_menu_link == 'leaderboard' %} active {% endif %}" id="leaderboard-link"><a href="#">CMU Leaderboard</a></li>
+        <li class="{% if active_menu_link == 'group' %} active {% endif %}" id="group-link"><a href="#">Create Group</a></li>
+        <li class="{% if active_menu_link == 'account' %} active {% endif %}" id="account-link"><a href="/account">My Account</a></li>
+        <li class="{% if active_menu_link == 'logout' %} active {% endif %}" id="logout-link"><a href="/logout" onclick="facebookLogout();">Log Out</a></li>
       </ul>
     </div>
   </section>
