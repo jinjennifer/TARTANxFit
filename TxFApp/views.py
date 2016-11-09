@@ -128,13 +128,24 @@ def schedule(request, date=datetime.date.today()):
 	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
 
-def account(request, facebook_email="xxx3maggie@aim.com"):
+def account(request, facebook_email):
 	context = {}
 	context['request_user_id'] = request.user.id
 
 	# Find the user in the database from Facebook login
 	facebook_user = User.objects.filter(email=facebook_email).first()
-	
+
+	# create a new user if one does not already exist
+	if not User.objects.filter(email=facebook_email).exists():
+		user = User.objects.create(username = facebook_email, first_name = "None", last_name = "None", email = facebook_email)
+		# set the default password for all users to "test1234" so it works with authenticate
+		user.set_password("test1234")
+		user.save()
+
+		# set role to student default in UserProfile subclass when creating a new account
+		userprofile = UserProfile.objects.create(user=user, role='student')
+		userprofile.save()
+
 	# Log the user into the system database
 	user = auth.authenticate(username=facebook_user.username, password="test1234")
 	auth.login(request, user)
