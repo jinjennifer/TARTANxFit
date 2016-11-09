@@ -135,7 +135,7 @@ function facebookLogout() {
 function facebookShare() {
   FB.ui({
     method: 'share',
-    href: window.location,
+    href: window.location.href,
   }, function(response){});
 }
 
