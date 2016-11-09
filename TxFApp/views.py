@@ -84,6 +84,8 @@ def signup(request):
 
 def schedule(request, date=datetime.date.today()):
 	context = {}
+
+	user = User.objects.filter(id=request.session.get('user_id')).first()
 	
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
 	if isinstance(date, datetime.date): #default date of today
@@ -94,7 +96,7 @@ def schedule(request, date=datetime.date.today()):
 	dow = int(date.strftime("%w")) + 1 % 7
 	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
-	context['userRSVPs'] = ClassAttendance.objects.filter(user=request.user.id).values_list('course', flat=True)
+	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
 
 	#for schedule header
 	dates = []
@@ -109,7 +111,7 @@ def schedule(request, date=datetime.date.today()):
 
 	#rsvping for classes
 	if request.method == "POST":
-		user = request.user
+		user = User.objects.filter(id=request.session.get('user_id')).first()
 		print(user.id)
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
@@ -131,11 +133,14 @@ def schedule(request, date=datetime.date.today()):
 
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
-	context['request_user_id'] = request.user.id
 
 	# Find the user in the database from Facebook login
 	facebook_user = User.objects.filter(email=facebook_email).first()
+	request.session['user_id'] = facebook_user.id
+	context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
+
 	print(facebook_user.id)
+	print(facebook_email)
 
 	# create a new user if one does not already exist
 	if not User.objects.filter(email=facebook_email).exists():
@@ -157,13 +162,13 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
-	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__gte=datetime.date.today(), attended='False').order_by("course__date", "course__class_schedule__start_time")
-	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.user.id))
-	context['attended'] = ClassAttendance.objects.filter(user_id=request.user.id, course__date__lte=datetime.date.today(), attended='True').order_by("-course__date", "course__class_schedule__start_time")[:5]
-	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.user.id])
+	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__gte=datetime.date.today(), attended='False').order_by("course__date", "course__class_schedule__start_time")
+	context['visits'] = len(ClassAttendance.objects.filter(user_id=request.session.get('user_id')))
+	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended='True').order_by("-course__date", "course__class_schedule__start_time")[:5]
+	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.session.get('user_id')])
 
 	if request.method == "POST":
-		user = request.user
+		user = User.objects.filter(email=facebook_email).first()
 		class_id = request.POST.get('class_id', '')
 		form_type = request.POST.get('type', '')
 		c = ClassAttendance.objects.filter(user=user, course=class_id)[0]
