@@ -34,6 +34,7 @@ def login(request):
 		
 def logout(request):
 	# log the user out of the app locally
+	request.session.clear()
 	auth.logout(request)
 	messages.success(request, "You have successfully logged out.")
 	return HttpResponseRedirect('/login')
@@ -134,9 +135,16 @@ def schedule(request, date=datetime.date.today()):
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 
-	# Find the user in the database from Facebook login
-	facebook_user = User.objects.filter(email=facebook_email).first()
-	request.session['user_id'] = facebook_user.id
+	print(request.session.get('user_id'))
+
+	if not 'user_id' in request.session:
+		print("not in")
+		# Find the user in the database from Facebook login
+		facebook_user = User.objects.filter(email=facebook_email).first()
+		request.session['user_id'] = facebook_user.id
+	else:
+		facebook_user = User.objects.filter(id=request.session.get('user_id')).first()
+
 	context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
 
 	print(facebook_user.id)
