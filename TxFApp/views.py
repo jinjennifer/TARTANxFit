@@ -172,7 +172,7 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.session.get('user_id')])
 
 	if request.method == "POST":
-		user = User.objects.filter(email=facebook_email).first()
+		user = facebook_user
 		class_id = request.POST.get('class_id', '')
 		form_type = request.POST.get('type', '')
 		c = ClassAttendance.objects.filter(user=user, course=class_id)[0]
