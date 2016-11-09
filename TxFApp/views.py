@@ -166,8 +166,9 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
-	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__gte=datetime.date.today(), attended='False').order_by("course__date", "course__class_schedule__start_time")
-	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended='True').order_by("-course__date", "course__class_schedule__start_time")[:5]
+
+	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__gte=datetime.date.today(), attended=False).order_by("course__date", "course__class_schedule__start_time")
+	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended=True).order_by("-course__date", "course__class_schedule__start_time")[:5]
 	context['visits'] = len(context['attended'])
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.session.get('user_id')])
 
