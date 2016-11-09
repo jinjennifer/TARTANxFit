@@ -20,7 +20,7 @@ function statusChangeCallback(response) {
         window.location == "http://tartanxfit.herokuapp.com/login" || 
         window.location == "http://tartanxfit.herokuapp.com/" ||
         window.location == "https://tartanxfit.herokuapp.com/login" ||
-        window.location == "https://tartanxfit.herokuapp.com") {
+        window.location == "https://tartanxfit.herokuapp.com/") {
       FB.api('/me?fields=id,name,email', function(response) {
         console.log('Successful login for: ' + response.name);
         console.log(response);
@@ -83,7 +83,7 @@ window.fbAsyncInit = function() {
         window.location == "http://tartanxfit.herokuapp.com/login" || 
         window.location == "http://tartanxfit.herokuapp.com/" ||
         window.location == "https://tartanxfit.herokuapp.com/login" ||
-        window.location == "https://tartanxfit.herokuapp.com") {
+        window.location == "https://tartanxfit.herokuapp.com/") {
       FB.api('/me?fields=id,name,email', function(response) {
         console.log('Successful login for: ' + response.name);
         console.log(response);
