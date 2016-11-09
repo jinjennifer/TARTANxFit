@@ -14,13 +14,13 @@ $(function() {
 });
 
 // PushCrew notification
-(function(p,u,s,h){
-    p._pcq=p._pcq||[];
-    p._pcq.push(['_currentTime',Date.now()]);
-    s=u.createElement('script');
-    s.type='text/javascript';
-    s.async=true;
-    s.src='https://cdn.pushcrew.com/js/244437e6d1b60985b3819946fa71d802.js';
-    h=u.getElementsByTagName('script')[0];
-    h.parentNode.insertBefore(s,h);
-})(window,document);
+// (function(p,u,s,h){
+//     p._pcq=p._pcq||[];
+//     p._pcq.push(['_currentTime',Date.now()]);
+//     s=u.createElement('script');
+//     s.type='text/javascript';
+//     s.async=true;
+//     s.src='https://cdn.pushcrew.com/js/244437e6d1b60985b3819946fa71d802.js';
+//     h=u.getElementsByTagName('script')[0];
+//     h.parentNode.insertBefore(s,h);
+// })(window,document);
