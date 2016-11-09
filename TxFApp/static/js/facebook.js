@@ -21,7 +21,15 @@ function statusChangeCallback(response) {
         window.location == "http://tartanxfit.herokuapp.com/" ||
         window.location == "https://tartanxfit.herokuapp.com/login" ||
         window.location == "https://tartanxfit.herokuapp.com") {
-      window.location = "/schedule"; 
+      FB.api('/me?fields=id,name,email', function(response) {
+        console.log('Successful login for: ' + response.name);
+        console.log(response);
+        facebook_id = response.id;
+        facebook_name = response.name;
+        facebook_email = response.email;
+        var accountURL = "/account/" + facebook_email;
+        window.location = accountURL;
+      });
     }
   } else if (response.status === 'not_authorized') {
     // The person is logged into Facebook, but not your app.
@@ -76,7 +84,15 @@ window.fbAsyncInit = function() {
         window.location == "http://tartanxfit.herokuapp.com/" ||
         window.location == "https://tartanxfit.herokuapp.com/login" ||
         window.location == "https://tartanxfit.herokuapp.com") {
-      window.location = "/schedule"; 
+      FB.api('/me?fields=id,name,email', function(response) {
+        console.log('Successful login for: ' + response.name);
+        console.log(response);
+        facebook_id = response.id;
+        facebook_name = response.name;
+        facebook_email = response.email;
+        var accountURL = "/account/" + facebook_email;
+        window.location = accountURL;
+      });
     }
   });
 
