@@ -84,6 +84,7 @@ def signup(request):
 
 def schedule(request, date=datetime.date.today()):
 	context = {}
+	
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
 	if isinstance(date, datetime.date): #default date of today
 		selected_date = date.strftime("%Y-%m-%d")
@@ -130,10 +131,16 @@ def schedule(request, date=datetime.date.today()):
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 	context['request_user_id'] = request.user.id
+
 	# Find the user in the database from Facebook login
 	facebook_user = User.objects.filter(email=facebook_email).first()
+	
+	# Log the user into the system database
+	user = auth.authenticate(username=facebook_user.username, password="test1234")
+	auth.login(request, user)
+
 	userprof = Profile.objects.filter(user=facebook_user).first()
-	print(facebook_user);
+
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
