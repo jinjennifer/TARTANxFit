@@ -149,8 +149,8 @@ function displayFriends() {
     facebook_friends = response.data;
 
     for (i = 0; i < facebook_friends.length; i++) {
-      name = response.data[i].name;
-      id = response.data[i].id;
+      name = facebook_friends[i].name;
+      id = facebook_friends[i].id;
 
       pic_url = "";
       FB.api('/' + id + '/picture?type=large', function(response) {

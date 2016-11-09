@@ -135,8 +135,6 @@ def schedule(request, date=datetime.date.today()):
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 
-	print(request.session.get('user_id'))
-
 	if not 'user_id' in request.session:
 		# Find the user in the database from Facebook login
 		facebook_user = User.objects.filter(email=facebook_email).first()
@@ -145,6 +143,8 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	else:
 		facebook_user = User.objects.filter(id=request.session.get('user_id')).first()
 		context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
+
+	print(request.session.get('user_id'))
 
 	# create a new user if one does not already exist
 	if not User.objects.filter(email=facebook_email).exists():
@@ -170,6 +170,8 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended='True').order_by("-course__date", "course__class_schedule__start_time")[:5]
 	context['visits'] = len(context['attended'])
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.session.get('user_id')])
+
+	print(context)
 
 	if request.method == "POST":
 		user = facebook_user
