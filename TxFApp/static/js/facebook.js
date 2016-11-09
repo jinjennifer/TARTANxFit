@@ -119,10 +119,10 @@ function testAPI() {
     facebook_email = response.email;
   });
 
-  FB.api('/me/friends', function(response) {
-    console.log("Facebook friends: ");
-    console.log(response);
-  });
+  // Display Facebook friends on the class details page only
+  if (window.location.href.indexOf("classes") != -1) {
+    displayFriends();
+  }
 }
 
 // Log out of Facebook when user clicks log out button
@@ -142,4 +142,22 @@ function facebookShare() {
 function getFacebookUserAccount() {
   var accountURL = "/account/" + facebook_email;
   window.location = accountURL;
+}
+
+function displayFriends() {
+  FB.api('/me/friends', function(response) {
+    facebook_friends = response.data;
+
+    for (i = 0; i < facebook_friends.length; i++) {
+      name = response.data[i].name;
+      id = response.data[i].id;
+
+      FB.api('/' + id + '/picture?type=large', function(response) {
+        $("#friends-attending").append('<div class="col-xs-3" id="friend-0">\
+            <img alt="user" class="user-pictures" src="' + response.data.url + '">\
+            <a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>\
+          </div>');
+      });
+    }
+  });
 }
