@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 import datetime
 # Create your models here.
@@ -32,6 +33,9 @@ class Profile(models.Model):
         choices = ROLES,
         default = 'student')
     points = models.IntegerField(default=0)
+
+    def num_points(self):
+        return ClassAttendance.objects.all().filter(user=self.user,attended=True).aggregate(Sum("course__class_schedule__points")).get("course__class_schedule__points__sum")
 
 class CompetitionGroup(models.Model):
     name = models.CharField(max_length=150)

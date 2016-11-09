@@ -150,6 +150,8 @@ def account(request):
 		elif form_type == "attended":
 			c.attended = True
 			c.save()
+			user.profile.points += c.course.class_schedule.points
+			user.profile.save()
 			messages.success(request, "You attended!")
 		return HttpResponseRedirect('/account')
 	return render(request, 'TxFApp/account.html', context)
