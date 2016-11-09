@@ -127,10 +127,13 @@ def schedule(request, date=datetime.date.today()):
 	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
 
-def account(request):
+def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 	context['request_user_id'] = request.user.id
-	userprof = Profile.objects.filter(user=request.user).first()
+	# Find the user in the database from Facebook login
+	facebook_user = User.objects.filter(email=facebook_email).first()
+	userprof = Profile.objects.filter(user=facebook_user).first()
+	print(facebook_user);
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points

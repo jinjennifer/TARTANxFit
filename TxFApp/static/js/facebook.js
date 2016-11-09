@@ -1,6 +1,7 @@
-var friends;
-var id;
-var name;
+var facebook_friends;
+var facebook_id;
+var facebook_name;
+var facebook_email;
 
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
@@ -15,11 +16,11 @@ function statusChangeCallback(response) {
 
     // Redirect only if you are on the login page but are already logged in
     if (window.location == "http://localhost:8000/login" || 
-      window.location == "http://localhost:8000/" ||
-      window.location == "http://tartanxfit.herokuapp.com/login" || 
-      window.location == "http://tartanxfit.herokuapp.com/" ||
-      window.location == "https://tartanxfit.herokuapp.com/login" ||
-      window.location == "https://tartanxfit.herokuapp.com") {
+        window.location == "http://localhost:8000/" ||
+        window.location == "http://tartanxfit.herokuapp.com/login" || 
+        window.location == "http://tartanxfit.herokuapp.com/" ||
+        window.location == "https://tartanxfit.herokuapp.com/login" ||
+        window.location == "https://tartanxfit.herokuapp.com") {
       window.location = "/schedule"; 
     }
   } else if (response.status === 'not_authorized') {
@@ -70,11 +71,11 @@ window.fbAsyncInit = function() {
   FB.Event.subscribe('auth.login', function(){
     // Redirect only if you are on the login page and just logged in
     if (window.location == "http://localhost:8000/login" || 
-      window.location == "http://localhost:8000/" ||
-      window.location == "http://tartanxfit.herokuapp.com/login" || 
-      window.location == "http://tartanxfit.herokuapp.com/" ||
-      window.location == "https://tartanxfit.herokuapp.com/login" ||
-      window.location == "https://tartanxfit.herokuapp.com") {
+        window.location == "http://localhost:8000/" ||
+        window.location == "http://tartanxfit.herokuapp.com/login" || 
+        window.location == "http://tartanxfit.herokuapp.com/" ||
+        window.location == "https://tartanxfit.herokuapp.com/login" ||
+        window.location == "https://tartanxfit.herokuapp.com") {
       window.location = "/schedule"; 
     }
   });
@@ -94,13 +95,16 @@ window.fbAsyncInit = function() {
 // successful.  See statusChangeCallback() for when this call is made.
 function testAPI() {
   console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', function(response) {
+  FB.api('/me?fields=id,name,email', function(response) {
     console.log('Successful login for: ' + response.name);
-    id = response.id;
-    name = response.name;
+    console.log(response);
+    facebook_id = response.id;
+    facebook_name = response.name;
+    facebook_email = response.email;
   });
 
   FB.api('/me/friends', function(response) {
+    console.log("Facebook friends: ");
     console.log(response);
   });
 }
@@ -115,6 +119,11 @@ function facebookLogout() {
 function facebookShare() {
   FB.ui({
     method: 'share',
-    href: 'https://developers.facebook.com/docs/',
+    href: window.location,
   }, function(response){});
+}
+
+function getFacebookUserAccount() {
+  var accountURL = "/account/" + facebook_email;
+  window.location = accountURL;
 }
