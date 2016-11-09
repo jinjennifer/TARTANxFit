@@ -127,6 +127,10 @@ table{
   display: block !important;
 }
 
+.navbar-nav .active {
+  background-color: #b7b6b6;
+}
+
 /* Slideout.js styles */
 body {
   width: 100%;
@@ -194,4 +198,8 @@ body {
 
 .btn-lg {
   margin-top: 5px;
+}
+
+.empty-placeholder {
+  height: 180px;
 }
