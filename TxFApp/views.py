@@ -85,17 +85,17 @@ def signup(request):
 
 def schedule(request, date=datetime.date.today()):
 	context = {}
-
 	user = User.objects.filter(id=request.session.get('user_id')).first()
-	
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
 	if isinstance(date, datetime.date): #default date of today
 		selected_date = date.strftime("%Y-%m-%d")
 	else:
 		selected_date = date
 		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	dow = int(date.strftime("%w")) + 1 % 7
-	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
+	if selected_date == datetime.date.today().strftime("%Y-%m-%d") or isinstance(date, datetime.date):#if today, show only classes remaining
+		classes = Class.objects.filter(date=date, class_schedule__end_time__gte = datetime.datetime.now().time()).order_by('class_schedule__start_time')
+	else:
+		classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
 
@@ -113,24 +113,29 @@ def schedule(request, date=datetime.date.today()):
 	#rsvping for classes
 	if request.method == "POST":
 		user = User.objects.filter(id=request.session.get('user_id')).first()
-		print(user.id)
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
 		try: #user has rsvped, unrsvp
-			c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
-			class_name = c.course.class_schedule.class_type.name
-			c.delete()
-			messages.success(request, "You have cancelled your RSVP for %s."% class_name)
+			unrsvp(request, user, class_id)
 			return HttpResponseRedirect('/schedule/%s/' % date)
 		except: #user rvsp
-			c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
-			c.save()
-			class_name = c.course.class_schedule.class_type.name
-			messages.success(request, "You have RSVP'd for %s." % class_name )
+			rsvp(request, user, class_id)
 			return HttpResponseRedirect('/schedule/%s/' % date)
 
 	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
+
+def unrsvp(request, user, class_id):
+	c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
+	class_name = c.course.class_schedule.class_type.name
+	c.delete()
+	messages.success(request, "You have cancelled your RSVP for %s."% class_name)
+
+def rsvp(request, user, class_id):
+	c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
+	c.save()
+	class_name = c.course.class_schedule.class_type.name
+	messages.success(request, "You have RSVP'd for %s." % class_name )
 
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
@@ -180,9 +185,7 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 		form_type = request.POST.get('type', '')
 		c = ClassAttendance.objects.filter(user=user, course=class_id)[0]
 		if form_type == "cancel":
-			class_name = c.course.class_schedule.class_type.name
-			c.delete()
-			messages.success(request, "You have cancelled your RSVP for %s."% class_name)
+			unrsvp(request, user, class_id)
 		elif form_type == "attended":
 			c.attended = True
 			c.save()
@@ -195,11 +198,27 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 	return render(request, 'TxFApp/account.html', context)
 
 def details(request, class_id):
+	user = User.objects.filter(id=request.session.get('user_id')).first()
 	context = {}
 	days = dict(DAYS_OF_WEEK)
 	try:
-		groupx = ClassSchedule.objects.get(pk=class_id)
-		context['day'] = days.get(int(groupx.day_of_week))
-	except GroupX.DoesNotExist:
+		context['class'] = Class.objects.get(pk=class_id)
+		context['day'] = days.get(int(context['class'].class_schedule.day_of_week))
+		context['yet_to_happened'] = datetime.date.today() <= context['class'].date
+		try:
+			context['already_rsvped'] = ClassAttendance.objects.get(user=user, course_id = class_id)
+		except:
+			context['already_rsvped'] = False
+	except context['class'].class_schedule.DoesNotExist:
 		raise Http404("GroupX Class Does Not Exist")
-	return render(request, 'TxFApp/details.html', {'groupx':groupx, 'context':context})
+	if request.method == "POST":
+		user = User.objects.filter(id=request.session.get('user_id')).first()
+		class_id = request.POST.get('class_id', '')
+		date = request.POST.get('date','')
+		try: #user has rsvped, unrsvp
+			unrsvp(request, user, class_id)
+			return HttpResponseRedirect('/classes/%s/' % class_id)
+		except: #user rvsp
+			rsvp(request, user, class_id)
+			return HttpResponseRedirect('/classes/%s/' % class_id)
+	return render(request, 'TxFApp/details.html', context)

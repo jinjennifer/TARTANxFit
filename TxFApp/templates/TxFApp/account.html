@@ -41,7 +41,7 @@
 <div class="list-group">
 	{% for rsvp in rsvps %}
     {% with rsvp.course.class_schedule as c %}
-        <a href="/classes/{{ c.id }}/" class="list-group-item">
+        <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">
 			<h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
 			<div class="row">
 			<p class="list-group-item-text col-xs-8"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
@@ -73,7 +73,7 @@
 <div class="list-group">
 	{% for class in attended %}
 	{% with class.course.class_schedule as c %}
-        <a href="/classes/{{ class.course.class_schedule.id }}/" class="list-group-item">
+        <a href="/classes/{{ class.course.id }}/" class="list-group-item">
 			<h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
 			<p class="list-group-item-text"><i class="fa fa-calendar icon"></i> {{class.course.date}} <br>
 			<i class="fa fa-clock-o icon"></i> {{c.start_time }} - {{c.end_time}} </p>

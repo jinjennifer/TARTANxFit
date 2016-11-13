@@ -16,7 +16,7 @@
 <div class="list-group">
     {% for cl in classes %}
     {% with cl.class_schedule as c %}
-        <a href="/classes/{{ c.id }}/" class="list-group-item">
+        <a href="/classes/{{ cl.id }}/" class="list-group-item">
             <h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
             <div class="row">
                 <p class="list-group-item-text col-xs-5">
@@ -47,6 +47,8 @@
             </div>
         </a>
     {% endwith %}
-{% endfor %}
+    {% empty %}
+        <p>There are no more classes for today. Check out classes later in the week!</p>
+    {% endfor %}
 </div>
 {% endblock %}
