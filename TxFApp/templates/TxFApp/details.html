@@ -65,6 +65,18 @@
     <!-- Will be populated by facebook.js -->
 </div>
 
+{% if role == 'admin' %}
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Students Attending</h3>
+    </div>
+</div>
+<br>
+<div class="row" id="students-attending">
+
+</div>
+{% endif %}
+
 <div class="empty-placeholder">
 </div>
 {% endblock %}
