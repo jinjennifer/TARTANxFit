@@ -2,6 +2,7 @@ var facebook_friends;
 var facebook_id;
 var facebook_name;
 var facebook_email;
+var counter = 0;
 
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
@@ -146,20 +147,30 @@ function getFacebookUserAccount() {
 
 function displayFriends() {
   FB.api('/me/friends', function(response) {
-    facebook_friends = response.data;
+    displayFriendsPictures(response);
+  });
+}
 
-    for (i = 0; i < facebook_friends.length; i++) {
+function displayFriendsPictures(response) {
+  facebook_friends = response.data;
+
+  for (i = 0; i < facebook_friends.length; i++) {
       name = facebook_friends[i].name;
       id = facebook_friends[i].id;
 
+      $("#friends-attending").append('<div class="col-xs-3" id="friend-' + i + '">\
+          <a href="https://www.facebook.com/' + id + '" class="center" id="friend-' + i + '" >' + name + '</p>\
+        </div>');
+
       FB.api('/' + id + '/picture?type=large', function(response) {
         pic_url = response.data.url;
-        $("#friends-attending").append('<div class="col-xs-3">\
-          <img alt="user" class="user-pictures" src="' + pic_url + '">\
-          </div>');
+        displayPictureHelper(response);
       });
-
-      $("#friends-attending").last().append('<a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>');
     }
-  });
+}
+
+function displayPictureHelper(response) {
+  console.log(counter);
+  $("#friend-" + counter).prepend('<img alt="user" class="user-pictures" src="' + pic_url + '"><br>');
+  counter++;
 }
