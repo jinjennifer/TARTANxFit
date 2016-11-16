@@ -2,7 +2,7 @@ var facebook_friends;
 var facebook_id;
 var facebook_name;
 var facebook_email;
-var counter = 0;
+var friends_counter = 0;
 
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
@@ -152,14 +152,14 @@ function displayFriends() {
 }
 
 function displayFriendsPictures(response) {
-  facebook_friends = response.data;
+  var facebook_friends = response.data;
 
   for (i = 0; i < facebook_friends.length; i++) {
       name = facebook_friends[i].name;
       id = facebook_friends[i].id;
 
       $("#friends-attending").append('<div class="col-xs-3" id="friend-' + i + '">\
-          <a href="https://www.facebook.com/' + id + '" class="center" id="friend-' + i + '" >' + name + '</p>\
+          <a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>\
         </div>');
 
       FB.api('/' + id + '/picture?type=large', function(response) {
@@ -170,7 +170,6 @@ function displayFriendsPictures(response) {
 }
 
 function displayPictureHelper(response) {
-  console.log(counter);
-  $("#friend-" + counter).prepend('<img alt="user" class="user-pictures" src="' + pic_url + '"><br>');
-  counter++;
+  $("#friend-" + friends_counter).prepend('<img alt="user" class="user-pictures" src="' + pic_url + '"><br>');
+  friends_counter++;
 }
