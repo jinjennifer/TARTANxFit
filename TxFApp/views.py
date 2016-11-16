@@ -215,6 +215,11 @@ def details(request, class_id):
 		context['role'] = userprof.role
 
 	days = dict(DAYS_OF_WEEK)
+
+	# Get the students attending the class if user is an admin
+	if userprof.role == "admin":
+		context['students'] = User.objects.all()
+
 	try:
 		context['class'] = Class.objects.get(pk=class_id)
 		context['day'] = days.get(int(context['class'].class_schedule.day_of_week))
@@ -225,6 +230,7 @@ def details(request, class_id):
 			context['already_rsvped'] = False
 	except context['class'].class_schedule.DoesNotExist:
 		raise Http404("GroupX Class Does Not Exist")
+
 	if request.method == "POST":
 		user = User.objects.filter(id=request.session.get('user_id')).first()
 		class_id = request.POST.get('class_id', '')

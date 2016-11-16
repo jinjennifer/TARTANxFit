@@ -40,8 +40,6 @@
         {% endif %}
         {% endif %}
 
-
-
 	</div>
 </div>
 <div class="row">
@@ -71,38 +69,37 @@
         <h3>Students Attending</h3>
     </div>
 </div>
-<br>
 <div class="row" id="students-attending">
-    <div class="list-group">
-        {% for class in classes %}
-        {% with class.course.class_schedule as c %}
-            <a href="/classes/{{ class.course.id }}/" class="list-group-item">
-                <h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
-                <div class="row">
-                <p class="list-group-item-text col-xs-8"><i class="fa fa-calendar icon"></i> {{class.course.date}} <br>
-                <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}} </p>
-            {% if class.course.has_occurred %}
-            <form class="list-group-item-text col-xs-4" action="/account" method="post">
-                <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
-                <input name="type" type="hidden" value="attended"/>
-                    <button id="rsvpButton" type ="submit" class='btn btn-success'><i class="fa fa-check fa-lg"></i> I attended!</button>
-                {% csrf_token %}
-            </form>
-            {% else %} <!-- hasnt occured, option to cancel class -->
-                <button id="unrsvpButton" type="submit" class='btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel Class</button>
-            {% endif %}
-        </div>
-            </a>
-        {% endwith %}
-        {% empty %}
-            <div class="col-xs-12">
-        <p>You are currently not teaching any Group X classes. Add a new class below.</p>
-    <div>
-        {% endfor %}
-    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead> 
+                <tr> 
+                    <th>#</th> 
+                    <th>First Name</th> 
+                    <th>Last Name</th> 
+                    <th>Email</th> 
+                </tr> 
+            </thead> 
 
+            <tbody> 
+                {% for student in students %}
+                    <tr> 
+                        <th scope=row>{{ forloop.counter }}</th> 
+                        <td>{{student.first_name}}</td> 
+                        <td>{{student.last_name}}</td> 
+                        <td>{{student.email}}</td> 
+                    </tr>
+                {% empty %}
+                    <div class="col-xs-12">
+                        <p>There are currently no students attending this class.</p>
+                    <div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endif %}
+
 
 <div class="empty-placeholder">
 </div>
