@@ -1,0 +1,19 @@
+{
+  "name": "TARTANxFit",
+  "description": "TARTANxFit",
+  "version": "1.0",
+  "permissions": [
+    "tabs", "notifications", "http://*/*", "https://*/*", "file://*/*.html"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["popup.js"]
+    }
+  ],
+  "browser_action": {
+    "default_title": "TARTANxFit quick options",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}
