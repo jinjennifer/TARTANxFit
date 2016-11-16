@@ -207,7 +207,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 
 def details(request, class_id):
 	context = {}
-	
+
 	user = User.objects.filter(id=request.session.get('user_id')).first()
 	userprof = Profile.objects.filter(user=user).first()
 
@@ -243,44 +243,10 @@ def admin(request, date=datetime.date.today()):
 	user = User.objects.filter(id=request.session.get('user_id')).first()
 	userprof = Profile.objects.filter(user=user).first()
 
+	context['classes'] = ClassSchedule.objects.filter(instructor=userprof)
+
 	if userprof is not None:
 		context['role'] = userprof.role
 
-	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
-	if isinstance(date, datetime.date): #default date of today
-		selected_date = date.strftime("%Y-%m-%d")
-	else:
-		selected_date = date
-		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	if selected_date == datetime.date.today().strftime("%Y-%m-%d") or isinstance(date, datetime.date):#if today, show only classes remaining
-		classes = Class.objects.filter(date=date, class_schedule__end_time__gte = datetime.datetime.now().time()).order_by('class_schedule__start_time')
-	else:
-		classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
-	context['classes'] = classes
-	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
-
-	#for schedule header
-	dates = []
-	for i in range(5):
-		d = datetime.date.today() + datetime.timedelta(days=i)
-		if i == 0:
-			dates.append((d.strftime("%b"),d.day,d.strftime("Today"), d.strftime("%Y-%m-%d")))
-		else:
-			dates.append((d.strftime("%b"),d.day,d.strftime("%a"),d.strftime("%Y-%m-%d")))
-	context['dates'] = dates
-	context['selected_date'] = selected_date
-
-	#rsvping for classes
-	if request.method == "POST":
-		user = User.objects.filter(id=request.session.get('user_id')).first()
-		class_id = request.POST.get('class_id', '')
-		date = request.POST.get('date','')
-		try: #user has rsvped, unrsvp
-			unrsvp(request, user, class_id)
-			return HttpResponseRedirect('/schedule/%s/' % date)
-		except: #user rvsp
-			rsvp(request, user, class_id)
-			return HttpResponseRedirect('/schedule/%s/' % date)
-
-	context['active_menu_link'] = "schedule"
-	return render(request, 'TxFApp/schedule.html', context)
+	context['active_menu_link'] = "admin"
+	return render(request, 'TxFApp/admin.html', context)

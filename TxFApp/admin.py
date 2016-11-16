@@ -15,6 +15,6 @@ class UserAdmin(UserAdmin):
 
 admin.site.register(CompetitionGroup)
 admin.site.register(ClassType)
-admin.site.register(ClassSchedule)
+admin.site.register(ClassSchedule, ClassScheduleAdmin)
 admin.site.register(Class)
 admin.site.register(ClassAttendance)

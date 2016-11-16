@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from django.contrib import admin
 import datetime
-# Create your models here.
 
 ROLES = (
     ('admin', 'Administrator'), 
@@ -19,7 +19,6 @@ DAYS_OF_WEEK = (
     (6, 'Friday'),
     (7, 'Saturday'),
 )
-
 
 class Profile(models.Model):
     #we are using from Django's User class, and it has the following fields:
@@ -57,6 +56,13 @@ class ClassSchedule(models.Model):
     points = models. IntegerField()
     class_type = models.ForeignKey(ClassType)
     instructor = models.ForeignKey(Profile)
+
+class ClassScheduleAdmin(admin.ModelAdmin):
+    def instructor_name(self, instance):
+        return instance.instructor.user.first_name + " " + instance.instructor.user.last_name
+
+    # Change how class schedule objects are displayed in list format in the admin interface
+    list_display = ('day_of_week', 'location', 'start_time', 'end_time', 'points', 'class_type', 'instructor_name')
     
 class Class(models.Model):
     class Meta:
