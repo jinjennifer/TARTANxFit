@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin-dashboard', views.admin, name='admin'),
     url(r'^leaderboard', views.leaderboard, name='leaderboard'),
     url(r'^competitions/(?P<competition_id>[0-9]+)/$', views.competitions, name='competitions'),
+    url(r'^leaderboard', views.leaderboard, name='leaderboard'),
+    url(r'^new-group', views.new_group, name='new_group'),
 ]
