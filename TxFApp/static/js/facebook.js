@@ -152,17 +152,14 @@ function displayFriends() {
       name = facebook_friends[i].name;
       id = facebook_friends[i].id;
 
-      pic_url = "";
       FB.api('/' + id + '/picture?type=large', function(response) {
         pic_url = response.data.url;
+        $("#friends-attending").append('<div class="col-xs-3">\
+          <img alt="user" class="user-pictures" src="' + pic_url + '">\
+          </div>');
       });
 
-      console.log(pic_url);
-
-      $("#friends-attending").append('<div class="col-xs-3">\
-          <img alt="user" class="user-pictures" src="' + pic_url + '">\
-          <a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>\
-        </div>');
+      $("#friends-attending").last().append('<a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>');
     }
   });
 }
