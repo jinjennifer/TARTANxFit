@@ -259,3 +259,11 @@ a.date:hover, a.date:visited, a.date {
 .active a.date:visited {
   color:#990000;
 }
+
+.competition {
+  padding-bottom: 20px;
+}
+
+.comp-desc {
+  margin-top: 5px;
+}

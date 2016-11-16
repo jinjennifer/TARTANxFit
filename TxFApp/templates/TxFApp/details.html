@@ -27,7 +27,7 @@
         <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
             <input name="date" type="hidden" value="{{class.date}}"/>
             <input name="class_id" type="hidden" value="{{class.id}}"/>
-                <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> Cancel RSVP</button>
+                <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
             {% csrf_token %}
         </form>
         {% else %}
