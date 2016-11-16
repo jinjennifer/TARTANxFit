@@ -1,0 +1,21 @@
+{% extends "TxFApp/base.html" %}
+{% block content %}
+
+<h3> CMU Leaderboard </h3>
+<ul class="list-group">
+	{% for user in users %}
+		{% if user.user_id == uid %}
+		<li class="list-group-item current-user">
+			<span class="points"><i class="fa fa-star icon" ></i>{{user.points}}</span>
+			{{forloop.counter}}. {{user.user.first_name}} {{user.user.last_name}}
+		</li>
+		{% else %}
+		<li class="list-group-item">
+			<span class="points"><i class="fa fa-star icon" ></i>{{user.points}}</span>
+			{{forloop.counter}}. {{user.user.first_name}} {{user.user.last_name}}
+		</li>
+		{% endif %}
+	{% endfor %}
+</ul>
+
+{% endblock %}
