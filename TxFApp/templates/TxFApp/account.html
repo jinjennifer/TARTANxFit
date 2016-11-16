@@ -50,14 +50,14 @@
 	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
 	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
 			<input name="type" type="hidden" value="attended"/>
-	            <button id="rsvpButton" type ="submit" class='btn btn-success'><i class="fa fa-check fa-lg"></i> I attended!</button>
+	            <button id="rsvpButton" type ="submit" class='btn btn-success points'><i class="fa fa-check fa-lg"></i> I ATTENDED!</button>
 	        {% csrf_token %}
 	    </form>
 	    {% else %} <!-- hasnt occured, option to cancel rsvp -->
 	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
 	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
 	        <input name="type" type="hidden" value="cancel"/>
-	            <button id="unrsvpButton" type ="submit" class='btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel RSVP</button>
+	            <button id="unrsvpButton" type ="submit" class='btn btn-danger points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
 	        {% csrf_token %}
 	    </form>
 	    {% endif %}
