@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^classes/(?P<class_id>[0-9]+)/$', views.details, name='details'),
     url(r'^schedule/(?P<date>\d{4}-\d{2}-\d{2})/$', views.schedule, name='schedule'),
     url(r'^schedule', views.schedule, name='schedule'),
+    url(r'^leaderboard', views.leaderboard, name='leaderboard'),
 ]

@@ -222,3 +222,10 @@ def details(request, class_id):
 			rsvp(request, user, class_id)
 			return HttpResponseRedirect('/classes/%s/' % class_id)
 	return render(request, 'TxFApp/details.html', context)
+
+def leaderboard(request):
+	context = {}
+	context['uid'] = request.session.get('user_id')
+	context['users'] = Profile.objects.exclude(role='instructor').order_by('-points')
+	print(context)
+	return render(request, 'TxFApp/leaderboard.html', context)
