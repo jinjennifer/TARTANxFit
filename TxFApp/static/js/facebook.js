@@ -96,7 +96,6 @@ window.fbAsyncInit = function() {
       });
     }
   });
-
 };
 
 // Load the SDK asynchronously
