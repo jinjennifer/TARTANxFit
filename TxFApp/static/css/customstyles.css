@@ -218,3 +218,21 @@ body {
 .points {
   float: right;
 }
+
+.navbar-default {
+  background-color: #990000;
+  border-color: transparent;
+  border-radius: 0px;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+}
+
+.navbar .navbar-toggle .icon-bar {
+  background-color: #FFF;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+  background-color: black;
+}
