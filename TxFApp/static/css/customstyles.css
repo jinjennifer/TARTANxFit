@@ -129,6 +129,7 @@ table{
 
 .navbar-nav .active {
   background-color: #b7b6b6;
+  color: black !important;
 }
 
 /* Slideout.js styles */
@@ -169,7 +170,7 @@ body {
 
 #menu {
   text-align: center;
-  background-color: #ddd;
+  background-color: rgba(0, 0, 0, 0.78);
 }
 
 #menu header {
@@ -180,7 +181,7 @@ body {
 
 #menu a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 #menu li:first-child { 
@@ -189,6 +190,11 @@ body {
 
 #menu li { 
   border-bottom: 1.5px solid black;
+}
+
+.nav>li>a:hover{
+  background-color: #990000;
+  color: black;
 }
 
 .navbar-nav > li > a {
