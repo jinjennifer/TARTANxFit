@@ -140,7 +140,7 @@ def rsvp(request, user, class_id):
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 
-	# create a new user if one does not already exist
+	# create a new user in the database if one does not already exist with the facebook email
 	if not User.objects.filter(email=facebook_email).exists():
 		user = User.objects.create(username = facebook_email, first_name = "User", last_name = "User", email = facebook_email)
 		# set the default password for all users to "test1234" so it works with authenticate
