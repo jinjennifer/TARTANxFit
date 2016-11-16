@@ -137,12 +137,14 @@ def rsvp(request, user, class_id):
 	class_name = c.course.class_schedule.class_type.name
 	messages.success(request, "You have RSVP'd for %s." % class_name )
 
-def account(request, facebook_email="xxx3maggie@aim.com"):
+def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User User"):
 	context = {}
 
 	# create a new user in the database if one does not already exist with the facebook email
 	if not User.objects.filter(email=facebook_email).exists():
-		user = User.objects.create(username = facebook_email, first_name = "User", last_name = "User", email = facebook_email)
+		facebook_name_array = facebook_name.split()
+
+		user = User.objects.create(username = facebook_email, first_name = facebook_name_array[0], last_name = facebook_name_array[1], email = facebook_email)
 		# set the default password for all users to "test1234" so it works with authenticate
 		user.set_password("test1234")
 		user.save()

@@ -28,7 +28,7 @@ function statusChangeCallback(response) {
         facebook_id = response.id;
         facebook_name = response.name;
         facebook_email = response.email;
-        var accountURL = "/account/" + facebook_email + '/';
+        var accountURL = "/account/" + facebook_email + '/' + facebook_name + '/';
         window.location = accountURL;
       });
     }
@@ -91,7 +91,7 @@ window.fbAsyncInit = function() {
         facebook_id = response.id;
         facebook_name = response.name;
         facebook_email = response.email;
-        var accountURL = "/account/" + facebook_email + '/';
+        var accountURL = "/account/" + facebook_email + '/' + facebook_name + '/';
         window.location = accountURL;
       });
     }
