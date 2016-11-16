@@ -70,33 +70,35 @@
     </div>
 </div>
 <div class="row" id="students-attending">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead> 
-                <tr> 
-                    <th>#</th> 
-                    <th>First Name</th> 
-                    <th>Last Name</th> 
-                    <th>Email</th> 
-                </tr> 
-            </thead> 
-
-            <tbody> 
-                {% for student in students %}
+    {% if students.count > 0 %}
+        <div class="table-responsive col-xs-12">
+            <table class="table table-striped">
+                <thead> 
                     <tr> 
-                        <th scope=row>{{ forloop.counter }}</th> 
-                        <td>{{student.first_name}}</td> 
-                        <td>{{student.last_name}}</td> 
-                        <td>{{student.email}}</td> 
-                    </tr>
-                {% empty %}
-                    <div class="col-xs-12">
-                        <p>There are currently no students attending this class.</p>
-                    <div>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                        <th>#</th> 
+                        <th>First Name</th> 
+                        <th>Last Name</th> 
+                        <th>Email</th> 
+                    </tr> 
+                </thead> 
+
+                <tbody> 
+                    {% for student in students %}
+                        <tr> 
+                            <th scope=row>{{ forloop.counter }}</th> 
+                            <td>{{student.first_name}}</td> 
+                            <td>{{student.last_name}}</td> 
+                            <td>{{student.email}}</td> 
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="col-xs-12">
+            <p>There are currently no students attending this class.</p>
+        <div>
+    {% endif %}
 </div>
 {% endif %}
 
