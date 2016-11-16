@@ -281,6 +281,7 @@ def new_group(request):
 			new_group = form.save(commit=False)
 			print(new_group)
 			new_group.save()
+			new_group.users.add(User.objects.get(id=request.session.get('user_id')))
 			print(context['form'])
 			messages.success(request, "Your group has been successfully created")
 			return HttpResponseRedirect('/account')
