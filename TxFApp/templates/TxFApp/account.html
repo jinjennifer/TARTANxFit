@@ -88,7 +88,7 @@
 <h4>My Competitions</h4>
 <div class="list-group">
 	{% for c in competitions %}
-        <a href="#" class="list-group-item">{{c.name}}</a>
+        <a href="/competitions/{{ c.id }}" class="list-group-item">{{c.name}}</a>
     {% endfor %}
     <a href="#" class="list-group-item list-group-item-success">Create New</a>
 </div>

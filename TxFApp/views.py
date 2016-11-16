@@ -227,5 +227,11 @@ def leaderboard(request):
 	context = {}
 	context['uid'] = request.session.get('user_id')
 	context['users'] = Profile.objects.exclude(role='instructor').order_by('-points')
-	print(context)
 	return render(request, 'TxFApp/leaderboard.html', context)
+
+def competitions(request, competition_id):
+	context = {}
+	context['members'] = User.objects.filter(competitiongroup__id=competition_id).order_by('-profile__points')
+	context['competition'] = CompetitionGroup.objects.filter(id=competition_id).first()
+	context['uid'] = request.session.get('user_id')
+	return render(request, 'TxFApp/competitions.html', context)

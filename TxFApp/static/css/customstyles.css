@@ -209,3 +209,12 @@ body {
   height: 80px;
   border-radius: 50px;
 }
+
+.current-user {
+  background-color: #f2dede;
+  font-weight: bold;
+}
+
+.points {
+  float: right;
+}
