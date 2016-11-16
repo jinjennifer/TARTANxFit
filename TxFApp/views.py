@@ -33,7 +33,7 @@ def login(request):
 			return HttpResponseRedirect('/login')
 		
 def logout(request):
-	# log the user out of the app locally
+	# log the user out of the app locally and clear the session
 	request.session.clear()
 	auth.logout(request)
 	messages.success(request, "You have successfully logged out.")
@@ -140,6 +140,17 @@ def rsvp(request, user, class_id):
 def account(request, facebook_email="xxx3maggie@aim.com"):
 	context = {}
 
+	# create a new user if one does not already exist
+	if not User.objects.filter(email=facebook_email).exists():
+		user = User.objects.create(username = facebook_email, first_name = "User", last_name = "User", email = facebook_email)
+		# set the default password for all users to "test1234" so it works with authenticate
+		user.set_password("test1234")
+		user.save()
+
+		# set role to student default in UserProfile subclass when creating a new account
+		userprofile = Profile.objects.create(user=user, role='student')
+		userprofile.save()
+
 	if not 'user_id' in request.session:
 		# Find the user in the database from Facebook login
 		facebook_user = User.objects.filter(email=facebook_email).first()
@@ -150,17 +161,6 @@ def account(request, facebook_email="xxx3maggie@aim.com"):
 		context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
 
 	print(request.session.get('user_id'))
-
-	# create a new user if one does not already exist
-	if not User.objects.filter(email=facebook_email).exists():
-		user = User.objects.create(username = facebook_email, first_name = "None", last_name = "None", email = facebook_email)
-		# set the default password for all users to "test1234" so it works with authenticate
-		user.set_password("test1234")
-		user.save()
-
-		# set role to student default in UserProfile subclass when creating a new account
-		userprofile = UserProfile.objects.create(user=user, role='student')
-		userprofile.save()
 
 	# Log the user into the system database
 	user = auth.authenticate(username=facebook_user.username, password="test1234")
