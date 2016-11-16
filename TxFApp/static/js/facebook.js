@@ -153,6 +153,8 @@ function displayFriends() {
 function displayFriendsPictures(response) {
   var facebook_friends = response.data;
 
+  console.log(facebook_friends);
+
   for (i = 0; i < facebook_friends.length; i++) {
     name = facebook_friends[i].name;
     id = facebook_friends[i].id;
