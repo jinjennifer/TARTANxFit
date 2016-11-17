@@ -218,7 +218,7 @@ def details(request, class_id):
 
 	# Get the students attending the class if user is an admin
 	if userprof.role == "admin":
-		context['students'] = User.objects.all()
+		context['students'] = User.objects.all() #TO DO JEN
 
 	try:
 		context['class'] = Class.objects.get(pk=class_id)
@@ -249,6 +249,7 @@ def admin(request, date=datetime.date.today()):
 	user = User.objects.filter(id=request.session.get('user_id')).first()
 	userprof = Profile.objects.filter(user=user).first()
 
+	# TO DO JEN
 	context['classes'] = ClassSchedule.objects.filter(instructor=userprof)
 
 	if userprof is not None:
