@@ -257,3 +257,36 @@ def admin(request, date=datetime.date.today()):
 
 	context['active_menu_link'] = "admin"
 	return render(request, 'TxFApp/admin.html', context)
+
+def leaderboard(request):
+	context = {}
+	context['uid'] = request.session.get('user_id')
+	context['users'] = Profile.objects.exclude(role='instructor').order_by('-points')
+	return render(request, 'TxFApp/leaderboard.html', context)
+
+def competitions(request, competition_id):
+	context = {}
+	context['members'] = User.objects.filter(competitiongroup__id=competition_id).order_by('-profile__points')
+	context['competition'] = CompetitionGroup.objects.filter(id=competition_id).first()
+	context['uid'] = request.session.get('user_id')
+	return render(request, 'TxFApp/competitions.html', context)
+
+def new_group(request):
+	context = {}
+	if request.method == "GET":
+		form = CompetitionGroupForm()
+	elif request.method == "POST":
+		form = CompetitionGroupForm(request.POST)
+		context['form'] = form
+		if form.is_valid():
+			new_group = form.save(commit=False)
+			print(new_group)
+			new_group.save()
+			new_group.users.add(User.objects.get(id=request.session.get('user_id')))
+			print(context['form'])
+			messages.success(request, "Your group has been successfully created")
+			return HttpResponseRedirect('/account')
+	else:
+		messages.error(request, "Your form input was invalid.")
+	
+	return render(request, 'TxFApp/new_group.html', {'form':form})

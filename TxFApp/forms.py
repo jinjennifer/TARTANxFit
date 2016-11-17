@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.forms import ModelChoiceField
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import CompetitionGroup
         
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -24,3 +25,8 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class CompetitionGroupForm(forms.ModelForm):
+    class Meta:
+        model = CompetitionGroup
+        fields = ('name', 'description', 'reward')
