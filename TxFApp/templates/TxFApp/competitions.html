@@ -17,12 +17,12 @@
 	{% for member in members %}
 		{% if member.id == uid %}
 		<li class="list-group-item current-user">
-			<span class="points"><i class="fa fa-star icon" ></i>{{member.profile.points}}</span>
+			<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
 			{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
 		</li>
 		{% else %}
 		<li class="list-group-item">
-			<span class="points"><i class="fa fa-star icon" ></i>{{member.profile.points}}</span>
+			<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
 			{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
 		</li>
 		{% endif %}
