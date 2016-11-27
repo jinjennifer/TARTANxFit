@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
 
 def login(request):
@@ -106,13 +107,23 @@ def schedule(request, date=datetime.date.today()):
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
 
 	#for schedule header
-	dates = []
-	for i in range(5):
+	days = []
+	for i in range(70):
 		d = datetime.date.today() + datetime.timedelta(days=i)
 		if i == 0:
-			dates.append((d.strftime("%b"),d.day,d.strftime("Today"), d.strftime("%Y-%m-%d")))
+			days.append((d.strftime("%b"),d.day,d.strftime("Today"), d.strftime("%Y-%m-%d")))
 		else:
-			dates.append((d.strftime("%b"),d.day,d.strftime("%a"),d.strftime("%Y-%m-%d")))
+			days.append((d.strftime("%b"),d.day,d.strftime("%a"),d.strftime("%Y-%m-%d")))
+	paginator = Paginator(days, 5) # Show 5 dates per page
+	page = request.GET.get('page')
+	try:
+		dates = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		dates = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		dates = paginator.page(paginator.num_pages)
 	context['dates'] = dates
 	context['selected_date'] = selected_date
 
