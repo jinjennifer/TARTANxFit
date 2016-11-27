@@ -22,7 +22,7 @@
 	</div>
 	<div class="col-xs-12 col-sm-4">
 		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
-        {% if yet_to_happened %}
+        {% if not class.has_occurred %}
         {% if already_rsvped %}
         <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
             <input name="date" type="hidden" value="{{class.date}}"/>

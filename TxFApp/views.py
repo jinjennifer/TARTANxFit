@@ -95,13 +95,11 @@ def schedule(request, date=datetime.date.today()):
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
 	if isinstance(date, datetime.date): #default date of today
 		selected_date = date.strftime("%Y-%m-%d")
-	else:
+	else: #other dates, just taking care of how date type is processed
 		selected_date = date
 		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	if selected_date == datetime.date.today().strftime("%Y-%m-%d") or isinstance(date, datetime.date):#if today, show only classes remaining
-		classes = Class.objects.filter(date=date, class_schedule__end_time__gte = datetime.datetime.now().time()).order_by('class_schedule__start_time')
-	else:
-		classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
+
+	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
 
@@ -223,7 +221,6 @@ def details(request, class_id):
 	try:
 		context['class'] = Class.objects.get(pk=class_id)
 		context['day'] = days.get(int(context['class'].class_schedule.day_of_week))
-		context['yet_to_happened'] = datetime.date.today() <= context['class'].date
 		try:
 			context['already_rsvped'] = ClassAttendance.objects.get(user=user, course_id = class_id)
 		except:

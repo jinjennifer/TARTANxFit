@@ -24,9 +24,6 @@
 }
 
 /*schedule css----------------------------------------- */
-/*.schedule tr, .schedule th{
-	border: 1px solid black;
-}*/
 
 .schedule tr th .active {
   border-bottom: 2px solid black;
@@ -75,6 +72,12 @@ th:hover {
 .large {
   font-size: 25px;
   margin-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  .rsvp-button-top-margin {
+    margin-top: 10px;
+  }
 }
 
 /*-------------------------------------------------- */
