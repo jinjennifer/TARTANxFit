@@ -96,13 +96,11 @@ def schedule(request, date=datetime.date.today()):
 	classTypes = ClassType.objects.filter(start_date__lt=date,end_date__gt=date)
 	if isinstance(date, datetime.date): #default date of today
 		selected_date = date.strftime("%Y-%m-%d")
-	else:
+	else: #other dates, just taking care of how date type is processed
 		selected_date = date
 		date = datetime.datetime.strptime(date,"%Y-%m-%d").date()
-	if selected_date == datetime.date.today().strftime("%Y-%m-%d") or isinstance(date, datetime.date):#if today, show only classes remaining
-		classes = Class.objects.filter(date=date, class_schedule__end_time__gte = datetime.datetime.now().time()).order_by('class_schedule__start_time')
-	else:
-		classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
+
+	classes = Class.objects.filter(date=date).order_by('class_schedule__start_time')
 	context['classes'] = classes
 	context['userRSVPs'] = ClassAttendance.objects.filter(user=user).values_list('course', flat=True)
 
@@ -211,7 +209,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 			user.profile.points += c.course.class_schedule.points
 			user.profile.save()
 			messages.success(request, "You attended!")
-		return HttpResponseRedirect('/account')
+		return HttpResponseRedirect('/schedule')
 
 	context['active_menu_link'] = "account"
 	return render(request, 'TxFApp/account.html', context)
@@ -223,18 +221,18 @@ def details(request, class_id):
 	userprof = Profile.objects.filter(user=user).first()
 
 	if userprof is not None:
-		context['role'] = userprof.role
-
+		role = userprof.role
+	else:
+		role = request.user.profile.role
 	days = dict(DAYS_OF_WEEK)
-
+	context["role"] = role
 	# Get the students attending the class if user is an admin
-	if userprof.role == "admin":
-		context['students'] = User.objects.all() #TO DO JEN
+	if role == "admin" or role == "instructor":
+		context['attendance'] = Class.objects.get(id=class_id).classattendance_set.all()
 
 	try:
 		context['class'] = Class.objects.get(pk=class_id)
 		context['day'] = days.get(int(context['class'].class_schedule.day_of_week))
-		context['yet_to_happened'] = datetime.date.today() <= context['class'].date
 		try:
 			context['already_rsvped'] = ClassAttendance.objects.get(user=user, course_id = class_id)
 		except:
@@ -252,21 +250,39 @@ def details(request, class_id):
 		except: #user rvsp
 			rsvp(request, user, class_id)
 			return HttpResponseRedirect('/classes/%s/' % class_id)
+
+	if Class.objects.get(id=class_id).cancelled:
+		messages.error(request, "This class has been cancelled.")
 	return render(request, 'TxFApp/details.html', context)
 
 def admin(request, date=datetime.date.today()):
 	context = {}
 
-	user = User.objects.filter(id=request.session.get('user_id')).first()
-	userprof = Profile.objects.filter(user=user).first()
+	# user = User.objects.filter(id=request.session.get('user_id')).first()
+	# userprof = Profile.objects.filter(user=user).first()
+	# if userprof is not None:
+	# 	context['role'] = userprof.role
+	# # TO DO JEN
 
-	# TO DO JEN
-	context['classes'] = ClassSchedule.objects.filter(instructor=userprof)
-
-	if userprof is not None:
-		context['role'] = userprof.role
-
+	if request.user.is_authenticated() and request.user.profile.role == "student":
+		messages.error(request, "You must be an admin to access the admin dashboard.")
+		return HttpResponseRedirect('/schedule')
+	classes = Class.objects.filter(date__gte=datetime.date.today()).order_by('date', '-class_schedule__start_time')
+	if request.user.profile.role == "instructor":
+		classes = classes.filter(class_schedule__instructor=request.user.profile.andrew_id)
+	classes = classes[:15]
+	context['classes'] = classes
 	context['active_menu_link'] = "admin"
+
+	# un/cancelling classesf
+	if request.method == "POST":
+		c = Class.objects.get(id =request.POST.get('class_id', ''))
+		c.cancelled = not c.cancelled #flip to opposite cancel/uncancel
+		c.save()
+		class_status = "cancelled" if c.cancelled else "reinstated"
+		class_name = c.class_schedule.class_type.name
+		messages.success(request, "You have %s %s." % (class_status,class_name))
+		return HttpResponseRedirect('/admin-dashboard')
 	return render(request, 'TxFApp/admin.html', context)
 
 def leaderboard(request):

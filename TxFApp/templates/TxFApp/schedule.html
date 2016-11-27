@@ -38,32 +38,41 @@
     {% for cl in classes %}
     {% with cl.class_schedule as c %}
         <a href="/classes/{{ cl.id }}/" class="list-group-item">
-            <h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
+            <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4>
             <div class="row">
-                <p class="list-group-item-text col-xs-5">
+                {% if cl.has_occurred %}
+                <p class="list-group-item-text col-xs-8">
+                {% else %}
+                <p class="list-group-item-text col-xs-8 col-sm-5">
+                {% endif %}
                     <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  </br>
                     <i class="fa fa-map-marker icon"></i> {{c.location}}
                 </p>
-                <p class="list-group-item-text col-xs-3">
+                {% if cl.has_occurred %}
+                <p class="list-group-item-text col-xs-4">
+                {% else %}
+                <p class="list-group-item-text col-xs-4 col-sm-3">
+                {% endif %}
                     <i class="fa fa-user icon"></i> {{c.instructor.user.first_name}}</br>
                     <i class="fa fa-diamond icon" ></i> {{c.points}}
                 </p>
-                {% if user.is_authenticated %}
-                {% if cl.id in userRSVPs %}
-                <form class="list-group-item-text col-xs-4" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="unrsvpButton" type ="submit" class='btn btn-danger btn-block points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
-                    {% csrf_token %}
-                </form>
+                {% if not cl.cancelled %}
+                    {% if not cl.has_occurred %}
+                    <form class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
+                        <input name="date" type="hidden" value="{{selected_date}}"/>
+                        <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                            {% if cl.id in userRSVPs %}
+                            <button id="unrsvpButton" type ="submit" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+                            {% else %}
+                            <button id="rsvpButton" type ="submit" class='btn btn-success btn-block rsvp-button-top-margin points'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                            {% endif %}
+                        {% csrf_token %}
+                    </form>
+                    {% endif %}
                 {% else %}
-                <form class="list-group-item-text col-xs-4" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="rsvpButton" type ="submit" class='btn btn-success btn-block points'><i class="fa fa-plus fa-lg"></i> RSVP</button>
-                    {% csrf_token %}
-                </form>
-                {% endif %}
+                    <div class="list-group-item-text col-xs-12 col-sm-4">
+                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS HAS BEEN CANCELLED</button>
+                    </div>
                 {% endif %}
             </div>
         </a>

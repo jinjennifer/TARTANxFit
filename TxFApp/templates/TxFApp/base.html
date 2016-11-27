@@ -37,11 +37,12 @@
   <section class="menu-section">
     <div>
       <ul class="nav navbar-nav">
+        <li> {{role}} </li>
         <li class="{% if active_menu_link == 'schedule' %} active {% endif %}" id="schedule-link"><a href="/schedule">Group X Schedule</a></li>
         <li class="{% if active_menu_link == 'leaderboard' %} active {% endif %}" id="leaderboard-link"><a href="/leaderboard">CMU Leaderboard</a></li>
         <li class="{% if active_menu_link == 'group' %} active {% endif %}" id="group-link"><a href="/new-group">Create Group</a></li>
         <li class="{% if active_menu_link == 'account' %} active {% endif %}" id="account-link"><a href="/account">My Account</a></li>
-        {% if role == 'admin' %}
+        {% if request.user.profile.role == 'instructor' or role == 'admin' %}
           <li class="{% if active_menu_link == 'admin' %} active {% endif %}" id="admin-link"><a href="/admin-dashboard">Admin Dashboard</a></li>
         {% endif %}
         <li class="{% if active_menu_link == 'logout' %} active {% endif %}" id="logout-link"><a href="/logout" onclick="facebookLogout();">Log Out</a></li>

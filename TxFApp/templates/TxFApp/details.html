@@ -13,34 +13,32 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm-8 dot-border">
+    <div class="col-xs-12 col-sm-8">
+	<div class="col-xs-12 dot-border">
 		<i class="fa fa-clock-o icon"></i> {{groupx.start_time}} - {{groupx.end_time}}<br>
 		<i class="fa fa-calendar icon"></i> {{day}}, {{class.date | date:'M d'}} <br>
 		<i class="fa fa-map-marker icon"></i> {{groupx.location}}<br>
 		<i class="fa fa-user icon"></i> {{groupx.instructor.user.first_name}}<br>
 		<i class="fa fa-diamond icon"></i> {{groupx.points}}<br>
 	</div>
+    </div>
+    {% if not class.cancelled %}
 	<div class="col-xs-12 col-sm-4">
 		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
-        {% if yet_to_happened %}
-        {% if already_rsvped %}
+        {% if not class.has_occurred %}
         <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
             <input name="date" type="hidden" value="{{class.date}}"/>
             <input name="class_id" type="hidden" value="{{class.id}}"/>
+                {% if already_rsvped %}
                 <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
-            {% csrf_token %}
-        </form>
-        {% else %}
-        <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
-            <input name="date" type="hidden" value="{{class.date}}"/>
-            <input name="class_id" type="hidden" value="{{class.id}}"/>
+                {% else %}
                 <button id="rsvpButton" type ="submit" class='btn btn-lg btn-block btn-success'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                {% endif %}
             {% csrf_token %}
         </form>
         {% endif %}
-        {% endif %}
-
 	</div>
+    {% endif %}
 </div>
 <div class="row">
     <div class="col-xs-12">
@@ -53,6 +51,8 @@
     <div>
 </div>
 {% endwith %}
+
+{% if not class.cancelled %}
 <div class="row">
     <div class="col-xs-12">
     	<h3>Friends Attending</h3>
@@ -63,14 +63,14 @@
     <!-- Will be populated by facebook.js -->
 </div>
 
-{% if role == 'admin' %}
+{% if request.user.profile.role == 'instructor' or role == 'admin' %}
 <div class="row">
     <div class="col-xs-12">
         <h3>Students Attending</h3>
     </div>
 </div>
 <div class="row" id="students-attending">
-    {% if students.count > 0 %}
+    {% if attendance.count > 0 %}
         <div class="table-responsive col-xs-12">
             <table class="table table-striped">
                 <thead> 
@@ -83,13 +83,16 @@
                 </thead> 
 
                 <tbody> 
-                    {% for student in students %}
+                    {% for att in attendance %}
+                    {% with att.user as student %}
+
                         <tr> 
                             <th scope=row>{{ forloop.counter }}</th> 
                             <td>{{student.first_name}}</td> 
                             <td>{{student.last_name}}</td> 
                             <td>{{student.email}}</td> 
                         </tr>
+                        {% endwith %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -101,8 +104,6 @@
     {% endif %}
 </div>
 {% endif %}
+{% endif %}
 
-
-<div class="empty-placeholder">
-</div>
 {% endblock %}
