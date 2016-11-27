@@ -10,21 +10,28 @@
 <h3> This Week's Group X Schedule </h3>
 <table class="schedule" width="100%">
     <tr>
+        <th class="arrow-left">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if dates.has_previous %}
+                        <a href="?page={{ dates.previous_page_number }}"><img alt="previous" id="arrow-logo" src="/static/images/arrow-left.png"></a>
+                    {% endif %}
+                </span>
+            </div>
+        </th>
         {% for d in dates %}
         <th {% if selected_date == d.3%} class="active" style="border-bottom: 8px solid #990000" {% endif %} ><a href="/schedule/{{d.3}}/?page={{ dates.number }}" class="date">{{d.0}}<p class="large">{{d.1}}</p>{{d.2}}</th>
         {% endfor %}
+        <th class="arrow">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if dates.has_next %}
+                        <a href="?page={{ dates.next_page_number }}"><img alt="next" id="arrow-logo" src="/static/images/arrow-right.png"></a>
+                    {% endif %}
+                </span>
+            </div>
+        </th>
     </tr>
-    <div class="pagination">
-        <span class="step-links">
-            {% if dates.has_previous %}
-                <a href="?page={{ dates.previous_page_number }}">previous</a>
-            {% endif %}
-
-            {% if dates.has_next %}
-                <a href="?page={{ dates.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
 </table>
 <br>
 <div class="list-group">

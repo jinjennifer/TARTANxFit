@@ -7,6 +7,11 @@
   margin-top: -12px;
 }
 
+#arrow-logo {
+  height: 50px;
+
+}
+
 #big-logo {
   margin-top: 30px;
   margin-bottom: 10px;
@@ -40,6 +45,20 @@ table{
 .schedule th{
 	text-align: center;
 	height: 100px;
+}
+
+.schedule .arrow {
+  text-align: left;
+  width: 12.5%;
+}
+
+.schedule .arrow-left {
+  text-align: right;
+  width: 12.5%;
+}
+
+.schedule .arrow:hover, .arrow-left:hover {
+  background-color: #e5e5e5;
 }
 
 th:hover {
