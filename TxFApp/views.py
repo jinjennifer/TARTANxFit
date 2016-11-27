@@ -306,13 +306,17 @@ def new_group(request):
 		form = CompetitionGroupForm(request.POST)
 		context['form'] = form
 		if form.is_valid():
+			data =  form.cleaned_data
+			users = data['users']
 			new_group = form.save(commit=False)
-			print(new_group)
 			new_group.save()
+			groupId = new_group.id 
+			print(str(groupId))
 			new_group.users.add(User.objects.get(id=request.session.get('user_id')))
-			print(context['form'])
+			for user in users:
+				new_group.users.add(user)
 			messages.success(request, "Your group has been successfully created")
-			return HttpResponseRedirect('/account')
+			return HttpResponseRedirect('/competitions/' + str(groupId))
 	else:
 		messages.error(request, "Your form input was invalid.")
 	
