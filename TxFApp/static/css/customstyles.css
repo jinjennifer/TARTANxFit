@@ -79,29 +79,20 @@ th:hover {
 
 /*-------------------------------------------------- */
 
-
-.card {
-  margin-top: 10px;
-  border-radius: 2px;
-  background-color:lightblue;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  width: 100px;
-  text-align:center;
+.thumbnail {
+  background-color: #0971B2;
+  border: none;
 }
 
-.card .card-content {
-  padding: 16px;
-  border-radius: 0 0 2px 2px;
-}
-.card .card-content p {
-  margin: 0;
-  color: inherit;
+.thumbnail .caption {
+  color: #fff;
+  text-align: center;
 }
 
 .dot-border {
-	border-style: dotted;
-	border-color: rgb(128,128,128);
 	background-color: #d3D3D3;
+  border-radius: 6px;
+  border: 2px dotted rgb(128,128,128);
 }
 
 .icon {
