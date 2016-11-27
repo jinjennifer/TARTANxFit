@@ -35,22 +35,23 @@
                     <i class="fa fa-user icon"></i> {{c.instructor.user.first_name}}</br>
                     <i class="fa fa-star icon" ></i> {{c.points}}
                 </p>
-                {% if not cl.has_occurred %}
-                {% if cl.id in userRSVPs %}
-                <form class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="unrsvpButton" type ="submit" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
-                    {% csrf_token %}
-                </form>
+                {% if not cl.cancelled %}
+                    {% if not cl.has_occurred %}
+                    <form class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
+                        <input name="date" type="hidden" value="{{selected_date}}"/>
+                        <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                            {% if cl.id in userRSVPs %}
+                            <button id="unrsvpButton" type ="submit" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+                            {% else %}
+                            <button id="rsvpButton" type ="submit" class='btn btn-success btn-block rsvp-button-top-margin points'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                            {% endif %}
+                        {% csrf_token %}
+                    </form>
+                    {% endif %}
                 {% else %}
-                <form class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
-                    <input name="date" type="hidden" value="{{selected_date}}"/>
-                    <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                        <button id="rsvpButton" type ="submit" class='btn btn-success btn-block rsvp-button-top-margin points'><i class="fa fa-plus fa-lg"></i> RSVP</button>
-                    {% csrf_token %}
-                </form>
-                {% endif %}
+                    <div class="list-group-item-text col-xs-12 col-sm-4">
+                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS HAS BEEN CANCELLED</button>
+                    </div>
                 {% endif %}
             </div>
         </a>

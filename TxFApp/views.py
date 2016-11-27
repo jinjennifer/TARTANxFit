@@ -239,6 +239,9 @@ def details(request, class_id):
 		except: #user rvsp
 			rsvp(request, user, class_id)
 			return HttpResponseRedirect('/classes/%s/' % class_id)
+
+	if Class.objects.get(id=class_id).cancelled:
+		messages.error(request, "This class has been cancelled.")
 	return render(request, 'TxFApp/details.html', context)
 
 def admin(request, date=datetime.date.today()):
@@ -259,6 +262,16 @@ def admin(request, date=datetime.date.today()):
 	classes = classes[:15]
 	context['classes'] = classes
 	context['active_menu_link'] = "admin"
+
+	# un/cancelling classesf
+	if request.method == "POST":
+		c = Class.objects.get(id =request.POST.get('class_id', ''))
+		c.cancelled = not c.cancelled #flip to opposite cancel/uncancel
+		c.save()
+		class_status = "cancelled" if c.cancelled else "reinstated"
+		class_name = c.class_schedule.class_type.name
+		messages.success(request, "You have %s %s." % (class_status,class_name))
+		return HttpResponseRedirect('/admin-dashboard')
 	return render(request, 'TxFApp/admin.html', context)
 
 def leaderboard(request):

@@ -20,6 +20,7 @@
 		<i class="fa fa-user icon"></i> {{groupx.instructor.user.first_name}}<br>
 		<i class="fa fa-star icon"></i> {{groupx.points}}<br>
 	</div>
+    {% if not class.cancelled %}
 	<div class="col-xs-12 col-sm-4">
 		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
         {% if not class.has_occurred %}
@@ -41,6 +42,7 @@
         {% endif %}
 
 	</div>
+    {% endif %}
 </div>
 <div class="row">
     <div class="col-xs-12">
@@ -53,6 +55,8 @@
     <div>
 </div>
 {% endwith %}
+
+{% if not class.cancelled %}
 <div class="row">
     <div class="col-xs-12">
     	<h3>Friends Attending</h3>
@@ -104,8 +108,6 @@
     {% endif %}
 </div>
 {% endif %}
+{% endif %}
 
-
-<div class="empty-placeholder">
-</div>
 {% endblock %}
