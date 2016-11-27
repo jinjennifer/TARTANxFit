@@ -1,8 +1,11 @@
 {% extends "TxFApp/base.html" %}
 {% block content %}
 
-<h3> {{competition.name}} </h3>
-
+<div class="row">
+	<div class="col-xs-12">
+		<h3> {{competition.name}} </h3>
+	</div>
+</div>
 <div class="row competition">
 	<div class="col-xs-12 col-sm-8 dot-border comp-desc">
 		<i class="fa fa-info-circle icon"></i> Description: {{competition.description}}<br>
@@ -13,20 +16,24 @@
 	</div>
 </div>
 
-<ul class="list-group">
-	{% for member in members %}
-		{% if member.id == uid %}
-		<li class="list-group-item current-user">
-			<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
-			{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
-		</li>
-		{% else %}
-		<li class="list-group-item">
-			<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
-			{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
-		</li>
-		{% endif %}
-	{% endfor %}
-</ul>
+<div class="row">
+	<div class="col-xs-12">
+	<ul class="list-group">
+		{% for member in members %}
+			{% if member.id == uid %}
+			<li class="list-group-item current-user">
+				<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
+				{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
+			</li>
+			{% else %}
+			<li class="list-group-item">
+				<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
+				{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
+			</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+</div>
 
 {% endblock %}
