@@ -38,23 +38,19 @@
         <a href="/classes/{{ rsvp.course.id }}/" class="list-group-item">
 			<h4 class="list-group-item-heading"> {{c.class_type.name}} </h4>
 			<div class="row">
-			<p class="list-group-item-text col-xs-8"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
+			<p class="list-group-item-text col-xs-12 col-sm-8"><i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
 			<i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}} </p>
-	    {% if rsvp.course.has_occurred %}
-	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
+	    <form class="list-group-item-text col-xs-12 col-sm-4" action="/account" method="post">
 	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
+			{% if rsvp.course.has_occurred %}
 			<input name="type" type="hidden" value="attended"/>
-	            <button id="rsvpButton" type ="submit" class='btn btn-success points'><i class="fa fa-check fa-lg"></i> I ATTENDED!</button>
-	        {% csrf_token %}
-	    </form>
-	    {% else %} <!-- hasnt occured, option to cancel rsvp -->
-	    <form class="list-group-item-text col-xs-4" action="/account" method="post">
-	        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
+	            <button id="rsvpButton" type ="submit" class=' col-xs-12 rsvp-button-top-margin btn btn-success points'><i class="fa fa-check fa-lg"></i> I ATTENDED!</button>
+	        {% else %}
 	        <input name="type" type="hidden" value="cancel"/>
-	            <button id="unrsvpButton" type ="submit" class='btn btn-danger points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+	            <button id="unrsvpButton" type ="submit" class='col-xs-12 rsvp-button-top-margin btn btn-danger points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+	        {% endif %}
 	        {% csrf_token %}
 	    </form>
-	    {% endif %}
 	</div>
         </a>
     {% endwith %}

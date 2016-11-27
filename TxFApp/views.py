@@ -210,12 +210,13 @@ def details(request, class_id):
 	userprof = Profile.objects.filter(user=user).first()
 
 	if userprof is not None:
-		context['role'] = userprof.role
-
+		role = userprof.role
+	else:
+		role = request.user.profile.role
 	days = dict(DAYS_OF_WEEK)
-
+	context["role"] = role
 	# Get the students attending the class if user is an admin
-	if userprof.role == "admin":
+	if role == "admin" or role == "instructor":
 		context['attendance'] = Class.objects.get(id=class_id).classattendance_set.all()
 
 	try:
@@ -243,21 +244,20 @@ def details(request, class_id):
 def admin(request, date=datetime.date.today()):
 	context = {}
 
-	user = User.objects.filter(id=request.session.get('user_id')).first()
-	userprof = Profile.objects.filter(user=user).first()
-	if userprof is not None:
-		context['role'] = userprof.role
-	# TO DO JEN
-	context['classes'] = Class.objects.filter(class_schedule__instructor=request.user.profile.andrew_id,date__gte=datetime.date.today()).order_by('date', '-class_schedule__start_time')[:10]
+	# user = User.objects.filter(id=request.session.get('user_id')).first()
+	# userprof = Profile.objects.filter(user=user).first()
+	# if userprof is not None:
+	# 	context['role'] = userprof.role
+	# # TO DO JEN
 
-	if request.user.is_authenticated() and request.user.profile.role != "instructor":
+	if request.user.is_authenticated() and request.user.profile.role == "student":
 		messages.error(request, "You must be an admin to access the admin dashboard.")
 		return HttpResponseRedirect('/schedule')
-	context['classes']
-
-
-
-
+	classes = Class.objects.filter(date__gte=datetime.date.today()).order_by('date', '-class_schedule__start_time')
+	if request.user.profile.role == "instructor":
+		classes = classes.filter(class_schedule__instructor=request.user.profile.andrew_id)
+	classes = classes[:15]
+	context['classes'] = classes
 	context['active_menu_link'] = "admin"
 	return render(request, 'TxFApp/admin.html', context)
 

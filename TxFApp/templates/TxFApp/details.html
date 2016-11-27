@@ -63,7 +63,7 @@
     <!-- Will be populated by facebook.js -->
 </div>
 
-{% if role == 'admin' %}
+{% if request.user.profile.role == 'instructor' or role == 'admin' %}
 <div class="row">
     <div class="col-xs-12">
         <h3>Students Attending</h3>

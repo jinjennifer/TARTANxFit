@@ -8,27 +8,33 @@
 
 <div class="row">
 	<div class="col-xs-12">
+	{% if user.profile.role == "instructor" %}
 		<h4>My Classes</h4>
+	{% else %}
+		<h4>Upcoming Classes </h4>
+	{% endif %}
 	</div>
 </div>
 
 <div class="list-group">
 	{% for c in classes %}
     {% with c.class_schedule as csch %}
-        <a href="/classes/{{ class.id }}/" class="list-group-item">
+        <a href="/classes/{{ c.id }}/" class="list-group-item">
 			<h4 class="list-group-item-heading"> {{csch.class_type.name}} </h4>
 			<div class="row">
-			<p class="list-group-item-text col-xs-8"><i class="fa fa-calendar icon"></i> {{c.date}} <br>
+			<p class="list-group-item-text col-xs-12 col-sm-8"><i class="fa fa-calendar icon"></i> {{c.date}} <br>
 			<i class="fa fa-clock-o icon"></i> {{csch.start_time | time:'g:i a'}} - {{csch.end_time | time:'g:i a'}} </p>
 	    {% if not c.has_occurred %}
-	        <button id="unrsvpButton" type="submit" class='btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel Class</button>
+	        <button id="unrsvpButton" type="submit" class='col-xs-12 col-sm-4 rsvp-button-top-margin btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel Class</button>
 	    {% endif %}
 	</div>
         </a>
     {% endwith %}
     {% empty %}
+		{% if user.profile.role == "instructor" %}
     	<p>You are currently not teaching any Group X classes. Add a new class below.</p>
-    {% endfor %}
+    	{% endif %}
+	{% endfor %}
 </div>
 
 <br>
