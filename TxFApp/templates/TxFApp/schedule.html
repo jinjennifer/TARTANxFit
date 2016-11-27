@@ -37,27 +37,37 @@
                 </p>
                 {% if not cl.cancelled %}
                     {% if not cl.has_occurred %}
-                    <form class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
+                    <form id="rsvpForm" class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
                         <input name="date" type="hidden" value="{{selected_date}}"/>
                         <input name="class_id" type="hidden" value="{{cl.id}}"/>
                             {% if cl.id in userRSVPs %}
-                            <button id="unrsvpButton" type ="submit" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+                            <input name="rsvp_type" type="hidden" value="unrsvp"/>
+                            <button id="unrsvpButton" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
                             {% else %}
-                            <button id="rsvpButton" type ="submit" class='btn btn-success btn-block rsvp-button-top-margin points'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                            <div class="btn-group">
+                                <button id="rsvpButton" class="btn btn-success rsvp-button-top-margin"><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                                <button type="button" class="btn btn-success rsvp-button-top-margin dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                              <ul class="dropdown-menu col-xs-12" style="background-color:#5cb85c">
+                                <li onclick="rsvpAll()"> <button id="rsvpButton" class="dropdown-btn"><i class="fa fa-plus fa-lg"></i> RSVP All Classes</li>
+                              </ul>
+                            </div>
                             {% endif %}
                         {% csrf_token %}
                     </form>
                     {% endif %}
                 {% else %}
                     <div class="list-group-item-text col-xs-12 col-sm-4">
-                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS HAS BEEN CANCELLED</button>
+                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS IS CANCELLED</button>
                     </div>
                 {% endif %}
             </div>
         </a>
     {% endwith %}
     {% empty %}
-        <p>There are no more classes for today. Check out classes later in the week!</p>
+        <p>There are no classes for today. Check out classes later in the week!</p>
     {% endfor %}
 </div>
 {% endblock %}

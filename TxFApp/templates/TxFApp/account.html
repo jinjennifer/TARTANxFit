@@ -41,7 +41,7 @@
 			<p class="list-group-item-text col-xs-12 col-sm-8">
 				<i class="fa fa-calendar icon"></i> {{rsvp.course.date}} <br>
 				<i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}} </p>
-		    <form class="list-group-item-text col-xs-12 col-sm-4" action="/account" method="post">
+		    <form id="rsvpForm" class="list-group-item-text col-xs-12 col-sm-4" action="/account" method="post">
 		        <input name="class_id" type="hidden" value="{{rsvp.course.id}}"/>
 				{% if rsvp.course.has_occurred %}
 				<input name="type" type="hidden" value="attended"/>

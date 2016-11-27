@@ -13,6 +13,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 import datetime
 
+days = dict(DAYS_OF_WEEK)
+
 def login(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/schedule')
@@ -119,15 +121,31 @@ def schedule(request, date=datetime.date.today()):
 		user = User.objects.filter(id=request.session.get('user_id')).first()
 		class_id = request.POST.get('class_id', '')
 		date = request.POST.get('date','')
-		try: #user has rsvped, unrsvp
+		form_type = request.POST.get('rsvp_type', '')
+		if form_type == "unrsvp":
 			unrsvp(request, user, class_id)
-			return HttpResponseRedirect('/schedule/%s/' % date)
-		except: #user rvsp
+		elif form_type =="rsvp_all":
+			rsvpAll(request, user, class_id)
+		else: # rsvp for single class
 			rsvp(request, user, class_id)
-			return HttpResponseRedirect('/schedule/%s/' % date)
+		return HttpResponseRedirect('/schedule/%s/' % date)
 
 	context['active_menu_link'] = "schedule"
 	return render(request, 'TxFApp/schedule.html', context)
+
+def rsvpAll(request, user, class_id):
+	future_classes = Class.objects.get(pk=class_id).class_schedule.class_set.filter(date__gte=datetime.date.today())
+	for i in range(len(future_classes)):
+		try:
+			c = ClassAttendance.objects.create(user=user, course_id=future_classes[i].id)
+			c.save()
+		except:
+			pass
+	c_sched = future_classes[0].class_schedule
+	class_name = c_sched.class_type.name
+	class_day = days.get(int(c_sched.day_of_week))
+	class_time = c_sched.start_time.strftime('%I:%M%p')
+	messages.success(request, "You have RSVP'd for all future %s classes on %ss at %s"% (class_name,class_day,class_time))
 
 def unrsvp(request, user, class_id):
 	c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
@@ -198,7 +216,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 			user.profile.points += c.course.class_schedule.points
 			user.profile.save()
 			messages.success(request, "You attended!")
-		return HttpResponseRedirect('/schedule')
+		return HttpResponseRedirect('/account')
 
 	context['active_menu_link'] = "account"
 	return render(request, 'TxFApp/account.html', context)
@@ -213,7 +231,6 @@ def details(request, class_id):
 		role = userprof.role
 	else:
 		role = request.user.profile.role
-	days = dict(DAYS_OF_WEEK)
 	context["role"] = role
 	# Get the students attending the class if user is an admin
 	if role == "admin" or role == "instructor":

@@ -80,6 +80,17 @@ th:hover {
   }
 }
 
+.dropdown-btn {
+  color: #fff;
+  background-color: #5cb85c;
+  padding: 3px 0px 3px 13px;
+  border: none;
+}
+
+.dropdown-btn:focus {
+  outline:0;
+}
+
 /*-------------------------------------------------- */
 
 
