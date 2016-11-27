@@ -18,22 +18,22 @@
 
 <div class="row">
 	<div class="col-xs-12">
-	<ul class="list-group">
-		{% for member in members %}
-			{% if member.id == uid %}
-			<li class="list-group-item current-user">
-				<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
-				{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
-			</li>
-			{% else %}
-			<li class="list-group-item">
-				<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
-				{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
-			</li>
-			{% endif %}
-		{% endfor %}
-	</ul>
-</div>
+		<ul class="list-group">
+			{% for member in members %}
+				{% if member.id == uid %}
+				<li class="list-group-item current-user">
+					<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
+					{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
+				</li>
+				{% else %}
+				<li class="list-group-item">
+					<span class="points"><i class="fa fa-diamond icon" ></i> {{member.profile.points}}</span>
+					{{forloop.counter}}. {{member.first_name}} {{member.last_name}}
+				</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
 </div>
 
 {% endblock %}

@@ -27,6 +27,17 @@ class SignUpForm(UserCreationForm):
         return user
 
 class CompetitionGroupForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CompetitionGroupForm, self).__init__(*args, **kwargs)
+        # change default labels for the form
+        self.fields['users'].label = "Participants"
+
+    users = forms.ModelMultipleChoiceField(queryset = User.objects.exclude(profile__role='instructor').all())
+
     class Meta:
         model = CompetitionGroup
-        fields = ('name', 'description', 'reward')
+        fields = ('name', 'description', 'reward', 'users')
+        widgets = {
+            'users': forms.CheckboxSelectMultiple()
+        }
+        
