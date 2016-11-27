@@ -198,7 +198,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 			user.profile.points += c.course.class_schedule.points
 			user.profile.save()
 			messages.success(request, "You attended!")
-		return HttpResponseRedirect('/account')
+		return HttpResponseRedirect('/schedule')
 
 	context['active_menu_link'] = "account"
 	return render(request, 'TxFApp/account.html', context)
@@ -216,7 +216,7 @@ def details(request, class_id):
 
 	# Get the students attending the class if user is an admin
 	if userprof.role == "admin":
-		context['students'] = User.objects.all() #TO DO JEN
+		context['attendance'] = Class.objects.get(id=class_id).classattendance_set.all()
 
 	try:
 		context['class'] = Class.objects.get(pk=class_id)
@@ -245,12 +245,18 @@ def admin(request, date=datetime.date.today()):
 
 	user = User.objects.filter(id=request.session.get('user_id')).first()
 	userprof = Profile.objects.filter(user=user).first()
-
-	# TO DO JEN
-	context['classes'] = ClassSchedule.objects.filter(instructor=userprof)
-
 	if userprof is not None:
 		context['role'] = userprof.role
+	# TO DO JEN
+	context['classes'] = Class.objects.filter(class_schedule__instructor=request.user.profile.andrew_id,date__gte=datetime.date.today()).order_by('date', '-class_schedule__start_time')[:10]
+
+	if request.user.is_authenticated() and request.user.profile.role != "instructor":
+		messages.error(request, "You must be an admin to access the admin dashboard.")
+		return HttpResponseRedirect('/schedule')
+	context['classes']
+
+
+
 
 	context['active_menu_link'] = "admin"
 	return render(request, 'TxFApp/admin.html', context)

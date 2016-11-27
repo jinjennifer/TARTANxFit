@@ -70,7 +70,7 @@
     </div>
 </div>
 <div class="row" id="students-attending">
-    {% if students.count > 0 %}
+    {% if attendance.count > 0 %}
         <div class="table-responsive col-xs-12">
             <table class="table table-striped">
                 <thead> 
@@ -83,13 +83,16 @@
                 </thead> 
 
                 <tbody> 
-                    {% for student in students %}
+                    {% for att in attendance %}
+                    {% with att.user as student %}
+
                         <tr> 
                             <th scope=row>{{ forloop.counter }}</th> 
                             <td>{{student.first_name}}</td> 
                             <td>{{student.last_name}}</td> 
                             <td>{{student.email}}</td> 
                         </tr>
+                        {% endwith %}
                     {% endfor %}
                 </tbody>
             </table>
