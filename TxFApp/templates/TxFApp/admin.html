@@ -28,9 +28,9 @@
 	        <form class="list-group-item-text col-xs-12 col-sm-4" action="/admin-dashboard" method="post">
 	            <input name="class_id" type="hidden" value="{{c.id}}"/>
 	                {% if c.cancelled %}
-						<button id="uncancelButton" type="submit" class='col-xs-12 col-sm-4 rsvp-button-top-margin btn btn-success'><i class="fa fa-plus fa-lg"></i> Reinstate Class</button>
+						<button id="uncancelButton" type="submit" class='col-xs-12 rsvp-button-top-margin btn btn-success'><i class="fa fa-plus fa-lg"></i> Reinstate Class</button>
 	                {% else %}
-						<button id="cancelButton" type="submit" class='col-xs-12 col-sm-4 rsvp-button-top-margin btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel Class</button>
+						<button id="cancelButton" type="submit" class='col-xs-12 rsvp-button-top-margin btn btn-danger'><i class="fa fa-times fa-lg"></i> Cancel Class</button>
 	                {% endif %}
 	            {% csrf_token %}
 	        </form>

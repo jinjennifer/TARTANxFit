@@ -13,34 +13,30 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm-8 dot-border">
+    <div class="col-xs-12 col-sm-8">
+	<div class="col-xs-12 dot-border">
 		<i class="fa fa-clock-o icon"></i> {{groupx.start_time}} - {{groupx.end_time}}<br>
 		<i class="fa fa-calendar icon"></i> {{day}}, {{class.date | date:'M d'}} <br>
 		<i class="fa fa-map-marker icon"></i> {{groupx.location}}<br>
 		<i class="fa fa-user icon"></i> {{groupx.instructor.user.first_name}}<br>
 		<i class="fa fa-star icon"></i> {{groupx.points}}<br>
 	</div>
+    </div>
     {% if not class.cancelled %}
 	<div class="col-xs-12 col-sm-4">
 		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
         {% if not class.has_occurred %}
-        {% if already_rsvped %}
         <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
             <input name="date" type="hidden" value="{{class.date}}"/>
             <input name="class_id" type="hidden" value="{{class.id}}"/>
+                {% if already_rsvped %}
                 <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
-            {% csrf_token %}
-        </form>
-        {% else %}
-        <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
-            <input name="date" type="hidden" value="{{class.date}}"/>
-            <input name="class_id" type="hidden" value="{{class.id}}"/>
+                {% else %}
                 <button id="rsvpButton" type ="submit" class='btn btn-lg btn-block btn-success'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                {% endif %}
             {% csrf_token %}
         </form>
         {% endif %}
-        {% endif %}
-
 	</div>
     {% endif %}
 </div>
