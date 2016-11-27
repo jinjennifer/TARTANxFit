@@ -3,13 +3,34 @@
 
 <!-- Display flash messages if there are any -->
 {% include 'TxFApp/flash_message.html' %}
-
+<div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Browse upcoming group fitness classes, add them to your calendar, and share on social media to encourage friends to attend!
+</div>
 <h3> This Week's Group X Schedule </h3>
 <table class="schedule" width="100%">
     <tr>
+        <th class="arrow-left">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if dates.has_previous %}
+                        <a href="?page={{ dates.previous_page_number }}"><img alt="previous" id="arrow-logo" src="/static/images/arrow-left.png"></a>
+                    {% endif %}
+                </span>
+            </div>
+        </th>
         {% for d in dates %}
-        <th {% if selected_date == d.3%} class="active" style="border-bottom: 8px solid #990000" {% endif %} ><a href="/schedule/{{d.3}}/" class="date">{{d.0}}<p class="large">{{d.1}}</p>{{d.2}}</th>
+        <th {% if selected_date == d.3%} class="active" style="border-bottom: 8px solid #990000" {% endif %} ><a href="/schedule/{{d.3}}/?page={{ dates.number }}" class="date">{{d.0}}<p class="large">{{d.1}}</p>{{d.2}}</th>
         {% endfor %}
+        <th class="arrow">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if dates.has_next %}
+                        <a href="?page={{ dates.next_page_number }}"><img alt="next" id="arrow-logo" src="/static/images/arrow-right.png"></a>
+                    {% endif %}
+                </span>
+            </div>
+        </th>
     </tr>
 </table>
 <br>
@@ -33,7 +54,7 @@
                 <p class="list-group-item-text col-xs-4 col-sm-3">
                 {% endif %}
                     <i class="fa fa-user icon"></i> {{c.instructor.user.first_name}}</br>
-                    <i class="fa fa-star icon" ></i> {{c.points}}
+                    <i class="fa fa-diamond icon" ></i> {{c.points}}
                 </p>
                 {% if not cl.cancelled %}
                     {% if not cl.has_occurred %}
