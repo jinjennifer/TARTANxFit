@@ -37,7 +37,7 @@
 <div class="list-group">
     {% for cl in classes %}
     {% with cl.class_schedule as c %}
-        <a href="/classes/{{ cl.id }}/" class="list-group-item">
+        <a href="/classes/{{ cl.id }}/" class="list-group-item {% if cl.cancelled %}disabled{% endif %}">
             <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4>
             <div class="row">
                 {% if cl.has_occurred %}
@@ -65,14 +65,14 @@
                             <input name="rsvp_type" type="hidden" value="unrsvp"/>
                             <button id="unrsvpButton" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
                             {% else %}
-                            <div class="btn-group">
-                                <button id="rsvpButton" class="btn btn-success rsvp-button-top-margin"><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                            <div class="btn-group complete-width">
+                                <button id="rsvpButton" class="btn btn-success rsvp-button-top-margin dropdown-width"><i class="fa fa-plus fa-lg"></i> RSVP</button>
                                 <button type="button" class="btn btn-success rsvp-button-top-margin dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
                                 </button>
-                              <ul class="dropdown-menu col-xs-12" style="background-color:#5cb85c">
-                                <li onclick="rsvpAll()"> <button id="rsvpButton" class="dropdown-btn"><i class="fa fa-plus fa-lg"></i> RSVP All Classes</li>
+                              <ul class="dropdown-menu col-xs-12" style="background-color:#5cb85c;padding-top: 0px;padding-bottom: 0px">
+                                <li class="dropdown-li" onclick="rsvpAll()"> <button id="rsvpButton" class="dropdown-btn complete-width"><i class="fa fa-plus fa-lg"></i> RSVP All Classes</button></li>
                               </ul>
                             </div>
                             {% endif %}

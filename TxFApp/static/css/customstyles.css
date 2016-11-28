@@ -99,15 +99,25 @@ th:hover {
   }
 }
 
+.complete-width {
+  width: 100%;
+}
+.dropdown-width {
+  width: calc(100% - 25px);
+}
 .dropdown-btn {
   color: #fff;
   background-color: #5cb85c;
-  padding: 3px 0px 3px 13px;
+  padding: 7px 0px 7px 13px;
   border: none;
 }
 
 .dropdown-btn:focus {
   outline:0;
+}
+
+.dropdown-li {
+  text-align: center;
 }
 
 /*-------------------------------------------------- */
