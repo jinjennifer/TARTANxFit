@@ -13,6 +13,7 @@ class ProfileInline(admin.StackedInline):
 class UserAdmin(UserAdmin):
     inlines = (ProfileInline, )
 
+admin.site.register(Profile)
 admin.site.register(CompetitionGroup)
 admin.site.register(ClassType)
 admin.site.register(ClassSchedule, ClassScheduleAdmin)
