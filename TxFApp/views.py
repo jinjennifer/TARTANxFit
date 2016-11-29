@@ -183,7 +183,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 		user.save()
 
 		# set role to student default in UserProfile subclass when creating a new account
-		userprofile = Profile.objects.create(user=user, role='student')
+		userprofile = Profile.objects.create(user=user, role='student', andrew_id=facebook_email)
 		userprofile.save()
 
 	if not 'user_id' in request.session:
