@@ -156,7 +156,7 @@ def rsvpAll(request, user, class_id):
 	class_name = c_sched.class_type.name
 	class_day = days.get(int(c_sched.day_of_week))
 	class_time = c_sched.start_time.strftime('%I:%M%p')
-	messages.success(request, "You have RSVP'd for all future %s classes on %ss at %s"% (class_name,class_day,class_time))
+	messages.success(request, "You have RSVP'd for all future %s classes on %ss at %s."% (class_name,class_day,class_time))
 
 def unrsvp(request, user, class_id):
 	c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]

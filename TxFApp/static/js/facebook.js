@@ -146,31 +146,33 @@ function getFacebookUserAccount() {
 
 function displayFriends() {
   FB.api('/me/friends', function(response) {
-    displayFriendsPictures(response);
+    displayFriendsNames(response);
   });
 }
 
-function displayFriendsPictures(response) {
+function displayFriendsNames(response) {
   var facebook_friends = response.data;
 
-  console.log(facebook_friends);
-
   for (i = 0; i < facebook_friends.length; i++) {
-    name = facebook_friends[i].name;
-    id = facebook_friends[i].id;
+    var name = facebook_friends[i].name;
+    var id = facebook_friends[i].id;
 
-    $("#friends-attending").append('<div class="col-xs-3" id="friend-' + i + '">\
+    $("#friends-attending").append('<div class="col-xs-3" id="' + id + '">\
         <a href="https://www.facebook.com/' + id + '" class="center">' + name + '</p>\
       </div>');
-
-    FB.api('/' + id + '/picture?type=large', function(response) {
-      pic_url = response.data.url;
-      displayPictureHelper(response);
-    });
   }
+
+  displayFriendsPictures();
 }
 
-function displayPictureHelper(response) {
-  $("#friend-" + friends_counter).prepend('<img alt="user" class="user-pictures" src="' + pic_url + '"><br>');
-  friends_counter++;
+function displayFriendsPictures() {
+  $('#friends-attending').children('div').each(function() {
+    var current_id = this.id;
+
+    FB.api('/' + current_id + '/picture?type=large', function(response) {
+      pic_url = response.data.url;
+      
+      $("#" + current_id).prepend('<img alt="user" class="user-pictures" src="' + pic_url + '"><br>');
+    });
+  });
 }
