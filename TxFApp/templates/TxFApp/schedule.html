@@ -38,16 +38,18 @@
     {% for cl in classes %}
     {% with cl.class_schedule as c %}
         <a href="/classes/{{ cl.id }}/" class="list-group-item {% if cl.cancelled %}disabled{% endif %}">
-            <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4>
+            <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4> 
             <div class="row">
                 {% if cl.has_occurred %}
                 <p class="list-group-item-text col-xs-8">
                 {% else %}
                 <p class="list-group-item-text col-xs-8 col-sm-5">
                 {% endif %}
-                    <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  </br>
-                    <i class="fa fa-map-marker icon"></i> {{c.location}}
+                    <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  <br>
+                    <i class="fa fa-map-marker icon"></i> {{c.location}} <br>
+                    <button type="button" onclick="handleAuthClick(event, this)" class="margin-top-10 btn btn-primary btn-xs">Add to Google Calendar</button>
                 </p>
+
                 {% if cl.has_occurred %}
                 <p class="list-group-item-text col-xs-4">
                 {% else %}
@@ -73,8 +75,6 @@
                                     </button>
                                   <ul class="dropdown-menu col-xs-12" style="background-color: #5cb85c; padding-top: 0px; padding-bottom: 0px;">
                                     <li class="dropdown-li" onclick="rsvpAll()"> <button class="dropdown-btn complete-width"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP TO THIS CLASS EVERY WEEK</button></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-li" onclick="handleAuthClick(event, this)"> <button class="dropdown-btn complete-width"><i class="fa fa-calendar fa-lg"></i>&nbsp; ADD THIS CLASS TO GOOGLE CALENDAR</button></li>
                                   </ul>
                                 </div>
                             {% endif %}
@@ -94,12 +94,12 @@
     {% endfor %}
 </div>
 
-<div id="output"></div>
-
 <script>
 var CLIENT_ID = '561566690454-fgkvbap2kabt91q7id7b10hpck3jtlh9.apps.googleusercontent.com';
 
 var SCOPES = ["https://www.googleapis.com/auth/calendar"];
+
+var buttonClicked;
 
 // Check if current user has authorized this application.
 function checkAuth() {
@@ -115,18 +115,16 @@ function checkAuth() {
 function handleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
-      // Hide auth UI, then load client library.
-      authorizeDiv.style.display = 'none';
       loadCalendarApi();
-    } else {
-      // Show auth UI, allowing the user to initiate authorization by
-      // clicking authorize button.
-      authorizeDiv.style.display = 'inline';
     }
 }
 
 // Initiate auth flow in response to user clicking authorize button.
-function handleAuthClick(event) {
+function handleAuthClick(event, object) {
+    event.preventDefault();
+
+    buttonClicked = object;
+
     gapi.auth.authorize(
       {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
       handleAuthResult);
@@ -145,11 +143,11 @@ function addEvent() {
       'location': '800 Howard St., San Francisco, CA 94103',
       'description': 'Group X-ercise class',
       'start': {
-        'dateTime': '2016-11-30T09:00:00-07:00',
+        'dateTime': '2016-11-29T09:00:00-05:00',
         'timeZone': 'America/New_York'
       },
       'end': {
-        'dateTime': '2016-11-30T17:00:00-07:00',
+        'dateTime': '2016-11-29T10:00:00-05:00',
         'timeZone': 'America/New_York'
       },
     };
@@ -160,15 +158,10 @@ function addEvent() {
     });
 
     request.execute(function(event) {
-      appendPre('Event created: ' + event.htmlLink);
+      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html("Added to Google Calendar!");
+       window.open(event.htmlLink); 
     });
 }
-
-function appendPre(message) {
-    var pre = document.getElementById('output');
-    var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
-}    
 </script>
 
 <script src="https://apis.google.com/js/client.js?onload=checkAuth">
