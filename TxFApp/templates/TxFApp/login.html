@@ -6,13 +6,6 @@
 <div id="page-content">
     <div class="container">
         <div class="col-sm-12">
-            <div class="row">
-                <br>
-                <div class="alert alert-info alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    Sign in to browse the CMU Group Fitness class schedule, see which of your friends are attending classes, and compete against other CMU students.
-                </div>
-            </div>
             <center>
                 <img alt="TARTANxFit" id="big-logo" src="/static/images/round-logo.png">
             </center>
@@ -24,6 +17,13 @@
                 </div>
             </div>
 
+            <div class="row">
+                <br>
+                <div class="alert alert-info" role="alert">
+                    Sign in to TARTANxFit to browse the <a href="http://athletics.cmu.edu/fitness/groupx" class="alert-link">Carnegie Mellon University Group X-ercise</a> class schedule, see which of your friends are attending classes, and compete against other CMU students to stay healthy and fit!
+                </div>
+            </div>
+
             <br>
             
             <div class="row">
@@ -31,7 +31,7 @@
                     <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true" data-scope="public_profile,email,user_friends,rsvp_event,publish_actions">Log In with Facebook</div>
                 </center>
 
-                <br>
+                <!-- <br>
 
                 <form action='login' method='post'>{% csrf_token %}
                     {{ form | bootstrap }}
@@ -40,8 +40,11 @@
 
                 <br>
 
-                <a href="/signup" class="btn btn-default btn-block">Sign Up</a>
+                <a href="/signup" class="btn btn-default btn-block">Sign Up</a> -->
             </div>
+
+            <br>
+
         </div> 
     </div>
 </div>
