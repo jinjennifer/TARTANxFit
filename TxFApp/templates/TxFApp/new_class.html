@@ -1,4 +1,5 @@
 {% extends "TxFApp/base.html" %}
+{% load i18n %}
 {% block content %}
 {% load bootstrap %}
 
@@ -11,24 +12,28 @@
       {% include 'TxFApp/flash_message.html' %}
         <div class="panel panel-default" id="create-post-page">
           {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
           <div class="panel-body">
               <h4>Create A New Class</h4> 
-              <form enctype="multipart/form-data" action='new-class' method='post'>{% csrf_token %}
-                {{ form | bootstrap}}
-                <button class="btn btn-success btn-large" type='submit' value='Submit'>Submit</button>
-                <a class="btn btn-danger btn-large" href="/schedule">Cancel</a>
+              <form action="" method="post">{% csrf_token %}
+              {{ wizard.management_form }}
+              {% if wizard.form.forms %}
+                  {{ wizard.form.management_form }}
+                  {% for form in wizard.form.forms %}
+                      {{ form | bootstrap }}
+                  {% endfor %}
+              {% else %}
+                  {{ wizard.form | bootstrap}}
+              {% endif %}
+              {% if wizard.steps.prev %}
+              <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+              {% endif %}
+              <input type="submit" value="{% trans "Submit" %}"/>
               </form>
-              </div>
           </div>
-        </div> 
-    </div>
-  </div>
+        </div>
+      </div> 
+</div>
+</div>
 </div>
 
-<script>
-  $(function() {
-    $( ".datepicker" ).datepicker();
-  });
-</script>
 {% endblock %}

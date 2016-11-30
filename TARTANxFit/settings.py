@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'TxFApp',
     'bootstrap3',
     'bootstrapform',
+    'formtools',
 ]
 
 MIDDLEWARE_CLASSES = [

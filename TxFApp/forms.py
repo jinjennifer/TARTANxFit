@@ -40,7 +40,7 @@ class CompetitionGroupForm(forms.ModelForm):
             'users': forms.CheckboxSelectMultiple()
         }
 
-class ClassForm(forms.ModelForm):
+class ClassTypeForm(forms.ModelForm):
     # def __init__(self, *args, **kwargs):
     #     super(CompetitionGroupForm, self).__init__(*args, **kwargs)
     #     # change default labels for the form
@@ -55,4 +55,26 @@ class ClassForm(forms.ModelForm):
             'start_date': DateInput(attrs={'class':'datepicker'}),
             'end_date': DateInput(attrs={'class':'datepicker'}),
             'description': Textarea()
+        }
+
+class ClassScheduleForm(forms.ModelForm):
+
+    DAYS = (
+        ('1', 'Sunday'),
+        ('2', 'Monday'),
+        ('3', 'Tuesday'),
+        ('4', 'Wednesday'),
+        ('5', 'Thursday'),
+        ('6', 'Friday'),
+        ('7', 'Saturday'),
+    )
+    day_of_week = forms.ChoiceField(choices=DAYS, required=True)
+    instructor = forms.ModelChoiceField(queryset = Profile.objects.filter(role='instructor'))
+    instructor.label_from_instance = lambda obj: "%s %s" % (obj.user.first_name, obj.user.last_name)
+    class Meta:
+        model = ClassSchedule
+        fields = ('instructor', 'day_of_week', 'location', 'start_time', 'end_time', 'points')
+        widgets = {
+            'start_time': DateInput(attrs={'class':'timepicker'}),
+            'end_time': DateInput(attrs={'class':'timepicker'}),
         }

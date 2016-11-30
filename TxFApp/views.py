@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
-
+from formtools.wizard.views import SessionWizardView
 days = dict(DAYS_OF_WEEK)
 
 def login(request):
@@ -315,17 +315,30 @@ def competitions(request, competition_id):
 	context['uid'] = request.session.get('user_id')
 	return render(request, 'TxFApp/competitions.html', context)
 
-def new_class(request):
-	if request.method == "GET":
-		form = ClassForm()
-	elif request.method == "POST":
-		form = ClassForm(request.POST)
-		context['form'] = form
-		if form.is_valid():
-			pass
-	else:
-		messages.error(request, "Your form input was invalid.")
-	return render(request, 'TxFApp/new_class.html', {'form':form})
+class ClassWizard(SessionWizardView):
+	template_name = 'TxFApp/new_class.html'
+
+	def done(self, form_list, **kwargs):
+		form_data = process_form_data(form_list)
+		return render_to_response('TxFApp/schedule.html', {'form_data': form_data})
+		# messages.success(request, "You have created a new class!")
+		# return HttpResponseRedirect('/schedule')
+
+def process_form_data(form_list):
+	form_data = [form.cleaned_data for form in form_list]
+
+# def new_class(request):
+# 	context = {}
+# 	if request.method == "GET":
+# 		form = ClassTypeForm()
+# 	elif request.method == "POST":
+# 		form = ClassTypeForm(request.POST)
+# 		context['form'] = form
+# 		if form.is_valid():
+# 			pass
+# 	else:
+# 		messages.error(request, "Your form input was invalid.")
+# 	return render(request, 'TxFApp/new_class.html', {'form':form})
 
 def new_group(request):
 	context = {}
