@@ -37,6 +37,8 @@
             {% csrf_token %}
         </form>
         {% endif %}
+
+        <button type="button" onclick="handleAuthClick(event, this, '{{groupx.class_type.name}}', '{{groupx.location}}', '{{class.date | date:'Y-m-d'}}', '{{groupx.start_time | time:'G:i'}}', '{{groupx.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-primary btn-block btn-lg"><i class="fa fa-calendar fa-lg"></i> ADD TO GOOGLE CALENDAR</button>
 	</div>
     {% endif %}
 </div>
@@ -105,5 +107,78 @@
 </div>
 {% endif %}
 {% endif %}
+
+<script>
+var CLIENT_ID = '561566690454-fgkvbap2kabt91q7id7b10hpck3jtlh9.apps.googleusercontent.com';
+
+var SCOPES = ["https://www.googleapis.com/auth/calendar"];
+
+var buttonClicked;
+var eventName;
+var eventLocation;
+var eventDate;
+var eventStartTime;
+var eventEndTime;
+
+// Handle response from authorization server.
+function handleAuthResult(authResult) {
+    if (authResult && !authResult.error) {
+      loadCalendarApi();
+    }
+}
+
+// Initiate auth flow in response to user clicking authorize button.
+function handleAuthClick(event, object, name, location, date, start, end) {
+    event.preventDefault();
+
+    eventName = name;
+    eventLocation = location;
+    eventDate = date;
+    eventStartTime = start;
+    eventEndTime = end;
+    buttonClicked = object;
+
+    gapi.auth.authorize(
+      {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
+      handleAuthResult);
+    return false;
+}
+
+// Load Google Calendar client library
+// Add event to calendar once client library is loaded
+function loadCalendarApi() {
+    gapi.client.load('calendar', 'v3', addEvent);
+}
+
+function addEvent() {
+    var event = {
+      'summary': "Group X " + eventName,
+      'location': eventLocation,
+      'start': {
+        'dateTime': eventDate + 'T' + eventStartTime + ':00-05:00',
+        'timeZone': 'America/New_York'
+      },
+      'end': {
+        'dateTime': eventDate + 'T' + eventEndTime + ':00-05:00',
+        'timeZone': 'America/New_York'
+      },
+    };
+
+    console.log(event);
+
+    var request = gapi.client.calendar.events.insert({
+      'calendarId': 'primary',
+      'resource': event
+    });
+
+    request.execute(function(event) {
+      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html('<i class="fa fa-calendar fa-lg"></i> Added to Google Calendar!');
+       window.open(event.htmlLink); 
+    });
+}
+</script>
+
+<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+</script>
 
 {% endblock %}
