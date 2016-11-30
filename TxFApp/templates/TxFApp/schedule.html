@@ -47,7 +47,7 @@
                 {% endif %}
                     <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  <br>
                     <i class="fa fa-map-marker icon"></i> {{c.location}} <br>
-                    <button type="button" onclick="handleAuthClick(event, this)" class="margin-top-10 btn btn-primary btn-xs">Add to Google Calendar</button>
+                    <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-primary btn-xs">Add to Google Calendar</button>
                 </p>
 
                 {% if cl.has_occurred %}
@@ -100,6 +100,11 @@ var CLIENT_ID = '561566690454-fgkvbap2kabt91q7id7b10hpck3jtlh9.apps.googleuserco
 var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 
 var buttonClicked;
+var eventName;
+var eventLocation;
+var eventDate;
+var eventStartTime;
+var eventEndTime;
 
 // Check if current user has authorized this application.
 // function checkAuth() {
@@ -119,9 +124,14 @@ function handleAuthResult(authResult) {
 }
 
 // Initiate auth flow in response to user clicking authorize button.
-function handleAuthClick(event, object) {
+function handleAuthClick(event, object, name, location, date, start, end) {
     event.preventDefault();
 
+    eventName = name;
+    eventLocation = location;
+    eventDate = date;
+    eventStartTime = start;
+    eventEndTime = end;
     buttonClicked = object;
 
     gapi.auth.authorize(
@@ -138,15 +148,14 @@ function loadCalendarApi() {
 
 function addEvent() {
     var event = {
-      'summary': 'TEST',
-      'location': '800 Howard St., San Francisco, CA 94103',
-      'description': 'Group X-ercise class',
+      'summary': "Group X " + eventName,
+      'location': eventLocation,
       'start': {
-        'dateTime': '2016-11-29T09:00:00-05:00',
+        'dateTime': eventDate + 'T' + eventStartTime + ':00-05:00',
         'timeZone': 'America/New_York'
       },
       'end': {
-        'dateTime': '2016-11-29T10:00:00-05:00',
+        'dateTime': eventDate + 'T' + eventEndTime + ':00-05:00',
         'timeZone': 'America/New_York'
       },
     };
