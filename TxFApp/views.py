@@ -168,7 +168,7 @@ def rsvp(request, user, class_id):
 	c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
 	c.save()
 	class_name = c.course.class_schedule.class_type.name
-	messages.success(request, "You have RSVP'd for %s." % class_name )
+	messages.success(request, "You have RSVP'd for %s." % class_name)
 
 def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User User"):
 	context = {}
