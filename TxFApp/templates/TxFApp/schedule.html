@@ -102,18 +102,17 @@ var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 var buttonClicked;
 
 // Check if current user has authorized this application.
-function checkAuth() {
-    gapi.auth.authorize(
-      {
-        'client_id': CLIENT_ID,
-        'scope': SCOPES.join(' '),
-        'immediate': true
-      }, handleAuthResult);
-}
+// function checkAuth() {
+//     gapi.auth.authorize(
+//       {
+//         'client_id': CLIENT_ID,
+//         'scope': SCOPES.join(' '),
+//         'immediate': true
+//       }, handleAuthResult);
+// }
 
 // Handle response from authorization server.
 function handleAuthResult(authResult) {
-    var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
       loadCalendarApi();
     }
