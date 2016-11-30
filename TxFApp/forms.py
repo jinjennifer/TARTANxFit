@@ -1,9 +1,8 @@
 from django import forms
-from django.forms import ModelForm
-from django.forms import ModelChoiceField
+from .models import *
+from django.forms import ModelForm, Textarea, ModelChoiceField, DateInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import CompetitionGroup
         
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -40,4 +39,20 @@ class CompetitionGroupForm(forms.ModelForm):
         widgets = {
             'users': forms.CheckboxSelectMultiple()
         }
-        
+
+class ClassForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super(CompetitionGroupForm, self).__init__(*args, **kwargs)
+    #     # change default labels for the form
+    #     self.fields['users'].label = "Participants"
+
+    # users = forms.ModelMultipleChoiceField(queryset = User.objects.exclude(profile__role='instructor').all())
+
+    class Meta:
+        model = ClassType
+        fields = ('name', 'description', 'start_date','end_date')
+        widgets = {
+            'start_date': DateInput(attrs={'class':'datepicker'}),
+            'end_date': DateInput(attrs={'class':'datepicker'}),
+            'description': Textarea()
+        }

@@ -12,9 +12,15 @@ $(function() {
 		'tolerance': 70
 	});
 });
+
 function rsvpAll() {
 	$('#rsvpForm').append('<input type="hidden" name="rsvp_type" value="rsvp_all" />');
 }
+
+$(function() {
+	$( ".datepicker" ).datepicker();
+});
+
 
 // PushCrew notification
 // (function(p,u,s,h){

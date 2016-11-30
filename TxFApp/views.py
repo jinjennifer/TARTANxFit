@@ -315,6 +315,18 @@ def competitions(request, competition_id):
 	context['uid'] = request.session.get('user_id')
 	return render(request, 'TxFApp/competitions.html', context)
 
+def new_class(request):
+	if request.method == "GET":
+		form = ClassForm()
+	elif request.method == "POST":
+		form = ClassForm(request.POST)
+		context['form'] = form
+		if form.is_valid():
+			pass
+	else:
+		messages.error(request, "Your form input was invalid.")
+	return render(request, 'TxFApp/new_class.html', {'form':form})
+
 def new_group(request):
 	context = {}
 	if request.method == "GET":

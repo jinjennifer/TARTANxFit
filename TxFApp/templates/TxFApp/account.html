@@ -23,14 +23,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-6">
-		<div class="thumbnail">
-			<div class="caption">
-				<h3>{{visits}} </h3>
-				<p>VISITS</p>
+		<a href="#attended" class="col-xs-6">
+		<div>
+			<div class="thumbnail">
+				<div class="caption">
+					<h3>{{visits}} </h3>
+					<p>VISITS</p>
+				</div>
 			</div>
 		</div>
-	</div>
+		</a>
 </div>
 
 <h4>Upcoming and Today's Classes</h4>
@@ -62,7 +64,7 @@
     {% endfor %}
 </div>
 
-<h4>Recently Attended Classes</h4>
+<h4 id="attended">Recently Attended Classes</h4>
 <div class="list-group">
 	{% for class in attended %}
 	{% with class.course.class_schedule as c %}

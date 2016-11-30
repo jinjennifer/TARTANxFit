@@ -1,0 +1,34 @@
+{% extends "TxFApp/base.html" %}
+{% block content %}
+{% load bootstrap %}
+
+<div id="page-content">
+<div id="loading"></div>
+<div class="fluid-container" >
+
+    <div class="col-xs-12">
+      <!-- Display flash messages if there are any -->
+      {% include 'TxFApp/flash_message.html' %}
+        <div class="panel panel-default" id="create-post-page">
+          {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+          <div class="panel-body">
+              <h4>Create A New Class</h4> 
+              <form enctype="multipart/form-data" action='new-class' method='post'>{% csrf_token %}
+                {{ form | bootstrap}}
+                <button class="btn btn-success btn-large" type='submit' value='Submit'>Submit</button>
+                <a class="btn btn-danger btn-large" href="/schedule">Cancel</a>
+              </form>
+              </div>
+          </div>
+        </div> 
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $( ".datepicker" ).datepicker();
+  });
+</script>
+{% endblock %}
