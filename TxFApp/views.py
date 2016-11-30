@@ -169,7 +169,7 @@ def rsvp(request, user, class_id):
 	c.save()
 	class_name = c.course.class_schedule.class_type.name
 	messages.success(request, "You have RSVP'd for %s." % class_name)
-
+	
 def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User User"):
 	context = {}
 
@@ -300,6 +300,8 @@ def admin(request, date=datetime.date.today()):
 		class_name = c.class_schedule.class_type.name
 		messages.success(request, "You have %s %s." % (class_status,class_name))
 		return HttpResponseRedirect('/admin-dashboard')
+
+	context['active_menu_link'] = "admin"
 	return render(request, 'TxFApp/admin.html', context)
 
 def leaderboard(request):
