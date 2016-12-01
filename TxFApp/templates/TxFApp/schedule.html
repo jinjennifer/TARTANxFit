@@ -59,8 +59,8 @@
                 </p>
             </div>
             <div class="row">
+                {% if not cl.cancelled %}
                 <div class="col-xs-12 col-sm-6">
-                    {% if not cl.cancelled %}
                         {% if not cl.has_occurred %}
                         <form id="rsvpForm" class="list-group-item-text" action="/schedule/{{selected_date}}/" method="post">
                             <input name="date" type="hidden" value="{{selected_date}}"/>
@@ -82,14 +82,14 @@
                                 {% endif %}
                             {% csrf_token %}
                         </form>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-block"><i class="fa fa-calendar icon"></i> add to calendar</button>
-                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-block"><i class="fa fa-calendar icon"></i> add to calendar</button>
+                    </div>
                         {% endif %}
                 {% else %}
-                    <div class="list-group-item-text col-xs-12 col-sm-4">
-                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> this class is cancelled</button>
+                    <div class="col-xs-12 col-sm-12">
+                    <button disabled class='btn btn-danger btn-block margin-top-10'><i class="fa fa-warning icon"></i> this class was cancelled!</button>
                     </div>
                 {% endif %}
             </div>
