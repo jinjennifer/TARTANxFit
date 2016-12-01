@@ -43,7 +43,7 @@
                 {% if cl.has_occurred %}
                 <p class="list-group-item-text col-xs-8">
                 {% else %}
-                <p class="list-group-item-text col-xs-8 col-sm-5">
+                <p class="list-group-item-text col-xs-8 col-sm-6">
                 {% endif %}
                     <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  <br>
                     <i class="fa fa-map-marker icon"></i> {{c.location}} <br>
@@ -52,46 +52,46 @@
                 {% if cl.has_occurred %}
                 <p class="list-group-item-text col-xs-4">
                 {% else %}
-                <p class="list-group-item-text col-xs-4 col-sm-3">
+                <p class="list-group-item-text col-xs-4 col-sm-6">
                 {% endif %}
                     <i class="fa fa-user icon"></i> {{c.instructor.user.first_name}}</br>
                     <i class="fa fa-diamond icon" ></i> {{c.points}}
                 </p>
             </div>
             <div class="row">
-                <div class="col-xs-8 col-sm-5">
-                     {% if not cl.cancelled %}
-                    {% if not cl.has_occurred %}
-                    <form id="rsvpForm" class="list-group-item-text" action="/schedule/{{selected_date}}/" method="post">
-                        <input name="date" type="hidden" value="{{selected_date}}"/>
-                        <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                            {% if cl.id in userRSVPs %}
-                                <input name="rsvp_type" type="hidden" value="unrsvp"/>
-                                <button id="unrsvpButton" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i>&nbsp; CANCEL RSVP</button>
-                            {% else %}
-                                <div class="btn-group">
-                                    <button id="rsvpButton" class="btn btn-success btn-xs margin-top-10 dropdown-width"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP</button>
-                                    <button type="button" class="btn btn-xs btn-success margin-top-10 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                  <ul class="dropdown-menu col-xs-12" style="background-color: #5cb85c; padding-top: 0px; padding-bottom: 0px;">
-                                    <li class="dropdown-li" onclick="rsvpAll()"> <button class="dropdown-btn btn-xs"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP TO THIS CLASS EVERY WEEK</button></li>
-                                  </ul>
-                                </div>
-                            {% endif %}
-                        {% csrf_token %}
-                    </form>
-                    {% endif %}
+                <div class="col-xs-12 col-sm-6">
+                    {% if not cl.cancelled %}
+                        {% if not cl.has_occurred %}
+                        <form id="rsvpForm" class="list-group-item-text" action="/schedule/{{selected_date}}/" method="post">
+                            <input name="date" type="hidden" value="{{selected_date}}"/>
+                            <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                                {% if cl.id in userRSVPs %}
+                                    <input name="rsvp_type" type="hidden" value="unrsvp"/>
+                                    <button id="unrsvpButton" class='btn btn-danger btn-block margin-top-10 points'><i class="fa fa-times fa-lg"></i>&nbsp; cancel RSVP</button>
+                                {% else %}
+                                    <div class="btn-group complete-width">
+                                        <button id="rsvpButton" class="btn btn-success margin-top-10 dropdown-width"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP</button>
+                                        <button type="button" class="btn btn-success margin-top-10 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                      <ul class="dropdown-menu col-xs-12" style="background-color: #5cb85c; padding-top: 0px; padding-bottom: 0px;">
+                                        <li class="dropdown-li" onclick="rsvpAll()"> <button class="dropdown-btn complete-width"><i class="fa fa-plus fa-lg"></i>&nbsp; rsvp to this class every week</button></li>
+                                      </ul>
+                                    </div>
+                                {% endif %}
+                            {% csrf_token %}
+                        </form>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-block"><i class="fa fa-calendar icon"></i> add to calendar</button>
+                        </div>
+                        {% endif %}
                 {% else %}
                     <div class="list-group-item-text col-xs-12 col-sm-4">
-                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS IS CANCELLED</button>
+                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> this class is cancelled</button>
                     </div>
                 {% endif %}
-                </div>
-                <div class="col-xs-4 col-sm-3">
-                     <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-xs">ADD TO CALENDAR</button>
-                </div>
             </div>
 
         </a>
@@ -173,7 +173,7 @@ function addEvent() {
     });
 
     request.execute(function(event) {
-      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html("Added to Google Calendar!");
+      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html("added to calendar!");
        window.open(event.htmlLink); 
     });
 }

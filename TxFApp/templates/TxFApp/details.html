@@ -24,21 +24,21 @@
     </div>
     {% if not class.cancelled %}
 	<div class="col-xs-12 col-sm-4">
-		<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
+		<div class="btn btn-lg btn-block btn-share" onclick="facebookShare();"><i class="fa fa-share icon"></i> share</div>
         {% if not class.has_occurred %}
         <form class="" action="{% url 'TxFApp:details' class.id %}" method="post">
             <input name="date" type="hidden" value="{{class.date}}"/>
             <input name="class_id" type="hidden" value="{{class.id}}"/>
                 {% if already_rsvped %}
-                <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
+                <button id="unrsvpButton" type ="submit" class='btn btn-lg btn-block btn-danger'><i class="fa fa-times fa-lg"></i> cancel rsvp</button>
                 {% else %}
-                <button id="rsvpButton" type ="submit" class='btn btn-lg btn-block btn-success'><i class="fa fa-plus fa-lg"></i> RSVP</button>
+                <button id="rsvpButton" type ="submit" class='btn btn-lg btn-block btn-success'><i class="fa fa-plus fa-lg"></i> rsvp</button>
                 {% endif %}
             {% csrf_token %}
         </form>
         {% endif %}
 
-        <button type="button" onclick="handleAuthClick(event, this, '{{groupx.class_type.name}}', '{{groupx.location}}', '{{class.date | date:'Y-m-d'}}', '{{groupx.start_time | time:'G:i'}}', '{{groupx.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-primary btn-block btn-lg"><i class="fa fa-calendar fa-lg"></i> ADD TO GOOGLE CALENDAR</button>
+        <button type="button" onclick="handleAuthClick(event, this, '{{groupx.class_type.name}}', '{{groupx.location}}', '{{class.date | date:'Y-m-d'}}', '{{groupx.start_time | time:'G:i'}}', '{{groupx.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-block btn-lg"><i class="fa fa-calendar fa-lg"></i> add to calendar</button>
 	</div>
     {% endif %}
 </div>
@@ -172,7 +172,7 @@ function addEvent() {
     });
 
     request.execute(function(event) {
-      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html('<i class="fa fa-calendar fa-lg"></i> Added to Google Calendar!');
+      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html('<i class="fa fa-calendar fa-lg"></i> added to calendar!');
        window.open(event.htmlLink); 
     });
 }
