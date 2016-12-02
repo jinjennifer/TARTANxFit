@@ -40,7 +40,7 @@ def logout(request):
 	request.session.clear()
 	auth.logout(request)
 	messages.success(request, "You have successfully logged out.")
-	return HttpResponseRedirect('/login')
+	return HttpResponseRedirect('/')
 
 # validate and create new user
 @csrf_protect
