@@ -4,8 +4,6 @@ from django.conf import settings
 from TxFApp import views
 from django.views.static import serve
 from django.conf.urls.static import static
-from TxFApp.forms import ClassTypeForm, ClassScheduleForm
-from TxFApp.views import ClassWizard
 
 app_name = 'TxFApp'
 urlpatterns = [
@@ -24,5 +22,6 @@ urlpatterns = [
     url(r'^competitions/(?P<competition_id>[0-9]+)/$', views.competitions, name='competitions'),
     url(r'^leaderboard', views.leaderboard, name='leaderboard'),
     url(r'^new-group', views.new_group, name='new_group'),
-    url(r'^new-class', ClassWizard.as_view([ClassTypeForm,ClassScheduleForm]), name='new_class'),
+    url(r'^new-class/2', views.new_class_schedule, name='new_class_schedule'),
+    url(r'^new-class', views.new_class_type, name='new_class_type'),
 ]
