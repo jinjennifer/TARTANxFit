@@ -40,7 +40,7 @@ def logout(request):
 	request.session.clear()
 	auth.logout(request)
 	messages.success(request, "You have successfully logged out.")
-	return HttpResponseRedirect('/login')
+	return HttpResponseRedirect('/')
 
 # validate and create new user
 @csrf_protect
@@ -156,7 +156,7 @@ def rsvpAll(request, user, class_id):
 	class_name = c_sched.class_type.name
 	class_day = days.get(int(c_sched.day_of_week))
 	class_time = c_sched.start_time.strftime('%I:%M%p')
-	messages.success(request, "You have RSVP'd for all future %s classes on %ss at %s"% (class_name,class_day,class_time))
+	messages.success(request, "You have RSVP'd for all future %s classes on %ss at %s."% (class_name,class_day,class_time))
 
 def unrsvp(request, user, class_id):
 	c = ClassAttendance.objects.filter(user=user, course=Class.objects.get(pk=class_id))[0]
@@ -168,8 +168,8 @@ def rsvp(request, user, class_id):
 	c = ClassAttendance.objects.create(user=user, course=Class.objects.get(pk=class_id))
 	c.save()
 	class_name = c.course.class_schedule.class_type.name
-	messages.success(request, "You have RSVP'd for %s." % class_name )
-
+	messages.success(request, "You have RSVP'd for %s." % class_name)
+	
 def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User User"):
 	context = {}
 
@@ -183,7 +183,7 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 		user.save()
 
 		# set role to student default in UserProfile subclass when creating a new account
-		userprofile = Profile.objects.create(user=user, role='student')
+		userprofile = Profile.objects.create(user=user, role='student', andrew_id=facebook_email)
 		userprofile.save()
 
 	if not 'user_id' in request.session:
@@ -300,6 +300,8 @@ def admin(request, date=datetime.date.today()):
 		class_name = c.class_schedule.class_type.name
 		messages.success(request, "You have %s %s." % (class_status,class_name))
 		return HttpResponseRedirect('/admin-dashboard')
+
+	context['active_menu_link'] = "admin"
 	return render(request, 'TxFApp/admin.html', context)
 
 def leaderboard(request):

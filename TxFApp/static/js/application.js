@@ -15,6 +15,7 @@ $(function() {
 
 function rsvpAll() {
 	$('#rsvpForm').append('<input type="hidden" name="rsvp_type" value="rsvp_all" />');
+
 }
 
 $(function() {
@@ -33,3 +34,6 @@ $(function() {
 //     h=u.getElementsByTagName('script')[0];
 //     h.parentNode.insertBefore(s,h);
 // })(window,document);
+=======
+}
+>>>>>>> master

@@ -25,7 +25,7 @@ class Profile(models.Model):
     #username, first_name, last_name, email, password
     #is_staff, is_active, is_superuser, last_login and date_joined
     user = models.OneToOneField(User)
-    andrew_id = models.CharField(max_length=20, primary_key = True)
+    andrew_id = models.CharField(max_length=100, primary_key = True)
     role = models.CharField(
         max_length = 15, 
         blank = False, 

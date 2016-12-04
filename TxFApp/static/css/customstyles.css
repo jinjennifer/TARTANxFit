@@ -1,3 +1,7 @@
+.margin-top-10 {
+  margin-top: 10px;
+}
+
 .navbar-toggle {
   margin-left: 15px;
 }
@@ -249,7 +253,7 @@ body {
 }
 
 .empty-placeholder {
-  height: 180px;
+  height: 40px;
 }
 
 .user-pictures {
@@ -300,4 +304,24 @@ a.date:hover, a.date:visited, a.date {
 
 .comp-desc {
   margin-top: 5px;
+}
+
+.btn-cal {
+  background-color: rgb(69, 134, 236);
+  color: #fff;
+}
+
+.btn-cal:hover{
+  background-color: #337ab7;
+  color: #fff;
+}
+
+.btn-share{
+  background-color: rgb(60, 90, 147);
+  color: #fff;
+}
+
+.btn-share:hover{
+  background-color: rgb(53, 79, 128);
+  color: #fff;
 }

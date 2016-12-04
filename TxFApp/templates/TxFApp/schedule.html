@@ -38,49 +38,149 @@
     {% for cl in classes %}
     {% with cl.class_schedule as c %}
         <a href="/classes/{{ cl.id }}/" class="list-group-item {% if cl.cancelled %}disabled{% endif %}">
-            <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4>
+            <h4 class="list-group-item-heading"> {{c.class_type.name}}</h4> 
             <div class="row">
-                <p class="list-group-item-text col-xs-8 col-sm-5">
-                    <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  </br>
-                    <i class="fa fa-map-marker icon"></i> {{c.location}}
+                {% if cl.has_occurred %}
+                <p class="list-group-item-text col-xs-8 col-sm-6">
+                {% else %}
+                <p class="list-group-item-text col-xs-8 col-sm-6">
+                {% endif %}
+                    <i class="fa fa-clock-o icon"></i> {{c.start_time | time:'g:i a'}} - {{c.end_time | time:'g:i a'}}  <br>
+                    <i class="fa fa-map-marker icon"></i> {{c.location}} <br>
                 </p>
-                <p class="list-group-item-text col-xs-4 col-sm-3">
+
+                {% if cl.has_occurred %}
+                <p class="list-group-item-text col-xs-4 col-sm-6">
+                {% else %}
+                <p class="list-group-item-text col-xs-4 col-sm-6">
+                {% endif %}
                     <i class="fa fa-user icon"></i> {{c.instructor.user.first_name}}</br>
                     <i class="fa fa-diamond icon" ></i> {{c.points}}
                 </p>
+            </div>
+            <div class="row">
                 {% if not cl.cancelled %}
                     {% if not cl.has_occurred %}
-                    <form id="rsvpForm" class="list-group-item-text col-xs-12 col-sm-4" action="/schedule/{{selected_date}}/" method="post">
-                        <input name="date" type="hidden" value="{{selected_date}}"/>
-                        <input name="class_id" type="hidden" value="{{cl.id}}"/>
-                            {% if cl.id in userRSVPs %}
-                            <input name="rsvp_type" type="hidden" value="unrsvp"/>
-                            <button id="unrsvpButton" class='btn btn-danger btn-block rsvp-button-top-margin points'><i class="fa fa-times fa-lg"></i> CANCEL RSVP</button>
-                            {% else %}
-                            <div class="btn-group complete-width">
-                                <button id="rsvpButton" class="btn btn-success rsvp-button-top-margin dropdown-width"><i class="fa fa-plus fa-lg"></i> RSVP</button>
-                                <button type="button" class="btn btn-success rsvp-button-top-margin dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                              <ul class="dropdown-menu col-xs-12" style="background-color:#5cb85c;padding-top: 0px;padding-bottom: 0px">
-                                <li class="dropdown-li" onclick="rsvpAll()"> <button id="rsvpButton" class="dropdown-btn complete-width"><i class="fa fa-plus fa-lg"></i> RSVP All Classes</button></li>
-                              </ul>
-                            </div>
-                            {% endif %}
-                        {% csrf_token %}
-                    </form>
+                    <div class="col-xs-12 col-sm-6">
+                            
+                            <form id="rsvpForm" class="list-group-item-text" action="/schedule/{{selected_date}}/" method="post">
+                                <input name="date" type="hidden" value="{{selected_date}}"/>
+                                <input name="class_id" type="hidden" value="{{cl.id}}"/>
+                                    {% if cl.id in userRSVPs %}
+                                        <input name="rsvp_type" type="hidden" value="unrsvp"/>
+                                        <button id="unrsvpButton" class='btn btn-danger btn-block margin-top-10 points'><i class="fa fa-times fa-lg"></i>&nbsp; Cancel RSVP</button>
+                                    {% else %}
+                                        <div class="btn-group complete-width">
+                                            <button id="rsvpButton" class="btn btn-success margin-top-10 dropdown-width"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP</button>
+                                            <button type="button" class="btn btn-success margin-top-10 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                          <ul class="dropdown-menu col-xs-12" style="background-color: #5cb85c; padding-top: 0px; padding-bottom: 0px;">
+                                            <li class="dropdown-li" onclick="rsvpAll()"> <button class="dropdown-btn complete-width"><i class="fa fa-plus fa-lg"></i>&nbsp; RSVP To This Class Every Week</button></li>
+                                          </ul>
+                                        </div>
+                                    {% endif %}
+                                {% csrf_token %}
+                            </form>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <button type="button" onclick="handleAuthClick(event, this, '{{c.class_type.name}}', '{{c.location}}', '{{selected_date}}', '{{c.start_time | time:'G:i'}}', '{{c.end_time | time:'G:i'}}')" class="margin-top-10 btn btn-cal btn-block"><i class="fa fa-calendar icon"></i> Add To Calendar</button>
+                        </div>
                     {% endif %}
                 {% else %}
-                    <div class="list-group-item-text col-xs-12 col-sm-4">
-                    <button disabled class='btn btn-danger btn-block rsvp-button-top-margin'> THIS CLASS IS CANCELLED</button>
+                    <div class="col-xs-12 col-sm-12">
+                    <button disabled class='btn btn-danger btn-block margin-top-10'><i class="fa fa-warning icon"></i> This Class Was Cancelled!</button>
                     </div>
                 {% endif %}
             </div>
+
         </a>
     {% endwith %}
     {% empty %}
         <p>There are no classes for today. Check out classes later in the week!</p>
     {% endfor %}
 </div>
+
+<script>
+var CLIENT_ID = '561566690454-fgkvbap2kabt91q7id7b10hpck3jtlh9.apps.googleusercontent.com';
+
+var SCOPES = ["https://www.googleapis.com/auth/calendar"];
+
+var buttonClicked;
+var eventName;
+var eventLocation;
+var eventDate;
+var eventStartTime;
+var eventEndTime;
+
+// Check if current user has authorized this application.
+// function checkAuth() {
+//     gapi.auth.authorize(
+//       {
+//         'client_id': CLIENT_ID,
+//         'scope': SCOPES.join(' '),
+//         'immediate': true
+//       }, handleAuthResult);
+// }
+
+// Handle response from authorization server.
+function handleAuthResult(authResult) {
+    if (authResult && !authResult.error) {
+      loadCalendarApi();
+    }
+}
+
+// Initiate auth flow in response to user clicking authorize button.
+function handleAuthClick(event, object, name, location, date, start, end) {
+    event.preventDefault();
+
+    eventName = name;
+    eventLocation = location;
+    eventDate = date;
+    eventStartTime = start;
+    eventEndTime = end;
+    buttonClicked = object;
+
+    gapi.auth.authorize(
+      {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
+      handleAuthResult);
+    return false;
+}
+
+// Load Google Calendar client library
+// Add event to calendar once client library is loaded
+function loadCalendarApi() {
+    gapi.client.load('calendar', 'v3', addEvent);
+}
+
+function addEvent() {
+    var event = {
+      'summary': "Group X " + eventName,
+      'location': eventLocation,
+      'start': {
+        'dateTime': eventDate + 'T' + eventStartTime + ':00-05:00',
+        'timeZone': 'America/New_York'
+      },
+      'end': {
+        'dateTime': eventDate + 'T' + eventEndTime + ':00-05:00',
+        'timeZone': 'America/New_York'
+      },
+    };
+
+    var request = gapi.client.calendar.events.insert({
+      'calendarId': 'primary',
+      'resource': event
+    });
+
+    request.execute(function(event) {
+      $(buttonClicked).removeClass("btn-primary").addClass("btn-success").html("Added To Calendar!");
+       window.open(event.htmlLink); 
+    });
+}
+</script>
+
+<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+</script>
+
 {% endblock %}
