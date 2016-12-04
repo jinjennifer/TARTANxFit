@@ -3,7 +3,8 @@ from .models import *
 from django.forms import ModelForm, Textarea, ModelChoiceField, DateInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-        
+from datetimewidget.widgets import TimeWidget
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required = True)
     # username = forms.CharField(required = True)
@@ -72,9 +73,14 @@ class ClassScheduleForm(forms.ModelForm):
     instructor = forms.ModelChoiceField(queryset = Profile.objects.filter(role='instructor'))
     instructor.label_from_instance = lambda obj: "%s %s" % (obj.user.first_name, obj.user.last_name)
     class Meta:
+        dateTimeOptions = {
+        'format': 'HH:ii P',
+        'autoclose': True,
+        'showMeridian' : True,
+        }
         model = ClassSchedule
         fields = ('instructor', 'day_of_week', 'location', 'start_time', 'end_time', 'points')
         widgets = {
-            'start_time': DateInput(attrs={'class':'timepicker'}),
-            'end_time': DateInput(attrs={'class':'timepicker'}),
+            'start_time': TimeWidget(attrs={'class':'timepicker'},options = dateTimeOptions),
+            'end_time': TimeWidget(attrs={'class':'timepicker'},options = dateTimeOptions),
         }

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'bootstrapform',
     'formtools',
+    'datetimewidget',
 ]
 
 MIDDLEWARE_CLASSES = [
