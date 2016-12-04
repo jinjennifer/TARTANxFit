@@ -317,30 +317,47 @@ def competitions(request, competition_id):
 	context['uid'] = request.session.get('user_id')
 	return render(request, 'TxFApp/competitions.html', context)
 
-class ClassWizard(SessionWizardView):
-	template_name = 'TxFApp/new_class.html'
+def new_class_type(request):
+	if request.method == "GET":
+		form = ClassTypeForm()
+	elif request.method == "POST":
+		print("hello")
+		form = ClassTypeForm(request.POST)
+		print(form.fields['day_of_week'])
+		if form.is_valid():
+			data = form.cleaned_data
+			new_class_type = form.save(commit=False)
+			new_class_type.save()
+			return HttpResponseRedirect('/new-class/2')
+	else:
+		messages.error(request, "Your form input was invalid.")
+	return render(request, 'TxFApp/new_class_type.html', {'form':form})
 
-	def done(self, form_list, **kwargs):
-		form_data = process_form_data(form_list)
-		return render_to_response('TxFApp/schedule.html', {'form_data': form_data})
-		# messages.success(request, "You have created a new class!")
-		# return HttpResponseRedirect('/schedule')
+def new_class_schedule(request):
+	if request.method == "GET":
+		form = ClassScheduleForm()
+	elif request.method == "POST":
+		form = ClassScheduleForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			print(data)
+			print(data["day_of_week"])
+			new_class_sched = form.save(commit=False)
+			class_type = ClassType.objects.last()
+			new_class_sched.class_type = class_type
+			new_class_sched.save()
+			dow = (int(data["day_of_week"]) + 5) % 7
+			first_date_diff = (dow + 7 - class_type.start_date.weekday()) % 7
+			for d in range(first_date_diff,(class_type.end_date - class_type.start_date).days + 1 - first_date_diff,7):
+				date = class_type.start_date + datetime.timedelta(d)
+				c = Class(date = date,class_schedule = new_class_sched)
+				c.save()
+			messages.success(request, "Your class has been successfully created.")
+			return HttpResponseRedirect('/schedule')
+	else:
+		messages.error(request, "Your form input was invalid.")
+	return render(request, 'TxFApp/new_class_schedule.html', {'form':form})
 
-def process_form_data(form_list):
-	form_data = [form.cleaned_data for form in form_list]
-
-# def new_class(request):
-# 	context = {}
-# 	if request.method == "GET":
-# 		form = ClassTypeForm()
-# 	elif request.method == "POST":
-# 		form = ClassTypeForm(request.POST)
-# 		context['form'] = form
-# 		if form.is_valid():
-# 			pass
-# 	else:
-# 		messages.error(request, "Your form input was invalid.")
-# 	return render(request, 'TxFApp/new_class.html', {'form':form})
 
 def new_group(request):
 	context = {}

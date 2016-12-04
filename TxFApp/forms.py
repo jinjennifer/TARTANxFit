@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-from django.forms import ModelForm, Textarea, ModelChoiceField, DateInput, ModelMultipleChoiceField
+from django.forms import ModelForm, Textarea, ModelChoiceField, DateInput, ModelMultipleChoiceField, TimeInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from datetimewidget.widgets import TimeWidget
@@ -47,13 +47,6 @@ class CompetitionGroupForm(forms.ModelForm):
         }
 
 class ClassTypeForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super(CompetitionGroupForm, self).__init__(*args, **kwargs)
-    #     # change default labels for the form
-    #     self.fields['users'].label = "Participants"
-
-    # users = forms.ModelMultipleChoiceField(queryset = User.objects.exclude(profile__role='instructor').all())
-
     class Meta:
         model = ClassType
         fields = ('name', 'description', 'start_date','end_date')
@@ -64,17 +57,7 @@ class ClassTypeForm(forms.ModelForm):
         }
 
 class ClassScheduleForm(forms.ModelForm):
-
-    DAYS = (
-        ('1', 'Sunday'),
-        ('2', 'Monday'),
-        ('3', 'Tuesday'),
-        ('4', 'Wednesday'),
-        ('5', 'Thursday'),
-        ('6', 'Friday'),
-        ('7', 'Saturday'),
-    )
-    day_of_week = forms.ChoiceField(choices=DAYS, required=True)
+    day_of_week = forms.ChoiceField(choices=DAYS_OF_WEEK, required=True)
     instructor = forms.ModelChoiceField(queryset = Profile.objects.filter(role='instructor'))
     instructor.label_from_instance = lambda obj: "%s %s" % (obj.user.first_name, obj.user.last_name)
     class Meta:
@@ -86,6 +69,6 @@ class ClassScheduleForm(forms.ModelForm):
         model = ClassSchedule
         fields = ('instructor', 'day_of_week', 'location', 'start_time', 'end_time', 'points')
         widgets = {
-            'start_time': TimeWidget(attrs={'class':'timepicker'},options = dateTimeOptions),
-            'end_time': TimeWidget(attrs={'class':'timepicker'},options = dateTimeOptions),
+            'start_time': TimeInput(format = '%I:%M %p'),
+            'end_time': TimeInput(format = '%I:%M %p'),
         }
