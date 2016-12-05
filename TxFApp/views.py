@@ -340,9 +340,18 @@ def new_class_schedule(request):
 		form = ClassScheduleForm(request.POST)
 		if form.is_valid():
 			data = form.cleaned_data
+			print(data)
+			print(data["day_of_week"])
 			new_class_sched = form.save(commit=False)
-			new_class_sched.class_type_id = ClassType.objects.last().id
+			class_type = ClassType.objects.last()
+			new_class_sched.class_type = class_type
 			new_class_sched.save()
+			dow = (int(data["day_of_week"]) + 5) % 7
+			first_date_diff = (dow + 7 - class_type.start_date.weekday()) % 7
+			for d in range(first_date_diff,(class_type.end_date - class_type.start_date).days + 1 - first_date_diff,7):
+				date = class_type.start_date + datetime.timedelta(d)
+				c = Class(date = date,class_schedule = new_class_sched)
+				c.save()
 			messages.success(request, "Your class has been successfully created.")
 			return HttpResponseRedirect('/schedule')
 	else:
