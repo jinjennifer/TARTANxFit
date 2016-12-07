@@ -1,6 +1,14 @@
 {% extends "TxFApp/base.html" %}
 {% block content %}
 
+<!-- Display flash messages if there are any -->
+{% include 'TxFApp/flash_message.html' %}
+
+<div class="alert alert-info alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	{{members.first.first_name}} {{members.first.last_name}} is currently in the lead in your competition group, make sure to congratulate her on her fitness journey!
+</div>
+
 <div class="row">
 	<div class="col-xs-12">
 		<h3> {{competition.name}} </h3>
