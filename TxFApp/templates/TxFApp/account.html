@@ -24,10 +24,40 @@
 		</div>
 	</div>
 	<div class="col-xs-6">
-		<div class="thumbnail">
+		<div class="thumbnail" style="background-color: mediumvioletred">
 			<div class="caption">
 				<h3>{{visits}} </h3>
 				<p>VISITS</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<h4> My Rewards </h4>
+<div class="row">
+	<div class="col-xs-6">
+		<div class="thumbnail" style="background-color: darkcyan">
+			<div class="caption">
+				MASSAGE VOUCHER
+				<h3>
+					{% if massage %}{{massage}}
+					{% else %}800
+					{% endif %}
+				</h3>
+				<p>POINTS TO GO</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="thumbnail" style="background-color: rebeccapurple">
+			<div class="caption">
+				ENTROPY VOUCHER
+				<h3>
+					{% if entropy %}{{entropy}}
+					{% else %}500
+					{% endif %}
+				</h3>
+				<p>POINTS TO GO</p>
 			</div>
 		</div>
 	</div>

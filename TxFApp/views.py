@@ -206,6 +206,8 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 	if userprof is not None:
 		context['role'] = userprof.role
 		context['points'] = userprof.points
+		context['massage'] = 800 - userprof.points
+		context['entropy'] = 500 - userprof.points
 
 	context['rsvps'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__gte=datetime.date.today(), attended=False).order_by("course__date", "course__class_schedule__start_time")
 	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended=True).order_by("-course__date", "course__class_schedule__start_time")[:5]
