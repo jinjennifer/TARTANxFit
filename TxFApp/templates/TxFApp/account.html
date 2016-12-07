@@ -23,16 +23,47 @@
 			</div>
 		</div>
 	</div>
-		<a href="#attended" class="col-xs-6">
-		<div>
-			<div class="thumbnail">
-				<div class="caption">
-					<h3>{{visits}} </h3>
-					<p>VISITS</p>
-				</div>
+	<div class="col-xs-6">
+		<div class="thumbnail" style="background-color: mediumvioletred">
+			<div class="caption">
+				<h3>{{visits}} </h3>
+				<p>VISITS</p>
+
 			</div>
 		</div>
-		</a>
+	</div>
+</div>
+
+<h4> My Rewards </h4>
+<div class="row">
+	<div class="col-xs-6">
+		<div class="thumbnail" style="background-color: darkcyan">
+			<div class="caption">
+				MASSAGE VOUCHER
+				<br>
+				<h7>
+					{% if massage %}{{massage}}
+					{% else %}800
+					{% endif %}
+				</h7>
+				<p>POINTS TO GO</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="thumbnail" style="background-color: rebeccapurple">
+			<div class="caption">
+				ENTROPY VOUCHER
+				<br>
+				<h7>
+					{% if entropy %}{{entropy}}
+					{% else %}500
+					{% endif %}
+				</h7>
+				<p>POINTS TO GO</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <h4>Upcoming and Today's Classes</h4>

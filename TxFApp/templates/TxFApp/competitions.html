@@ -14,7 +14,13 @@
 	</div>
 	</div>
 	<div class="col-xs-12 col-sm-4">
-			<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> SHARE</div>
+			<div class="btn btn-lg btn-block btn-primary" onclick="facebookShare();"><i class="fa fa-share icon"></i> Share</div>
+			
+            <form class="" action="/competitions/{{competition.id}}/" enctype="multipart/form-data" method="post">
+                <input name="competition_id" type="hidden" value="{{competition.id}}"/>
+                <button id="leaveGroupButton" class='btn btn-lg btn-block btn-danger margin-top-10 points'><i class="fa fa-times fa-lg"></i>&nbsp; Leave Group</button>
+                {% csrf_token %}
+            </form>
 	</div>
 </div>
 
