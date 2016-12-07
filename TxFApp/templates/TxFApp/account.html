@@ -118,4 +118,57 @@
     {% endfor %}
     <a href="/new-group" class="list-group-item list-group-item-success">Create Group</a>
 </div>
+
+<h4>My Progress</h4>
+<div class="row">
+	<div class="col-xs-12">
+		<canvas id="account-graph" width="600" height="400"></canvas>
+	</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+	var ctx = $("#account-graph");
+	var data = {
+	    labels: ["September", "October", "November", "December"],
+	    datasets: [
+	        {
+	            label: "Jennifer Jin",
+	            fill: false,
+	            lineTension: 0.1,
+	            backgroundColor: "rgba(75,192,192,0.4)",
+	            borderColor: "rgba(75,192,192,1)",
+	            borderCapStyle: 'butt',
+	            borderDash: [],
+	            borderDashOffset: 0.0,
+	            borderJoinStyle: 'miter',
+	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBackgroundColor: "#fff",
+	            pointBorderWidth: 1,
+	            pointHoverRadius: 5,
+	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBorderColor: "rgba(220,220,220,1)",
+	            pointHoverBorderWidth: 2,
+	            pointRadius: 1,
+	            pointHitRadius: 10,
+	            data: [20, 45, 80, 135],
+	            spanGaps: false,
+	        }
+	    ]
+	};
+
+    var myLineChart = new Chart(ctx, {
+	    type: 'line',
+	    data: data,
+	    options: {
+	    	scales: {
+	            yAxes: [{
+	                stacked: false
+	            }]
+        	}
+        }
+	});
+
+</script>
 {% endblock %}
