@@ -340,7 +340,6 @@ def new_group(request):
 			new_group = form.save(commit=False)
 			new_group.save()
 			groupId = new_group.id 
-			print(str(groupId))
 			new_group.users.add(User.objects.get(id=request.session.get('user_id')))
 			for user in users:
 				new_group.users.add(user)
