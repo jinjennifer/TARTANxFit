@@ -235,10 +235,14 @@ def details(request, class_id):
 	user = User.objects.filter(id=request.session.get('user_id')).first()
 	userprof = Profile.objects.filter(user=user).first()
 
-	if userprof is not None:
-		role = userprof.role
-	else:
-		role = request.user.profile.role
+	if user is not None:
+		if userprof is not None:
+			role = userprof.role
+		else:
+			role = request.user.profile.role
+	else: 
+		role = None
+
 	context["role"] = role
 	# Get the students attending the class if user is an admin
 	if role == "admin" or role == "instructor":
