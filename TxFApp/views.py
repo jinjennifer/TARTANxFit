@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
-from formtools.wizard.views import SessionWizardView
 days = dict(DAYS_OF_WEEK)
 
 def login(request):
@@ -321,9 +320,7 @@ def new_class_type(request):
 	if request.method == "GET":
 		form = ClassTypeForm()
 	elif request.method == "POST":
-		print("hello")
 		form = ClassTypeForm(request.POST)
-		print(form.fields['day_of_week'])
 		if form.is_valid():
 			data = form.cleaned_data
 			new_class_type = form.save(commit=False)
@@ -340,8 +337,6 @@ def new_class_schedule(request):
 		form = ClassScheduleForm(request.POST)
 		if form.is_valid():
 			data = form.cleaned_data
-			print(data)
-			print(data["day_of_week"])
 			new_class_sched = form.save(commit=False)
 			class_type = ClassType.objects.last()
 			new_class_sched.class_type = class_type
