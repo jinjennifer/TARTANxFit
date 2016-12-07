@@ -3,7 +3,6 @@ from .models import *
 from django.forms import ModelForm, Textarea, ModelChoiceField, DateInput, ModelMultipleChoiceField, TimeInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from datetimewidget.widgets import TimeWidget
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required = True)
