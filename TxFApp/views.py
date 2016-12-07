@@ -195,8 +195,6 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 		facebook_user = User.objects.filter(id=request.session.get('user_id')).first()
 		context['full_name'] = facebook_user.first_name + " " + facebook_user.last_name
 
-	print(request.session.get('user_id'))
-
 	# Log the user into the system database
 	user = auth.authenticate(username=facebook_user.username, password="test1234")
 	auth.login(request, user)
@@ -213,8 +211,6 @@ def account(request, facebook_email="xxx3maggie@aim.com", facebook_name="User Us
 	context['attended'] = ClassAttendance.objects.filter(user_id=request.session.get('user_id'), course__date__lte=datetime.date.today(), attended=True).order_by("-course__date", "course__class_schedule__start_time")[:5]
 	context['visits'] = len(context['attended'])
 	context['competitions'] = CompetitionGroup.objects.filter(users__in=[request.session.get('user_id')])
-
-	print(context)
 
 	if request.method == "POST":
 		user = facebook_user
@@ -317,7 +313,19 @@ def competitions(request, competition_id):
 	context['members'] = User.objects.filter(competitiongroup__id=competition_id).order_by('-profile__points')
 	context['competition'] = CompetitionGroup.objects.filter(id=competition_id).first()
 	context['uid'] = request.session.get('user_id')
+	if request.method == "POST":
+		c = CompetitionGroup.objects.get(id=competition_id)
+		c.users.remove(User.objects.get(id=request.session.get('user_id')))
+		messages.success(request, "You have successfully removed yourself from the group.")
+		return HttpResponseRedirect('/account')
+
 	return render(request, 'TxFApp/competitions.html', context)
+
+def leave_group(request, competition_id):
+	c = CompetionGroup.objects.get(id=competition_id)
+	c.users.remove(User.objects.get(id=request.session.get('user_id')))
+	messages.success(request, "You have successfully removed yourself from the group.")
+	return HttpResponseRedirect('/account')
 
 def new_group(request):
 	context = {}
