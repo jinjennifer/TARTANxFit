@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'TxFApp',
     'bootstrap3',
     'bootstrapform',
-    'formtools',
     'datetimewidget',
 ]
 
