@@ -321,12 +321,6 @@ def competitions(request, competition_id):
 
 	return render(request, 'TxFApp/competitions.html', context)
 
-def leave_group(request, competition_id):
-	c = CompetionGroup.objects.get(id=competition_id)
-	c.users.remove(User.objects.get(id=request.session.get('user_id')))
-	messages.success(request, "You have successfully removed yourself from the group.")
-	return HttpResponseRedirect('/account')
-
 def new_group(request):
 	context = {}
 	if request.method == "GET":
